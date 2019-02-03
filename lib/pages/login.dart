@@ -1,5 +1,4 @@
-import 'login_presenter.dart';
-import '../../models/user.dart';
+import '../models/user.dart';
 
 import 'package:flutter/material.dart';
 
@@ -10,28 +9,10 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> implements LoginViewContract {
+class _LoginPageState extends State<LoginPage>{
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-
-  LoginPresenter _presenter;
-
-  _LoginPageState() {
-    _presenter = LoginPresenter(this);
-  }
-
-  @override
-  void onLoadLoginComplete(User user) {
-    // TODO: implement onLoadLoginComplete
-    print(user.token);
-  }
-
-  @override
-  void onLoadLoginError(String error) {
-    // TODO: implement onLoadLoginError
-    print(error);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +51,7 @@ class _LoginPageState extends State<LoginPage> implements LoginViewContract {
                             'Login',
                             style: TextStyle(color: Colors.white),
                           ),
-                          onPressed: () => _presenter.doLogin(
-                              usernameController.text, passwordController.text),
+                          onPressed: () => null,//_presenter.doLogin(usernameController.text, passwordController.text),
                           color: Colors.blue,
                         ),
                         margin: EdgeInsets.only(top: 20.0),

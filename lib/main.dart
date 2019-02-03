@@ -1,5 +1,7 @@
-import 'pages/login/login.dart';
-import 'pages/list/list.dart';
+import 'package:mockapp_bloc/pages/login.dart';
+import 'package:mockapp_bloc/pages/list.dart';
+import 'widgets/bloc_provider.dart';
+import 'blocs/mock_bloc.dart';
 
 import 'package:flutter/material.dart';
 
@@ -14,11 +16,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        //home: MyHomePage(title: 'Flutter Demo Home Page'),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => MyHomePage(),
-        },
+        home: BlocProvider(
+            child: MyHomePage(),
+            bloc: MockBloc(),
+        ),
     );
   }
 }

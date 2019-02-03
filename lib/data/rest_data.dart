@@ -19,7 +19,13 @@ class RestData{
 
   NetworkUtil _netutil = NetworkUtil();
 
-  Future<User> getToken(String username, String password) async {
+  Future<String> getToken(String username, String password) async {
+    final auth_headers = {'username': username, 'password': password};
+    var response = await _netutil.post(urls['get_token'], body: auth_headers);
+    return response['token'];
+  }
+
+  Future<User> getUser(String username, String password) async {
     final auth_headers = {'username': username, 'password': password};
     var response = await _netutil.post(urls['get_token'], body: auth_headers);
     response['username'] = username;
