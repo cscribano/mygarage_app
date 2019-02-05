@@ -1,4 +1,7 @@
+import 'package:mockapp_bloc/widgets/bloc_provider.dart';
+
 import '../models/user.dart';
+import '../blocs/auth_bloc.dart';
 
 import 'package:flutter/material.dart';
 
@@ -13,6 +16,7 @@ class _LoginPageState extends State<LoginPage>{
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final AuthBloc _authBloc = AuthBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -23,45 +27,67 @@ class _LoginPageState extends State<LoginPage>{
       ),
       body: Container(
           padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              FlutterLogo(size: 64.0,),
-              Flexible(
-                child: Form(
-                  child: ListView(
-                    children: <Widget>[
-                      TextFormField(
-                          controller: usernameController,
-                          keyboardType: TextInputType.emailAddress,
-                          // Use email input type for emails.
-                          decoration: InputDecoration(
-                              hintText: 'you@example.com',
-                              labelText: 'E-mail Address')),
-                      TextFormField(
-                          controller: passwordController,
-                          obscureText: true, // Use secure text for passwords.
-                          decoration: InputDecoration(
-                              hintText: 'Password',
-                              labelText: 'Enter your password')),
-                      Container(
-                        child: RaisedButton(
-                          child: Text(
-                            'Login',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () => null,//_presenter.doLogin(usernameController.text, passwordController.text),
-                          color: Colors.blue,
-                        ),
-                        margin: EdgeInsets.only(top: 20.0),
-                      ),
-                    ],
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                FlutterLogo(size: 64.0,),
+                Flexible(
+                  child: StreamBuilder<AuthState>(
+                    stream: _authBloc.outStream,
+                    builder: (BuildContext context, AsyncSnapshot<AuthState> snapshot){
+                      if(snapshot.hasData){
+                        if(snapshot.data == AuthState.LOGGED_OUT) {
+                          return Form(
+                            child: ListView(
+                              children: <Widget>[
+                                TextFormField(
+                                    controller: usernameController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    decoration: InputDecoration(
+                                        hintText: 'you@example.com',
+                                        labelText: 'E-mail Address')),
+                                TextFormField(
+                                    controller: passwordController,
+                                    obscureText: true, // Use secure text for passwords.
+                                    decoration: InputDecoration(
+                                        hintText: 'Password',
+                                        labelText: 'Enter your password')),
+                                Container(
+                                  child: RaisedButton(
+                                    child: Text(
+                                      'Login',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () => _authBloc.doLogin("test", "test"),//null,
+                                    color: Colors.blue,
+                                  ),
+                                  margin: EdgeInsets.only(top: 20.0),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        else{
+                          return Text("You have logged In");
+                        }
+                      }
+                      else if(snapshot.hasError){
+                        return Text(snapshot.error);
+                      }
+                      else{
+                        _authBloc.authState();
+                        return CircularProgressIndicator();
+                      }
+                    },
                   ),
                 ),
-              ),
-            ],
-          )),
+              ],
+            ),
+          ),
+      ),
     );
   }
 
@@ -69,6 +95,8 @@ class _LoginPageState extends State<LoginPage>{
   void dispose() {
     usernameController.dispose();
     passwordController.dispose();
+    _authBloc.dispose();
     super.dispose();
   }
+
 }

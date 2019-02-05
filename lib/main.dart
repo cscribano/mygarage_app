@@ -16,8 +16,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        //routes: ,
         home: BlocProvider(
-            child: MyHomePage(),
+            child: LoginPage(),//MyHomePage(),
             bloc: MockBloc(),
         ),
     );

@@ -1,13 +1,14 @@
 import '../models/mockupmodel.dart';
 
 import 'dart:io';
+import 'dart:math';
 import 'package:path/path.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 const String create_test_table= """CREATE TABLE Mock (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     owner TEXT,
     test_text TEXT,
     test_num INTEGER,
@@ -16,7 +17,7 @@ const String create_test_table= """CREATE TABLE Mock (
    )""";
 
 const String populate_with_garbage = """
-insert into Mock(id,owner,test_text,test_num,is_update,is_deleted) values (1,"test","Hello",69,1,1);
+insert into Mock(owner,test_text,test_num,is_update,is_deleted) values ("test","Hello",69,1,1);
 """;
 
 class DBProvider{
@@ -47,12 +48,22 @@ class DBProvider{
     //print(create_test_table);
   }
 
+/*-- INSERT --*/
   //insert Mock
   insertMock(Mock newMock) async{
     final db = await database; //call getter
+    var res = await db.insert("Mock", newMock.toJson()); //testare se funnziona con autoincrement
+    return res;
+  }
+
+  insertRandom() async {
+    final db = await database; //call getter
+    Mock newMock = Mock(owner: "test", testText: "Helloworld"+Random().nextInt(1000).toString(),testNum: Random().nextInt(10000));
     var res = await db.insert("Mock", newMock.toJson());
     return res;
   }
+
+/*-- REQUEST --*/
 
   //read Mock(id)
   getMock(int id) async {
@@ -67,4 +78,13 @@ class DBProvider{
     List<Mock> list = res.isNotEmpty ? res.map((c) => Mock.fromJson(c)).toList() : [];
     return list;
   }
+
+  getAllUpdated() async {
+    final db = await database; //call getter
+    var res = await db.query("Mock", where: "is_update = ?", whereArgs: [1]);
+    return res.isNotEmpty ? Mock.fromJson(res.first) : Null;
+  }
+
+  /*-- DELETE -- */
+
 }

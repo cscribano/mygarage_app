@@ -1,21 +1,16 @@
 import 'rest_data.dart';
-//import 'database_helper.dart';
-//import '../models/mockupmodel.dart';
 
 import 'dart:async';
-/*
-class Repository{
-  final DBProvider db = DBProvider();
-
-  Future<List<Mock>> fetchAllMocks () => db.getAllMocks();
-}
-*/
 
 class UserRepository{
   final RestData api = RestData();
+  static bool _auth = false;
 
   Future<String> authenticate(String username, String password) async {
-    return await api.getToken(username, password);
+    //return await api.getToken(username, password);
+    await Future.delayed(Duration(seconds: 1));
+    _auth = true;
+    return("Hellowrodl!!!");
   }
 
   Future<void> deleteToken() async{
@@ -30,7 +25,7 @@ class UserRepository{
 
   Future<bool> hasToken() async {
     await Future.delayed(Duration(seconds: 1));
-    return false;
+    return _auth;
   }
 
 }

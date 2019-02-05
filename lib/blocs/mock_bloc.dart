@@ -1,4 +1,4 @@
-import '../data/repository.dart';
+import '../data/auth_repository.dart';
 import '../models/mockupmodel.dart';
 import '../widgets/bloc_provider.dart';
 import '../data/database_helper.dart';
@@ -26,9 +26,15 @@ class MockBloc implements BlocBase{
     getMocks();
   }
 
+  void addRandom(){
+    _db.insertRandom();
+    getMocks();
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
+    _mockController.close();
   }
 
 }
