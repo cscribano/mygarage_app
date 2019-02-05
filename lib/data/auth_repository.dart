@@ -1,31 +1,30 @@
 import 'rest_data.dart';
 
 import 'dart:async';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserRepository{
   final RestData api = RestData();
-  static bool _auth = false;
+  final storage = new FlutterSecureStorage();
 
   Future<String> authenticate(String username, String password) async {
-    //return await api.getToken(username, password);
-    await Future.delayed(Duration(seconds: 1));
-    _auth = true;
-    return("Hellowrodl!!!");
+    return await api.getToken(username, password);
   }
 
   Future<void> deleteToken() async{
-    await Future.delayed(Duration(seconds: 1));
+    await storage.delete(key: 'token');
     return;
   }
 
-  Future<void> persistToken() async{
-    await Future.delayed(Duration(seconds: 1));
+  Future<void> persistToken(String token) async{
+    await storage.write(key: 'token', value: token);
     return;
   }
 
-  Future<bool> hasToken() async {
-    await Future.delayed(Duration(seconds: 1));
-    return _auth;
+  Future<String> getToken() async {
+    var token =  await storage.read(key: 'token');
+    if(token == null)
+      throw("No token");
   }
 
 }

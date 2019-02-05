@@ -3,12 +3,15 @@ import '../data/auth_repository.dart';
 
 import 'dart:async';
 
-enum AuthState{ LOGGED_IN, LOGGED_OUT }
+enum AuthState{ LOGGED_IN, LOGGED_OUT,ERROR }
 
 class AuthBloc implements BlocBase {
+
+  //Authentication state Sink
   StreamController<AuthState> _authStream = StreamController<AuthState>.broadcast();
   Sink<AuthState> get _inSink => _authStream.sink;
   Stream<AuthState> get outStream => _authStream.stream;
+
 
   UserRepository _repo = UserRepository();
 
@@ -17,22 +20,34 @@ class AuthBloc implements BlocBase {
   }
 
   authState() async {
-    var ret =  await _repo.hasToken();
-
-    if(ret == true){
+    try {
+      var ret = await _repo.getToken();
+      print(ret);
       _inSink.add(AuthState.LOGGED_IN);
     }
-    _inSink.add(AuthState.LOGGED_OUT);
+    catch(error){
+      print(error.toString());
+      _inSink.add(AuthState.LOGGED_OUT);
+    }
   }
 
-  doLogin(String username, String password){
-    _repo.authenticate(username, password);
-    //authState();
-    _inSink.add(AuthState.LOGGED_IN);
+  doLogin(String username, String password) async {
+    try {
+      var token = await _repo.authenticate(username, password);
+      print(token);
+      _repo.persistToken(token);
+      //_inSink.add(AuthState.LOGGED_IN);
+      authState();
+    }
+    catch(error){
+      print("Errore login: " + error.toString());
+      _inSink.add(AuthState.ERROR);
+    }
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
+    _authStream.close();
   }
 }

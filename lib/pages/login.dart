@@ -9,12 +9,72 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>{
+class LoginForm extends StatefulWidget {
+  final AuthBloc authBloc;
+
+  LoginForm({
+    Key key,
+    @required this.authBloc,
+  }) : super(key: key);
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm>{
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  AuthBloc get _authBloc => widget.authBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      child: ListView(
+        children: <Widget>[
+          TextFormField(
+              controller: usernameController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                  hintText: 'you@example.com',
+                  labelText: 'E-mail Address')),
+          TextFormField(
+              controller: passwordController,
+              obscureText: true, // Use secure text for passwords.
+              decoration: InputDecoration(
+                  hintText: 'Password',
+                  labelText: 'Enter your password')),
+          Container(
+            //padding: EdgeInsets.only(top: 50.0),
+            child: RaisedButton(
+              child: Text(
+                'Login',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => _authBloc.doLogin(usernameController.text, passwordController.text),//null,
+              color: Colors.blue,
+            ),
+            margin: EdgeInsets.only(top: 20.0),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+}
+
+class _LoginPageState extends State<LoginPage>{
+
+
   final AuthBloc _authBloc = AuthBloc();
-  BuildContext ctx;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -35,53 +95,40 @@ class _LoginPageState extends State<LoginPage>{
                   child: StreamBuilder<AuthState>(
                     stream: _authBloc.outStream,
                     builder: (BuildContext context, AsyncSnapshot<AuthState> snapshot){
+
+                      //Data is present in the stream
                       if(snapshot.hasData){
-                        if(snapshot.data == AuthState.LOGGED_OUT) {
-                          return Form(
-                            child: ListView(
-                              children: <Widget>[
-                                TextFormField(
-                                    controller: usernameController,
-                                    keyboardType: TextInputType.emailAddress,
-                                    decoration: InputDecoration(
-                                        hintText: 'you@example.com',
-                                        labelText: 'E-mail Address')),
-                                TextFormField(
-                                    controller: passwordController,
-                                    obscureText: true, // Use secure text for passwords.
-                                    decoration: InputDecoration(
-                                        hintText: 'Password',
-                                        labelText: 'Enter your password')),
-                                Container(
-                                  //padding: EdgeInsets.only(top: 50.0),
-                                  child: RaisedButton(
-                                    child: Text(
-                                      'Login',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    onPressed: () => _authBloc.doLogin("test", "test"),//null,
-                                    color: Colors.blue,
-                                  ),
-                                  margin: EdgeInsets.only(top: 20.0),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                        else{
+                        //LOGGED_IN
+                        if(snapshot.data == AuthState.LOGGED_IN) {
                           WidgetsBinding.instance.addPostFrameCallback((_){
                             Navigator.of(context).pushReplacementNamed('/Home');
                           });
-                          return Container();
+                        }
+                        //ERROR
+                        else if(snapshot.data == AuthState.ERROR){
+                          WidgetsBinding.instance.addPostFrameCallback((_){
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Login failed, please retry."),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          });
                         }
                       }
+                      //error is present in the stream
                       else if(snapshot.hasError){
                         return Text(snapshot.error);
                       }
+                      //Data is not present in the stream
                       else{
                         _authBloc.authState();
                         return CircularProgressIndicator();
                       }
+                      //none of the previous returned
+                      return LoginForm(
+                        authBloc: _authBloc,
+                      );
                     },
                   ),
                 ),
@@ -94,8 +141,6 @@ class _LoginPageState extends State<LoginPage>{
 
   @override
   void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
     _authBloc.dispose();
     super.dispose();
   }
