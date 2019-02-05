@@ -1,6 +1,3 @@
-import 'package:mockapp_bloc/widgets/bloc_provider.dart';
-
-import '../models/user.dart';
 import '../blocs/auth_bloc.dart';
 
 import 'package:flutter/material.dart';
@@ -17,7 +14,7 @@ class _LoginPageState extends State<LoginPage>{
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final AuthBloc _authBloc = AuthBloc();
-
+  BuildContext ctx;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -56,6 +53,7 @@ class _LoginPageState extends State<LoginPage>{
                                         hintText: 'Password',
                                         labelText: 'Enter your password')),
                                 Container(
+                                  //padding: EdgeInsets.only(top: 50.0),
                                   child: RaisedButton(
                                     child: Text(
                                       'Login',
@@ -71,7 +69,10 @@ class _LoginPageState extends State<LoginPage>{
                           );
                         }
                         else{
-                          return Text("You have logged In");
+                          WidgetsBinding.instance.addPostFrameCallback((_){
+                            Navigator.of(context).pushReplacementNamed('/Home');
+                          });
+                          return Container();
                         }
                       }
                       else if(snapshot.hasError){

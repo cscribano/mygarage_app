@@ -1,5 +1,4 @@
 import '../models/mockupmodel.dart';
-import '../models/user.dart';
 import '../utils/network_util.dart';
 
 import 'dart:async';
@@ -25,13 +24,14 @@ class RestData{
     return response['token'];
   }
 
+  /*
   Future<User> getUser(String username, String password) async {
     final auth_headers = {'username': username, 'password': password};
     var response = await _netutil.post(urls['get_token'], body: auth_headers);
     response['username'] = username;
     return User.fromJson(response);
   }
-
+*/
   Future<List<Mock>>getMocks(Map<String,String> auth_headers) async {
     var response = await _netutil.get(urls['get_model'], headers: auth_headers);
     List<Mock> list = response.isNotEmpty ? response.map<Mock>((c) => Mock.fromJson(c)).toList() : [];

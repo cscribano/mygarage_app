@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage>{
               return Text(snapshot.error.toString());
             }
             else{
+              mockBloc.getMocks();
               return CircularProgressIndicator();
             }
           }
