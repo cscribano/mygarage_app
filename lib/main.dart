@@ -7,8 +7,11 @@ import 'package:flutter/material.dart';
 
 /*
 * TODO:
-* - Completare meccanismo di logi (salvataggio delle credenziali),
-* - Completare meccanismo di sincronizzazone
+* - Completare meccanismo di sincronizzazone <---
+* Sincronizzazione in INGRESSO (new, deleted)
+* Sincronizzazione DELETED
+* vedere se strutturare Synced cone BLoC
+* Impostare caricamento... errore/ok
 * */
 
 void main() => runApp(MyApp());

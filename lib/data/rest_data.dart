@@ -24,14 +24,6 @@ class RestData{
     return response['token'];
   }
 
-  /*
-  Future<User> getUser(String username, String password) async {
-    final auth_headers = {'username': username, 'password': password};
-    var response = await _netutil.post(urls['get_token'], body: auth_headers);
-    response['username'] = username;
-    return User.fromJson(response);
-  }
-*/
   Future<List<Mock>>getMocks(Map<String,String> auth_headers) async {
     var response = await _netutil.get(urls['get_model'], headers: auth_headers);
     List<Mock> list = response.isNotEmpty ? response.map<Mock>((c) => Mock.fromJson(c)).toList() : [];
@@ -41,6 +33,11 @@ class RestData{
   Future<Mock> getMock(Map<String,String> auth_headers, int id)async{
     var response = await _netutil.get(urls['get_model']+id.toString(), headers: auth_headers);
     return Mock.fromJson(response);
+  }
+
+  addMock(Map<String,String> auth_headers, Mock newMock) async{
+      var post = newMock.toJson_API();
+      return await _netutil.post(urls['get_model'], headers: auth_headers, body: post);
   }
 
 }

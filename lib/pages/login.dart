@@ -37,8 +37,8 @@ class _LoginFormState extends State<LoginForm>{
               controller: usernameController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                  hintText: 'you@example.com',
-                  labelText: 'E-mail Address')),
+                  hintText: 'MyUsername',
+                  labelText: 'Username')),
           TextFormField(
               controller: passwordController,
               obscureText: true, // Use secure text for passwords.
@@ -101,12 +101,14 @@ class _LoginPageState extends State<LoginPage>{
                         //LOGGED_IN
                         if(snapshot.data == AuthState.LOGGED_IN) {
                           WidgetsBinding.instance.addPostFrameCallback((_){
+                            //Go to home if logged in
                             Navigator.of(context).pushReplacementNamed('/Home');
                           });
                         }
                         //ERROR
                         else if(snapshot.data == AuthState.ERROR){
                           WidgetsBinding.instance.addPostFrameCallback((_){
+                            //display error message if ERROR
                             Scaffold.of(context).showSnackBar(
                               SnackBar(
                                 content: Text("Login failed, please retry."),

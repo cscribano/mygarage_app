@@ -79,12 +79,17 @@ class DBProvider{
     return list;
   }
 
-  getAllUpdated() async {
+  Future<List<Mock>> getAllUpdated() async {
     final db = await database; //call getter
     var res = await db.query("Mock", where: "is_update = ?", whereArgs: [1]);
-    return res.isNotEmpty ? Mock.fromJson(res.first) : Null;
+    List<Mock> list = res.isNotEmpty ? res.map((c) => Mock.fromJson(c)).toList() : [];
+    return list;
   }
 
-  /*-- DELETE -- */
-
+  /*-- UPDATE -- */
+  updateSynced(int id) async{
+    final db = await database; //call getter
+    var res = await db.update("Mock", {"is_update":1}, where: "id = ?", whereArgs: [id]);
+    return res==1; //bool?
+  }
 }

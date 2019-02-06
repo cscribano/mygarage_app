@@ -1,20 +1,20 @@
 import 'dart:convert';
 
 class Mock {
-  //int id;
+  int id;
   String owner;
   String testText;
   int testNum;
 
   Mock({
-    //this.id,
+    this.id,
     this.owner,
     this.testText,
     this.testNum,
   });
 
   factory Mock.fromJson(Map<String, dynamic> json) => new Mock(
-   // id: json["id"],
+    id: json["id"],
     owner: json["owner"],
     testText: json["test_text"],
     testNum: json["test_num"],
@@ -29,10 +29,17 @@ class Mock {
     "is_deleted" : deleted? 1 : 0,
   };
 
+  factory Mock.fromJson_API(Map<String, dynamic> json) => new Mock(
+    id: json["id"],
+    owner: json["owner"],
+    testText: json["test_text"],
+    testNum: json["test_num"],
+  );
+
   Map<String, dynamic> toJson_API() => {
     //"id": id,
-    "owner": owner,
+    //"owner": owner,
     "test_text": testText,
-    "test_num": testNum,
+    "test_num": testNum.toString(),
   };
 }

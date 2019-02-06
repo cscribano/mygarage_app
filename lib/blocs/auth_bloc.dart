@@ -45,6 +45,12 @@ class AuthBloc implements BlocBase {
     }
   }
 
+  doLogout() async {
+    //logout from server.....
+    var ret =_repo.deleteToken();
+    authState();
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose

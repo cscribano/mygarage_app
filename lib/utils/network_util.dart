@@ -14,7 +14,7 @@ class NetworkUtil{
     final String ret = response.body;
     final int statusCode = response.statusCode;
 
-    if(statusCode != 200){
+    if(statusCode < 200 || statusCode > 400){
       throw Exception("Error while fetching data: "+statusCode.toString());
     }
     return jsonDecode(ret);
@@ -26,8 +26,8 @@ class NetworkUtil{
     final String ret = response.body;
     final int statusCode = response.statusCode;
 
-    if(statusCode != 200){
-      throw Exception("Error while fetching data: "+statusCode.toString());
+    if(statusCode < 200 || statusCode > 400){
+      throw Exception("Error while fetching data: "+statusCode.toString()); //FIX: 20x == not error
     }
     return jsonDecode(ret);
   }

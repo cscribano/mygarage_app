@@ -25,6 +25,14 @@ class UserRepository{
     var token =  await storage.read(key: 'token');
     if(token == null)
       throw("No token");
+    return token; //suspect
+  }
+
+  getHeader() async {
+    var token =  await storage.read(key: 'token');
+    if(token == null)
+      throw("No token");
+    return {"Authorization" : "Token "+token};
   }
 
 }

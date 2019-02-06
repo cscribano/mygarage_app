@@ -1,7 +1,7 @@
-import '../data/auth_repository.dart';
 import '../models/mockupmodel.dart';
 import '../widgets/bloc_provider.dart';
 import '../data/database_helper.dart';
+import '../data/rest_data.dart';
 
 import 'dart:async';
 
@@ -12,6 +12,7 @@ class MockBloc implements BlocBase{
   Stream<List<Mock>> get outMock => _mockController.stream;
 
   final DBProvider _db = DBProvider();
+  final RestData _api = RestData();
 
   MockBloc(){
     getMocks();
