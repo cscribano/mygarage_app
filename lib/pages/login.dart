@@ -33,18 +33,23 @@ class _LoginFormState extends State<LoginForm>{
     return Form(
       child: ListView(
         children: <Widget>[
+          //Username field
           TextFormField(
               controller: usernameController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                  hintText: 'MyUsername',
+                  hintText: 'My Username',
                   labelText: 'Username')),
+
+          //text field
           TextFormField(
               controller: passwordController,
               obscureText: true, // Use secure text for passwords.
               decoration: InputDecoration(
                   hintText: 'Password',
                   labelText: 'Enter your password')),
+
+          //Login Button
           Container(
             //padding: EdgeInsets.only(top: 50.0),
             child: RaisedButton(
@@ -57,6 +62,37 @@ class _LoginFormState extends State<LoginForm>{
             ),
             margin: EdgeInsets.only(top: 20.0),
           ),
+
+          //Continue without login
+          RaisedButton(
+            child: Text("Continue without Login"),
+            onPressed: () {
+              Navigator.of(context).canPop() ? Navigator.of(context).pop() : Navigator.of(context).pushReplacementNamed('/Home');
+            },
+          ),
+
+          //Dont' have an account....
+          Container(
+            padding: EdgeInsets.only(top: 5),
+            child:new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                GestureDetector(
+                  child: new Text('Don\'t have an account? ',
+                      style: new TextStyle(color: Color(0xFF2E3233))),
+                  onTap: () {},
+                ),
+                GestureDetector(
+                    onTap: (){},
+                    child: new Text(
+                      'Register.',
+                      style: new TextStyle(
+                          color: Color(0xFF84A2AF), fontWeight: FontWeight.bold),
+                    ))
+              ],
+            ),
+          ),
+
         ],
       ),
     );
@@ -83,60 +119,60 @@ class _LoginPageState extends State<LoginPage>{
         title: Text('Login'),
       ),
       body: Container(
-          padding: EdgeInsets.all(20.0),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                FlutterLogo(size: 64.0,),
-                Flexible(
-                  child: StreamBuilder<AuthState>(
-                    stream: _authBloc.outStream,
-                    builder: (BuildContext context, AsyncSnapshot<AuthState> snapshot){
+        padding: EdgeInsets.all(20.0),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              FlutterLogo(size: 64.0,),
+              Flexible(
+                child: StreamBuilder<AuthState>(
+                  stream: _authBloc.outStream,
+                  builder: (BuildContext context, AsyncSnapshot<AuthState> snapshot){
 
-                      //Data is present in the stream
-                      if(snapshot.hasData){
-                        //LOGGED_IN
-                        if(snapshot.data == AuthState.LOGGED_IN) {
-                          WidgetsBinding.instance.addPostFrameCallback((_){
-                            //Go to home if logged in
-                            Navigator.of(context).pushReplacementNamed('/Home');
-                          });
-                        }
-                        //ERROR
-                        else if(snapshot.data == AuthState.ERROR){
-                          WidgetsBinding.instance.addPostFrameCallback((_){
-                            //display error message if ERROR
-                            Scaffold.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("Login failed, please retry."),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                          });
-                        }
+                    //Data is present in the stream
+                    if(snapshot.hasData){
+                      //LOGGED_IN
+                      if(snapshot.data == AuthState.LOGGED_IN) {
+                        WidgetsBinding.instance.addPostFrameCallback((_){
+                          //Go to home if logged in
+                          Navigator.of(context).canPop() ? Navigator.of(context).pop() : Navigator.of(context).pushReplacementNamed('/Home');
+                        });
                       }
-                      //error is present in the stream
-                      else if(snapshot.hasError){
-                        return Text(snapshot.error);
+                      //ERROR
+                      else if(snapshot.data == AuthState.ERROR){
+                        WidgetsBinding.instance.addPostFrameCallback((_){
+                          //display error message if ERROR
+                          Scaffold.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Login failed, please retry."),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        });
                       }
-                      //Data is not present in the stream
-                      else{
-                        _authBloc.authState();
-                        return CircularProgressIndicator();
-                      }
-                      //none of the previous returned
-                      return LoginForm(
-                        authBloc: _authBloc,
-                      );
-                    },
-                  ),
+                    }
+                    //error is present in the stream
+                    else if(snapshot.hasError){
+                      return Text(snapshot.error);
+                    }
+                    //Data is not present in the stream
+                    else{
+                      _authBloc.authState();
+                      return CircularProgressIndicator();
+                    }
+                    //none of the previous returned
+                    return LoginForm(
+                      authBloc: _authBloc,
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+        ),
       ),
     );
   }

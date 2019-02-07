@@ -8,10 +8,9 @@ import 'package:flutter/material.dart';
 /*
 * TODO:
 * - Completare meccanismo di sincronizzazone <---
+* usare id per sincronizzazione (non avere doppioni)
 * Sincronizzazione in INGRESSO (new, deleted)
 * Sincronizzazione DELETED
-* vedere se strutturare Synced cone BLoC
-* Impostare caricamento... errore/ok
 * */
 
 void main() => runApp(MyApp());

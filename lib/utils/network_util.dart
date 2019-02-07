@@ -9,24 +9,27 @@ class NetworkUtil{
   factory NetworkUtil() => NetUtil;
 
   Future<dynamic> get(String url, {Map headers}) async {
-    var response = await http.get(url, headers: headers);
+    http.Response response;
+    response = await http.get(url, headers: headers).timeout(const Duration(seconds: 2));
 
     final String ret = response.body;
     final int statusCode = response.statusCode;
 
-    if(statusCode < 200 || statusCode > 400){
+    if(statusCode < 200 || statusCode >= 400){
       throw Exception("Error while fetching data: "+statusCode.toString());
     }
     return jsonDecode(ret);
   }
 
   Future<dynamic> post(String url, {Map headers, body, encoding}) async{
-    var response = await http.post(url, body: body, headers: headers, encoding: encoding);
+
+    http.Response response;
+    response = await http.post(url, body: body, headers: headers, encoding: encoding).timeout(const Duration(seconds: 2));
 
     final String ret = response.body;
     final int statusCode = response.statusCode;
 
-    if(statusCode < 200 || statusCode > 400){
+    if(statusCode < 200 || statusCode >= 400){
       throw Exception("Error while fetching data: "+statusCode.toString()); //FIX: 20x == not error
     }
     return jsonDecode(ret);

@@ -74,7 +74,7 @@ class DBProvider{
 
   Future<List<Mock>> getAllMocks() async {
     final db = await database;
-    var res = await db.query("Mock");
+    var res = await db.query("Mock").timeout(const Duration(seconds: 2));
     List<Mock> list = res.isNotEmpty ? res.map((c) => Mock.fromJson(c)).toList() : [];
     return list;
   }

@@ -12,24 +12,24 @@ class UserRepository{
   }
 
   Future<void> deleteToken() async{
-    await storage.delete(key: 'token');
+    await storage.delete(key: 'token').timeout(const Duration(seconds: 5));
     return;
   }
 
   Future<void> persistToken(String token) async{
-    await storage.write(key: 'token', value: token);
+    await storage.write(key: 'token', value: token).timeout(const Duration(seconds: 5));
     return;
   }
 
   Future<String> getToken() async {
-    var token =  await storage.read(key: 'token');
+    var token =  await storage.read(key: 'token').timeout(const Duration(seconds: 5));
     if(token == null)
       throw("No token");
     return token; //suspect
   }
 
   getHeader() async {
-    var token =  await storage.read(key: 'token');
+    var token =  await storage.read(key: 'token').timeout(const Duration(seconds: 5));
     if(token == null)
       throw("No token");
     return {"Authorization" : "Token "+token};
