@@ -1,4 +1,7 @@
+import 'package:mockapp_bloc/widgets/bloc_provider.dart';
+
 import '../data/sync.dart';
+import '../blocs/mock_bloc.dart';
 
 import 'package:flutter/material.dart';
 
@@ -59,7 +62,11 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
 
   @override
   Widget build(BuildContext context) {
+
+
+    final MockBloc mockBloc = BlocProvider.of<MockBloc>(context);
     _cxt = context;
+
     return IconButton(
       icon: Icon(Icons.sync, color: Colors.white,),
       tooltip: "Syncronize",
@@ -71,6 +78,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
             });
         //await Future.delayed(const Duration(seconds: 5));
         var res = await syncronizer.syncAll();
+        mockBloc.getMocks();
         //Navigator.pop(context);
       },
     );

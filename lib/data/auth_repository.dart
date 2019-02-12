@@ -24,14 +24,27 @@ class UserRepository{
   Future<String> getToken() async {
     var token =  await storage.read(key: 'token').timeout(const Duration(seconds: 5));
     if(token == null)
-      throw("No token");
+      throw("Unauthenticated");
+    //test for a 401 response
     return token; //suspect
   }
 
   getHeader() async {
     var token =  await storage.read(key: 'token').timeout(const Duration(seconds: 5));
     if(token == null)
-      throw("No token");
+      throw ("Unauthenticated");
+
+    //test authentication
+    try{
+      api.getMaxRev(auth_headers: {"Authorization" : "Token "+token});
+    }
+    catch(error) {
+      //if unauthorized
+      if (error == "Error while fetching data: 400"){
+        this.deleteToken();
+      throw ("Unauthenticated");
+      }
+    }
     return {"Authorization" : "Token "+token};
   }
 

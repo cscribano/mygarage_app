@@ -1,45 +1,76 @@
+// To parse this JSON data, do
+//
+//     final mock = mockFromJson(jsonString);
+
 import 'dart:convert';
+import 'dart:math';
+import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
+
+/*
+Mock mockFromJson(String str) {
+  final jsonData = json.decode(str);
+  return Mock.fromJson(jsonData);
+}
+
+String mockToJson(Mock data) {
+  final dyn = data.toJson();
+  return json.encode(dyn);
+}
+*/
 
 class Mock {
-  int id;
-  String owner;
+  String guid;
+  int isDeleted;
   String testText;
   int testNum;
 
   Mock({
-    this.id,
-    this.owner,
+    this.guid,
     this.testText,
     this.testNum,
+    this.isDeleted,
   });
 
-  factory Mock.fromJson(Map<String, dynamic> json) => new Mock(
-    id: json["id"],
-    owner: json["owner"],
-    testText: json["test_text"],
-    testNum: json["test_num"],
-  );
+  Mock.create({this.testText,this.testNum,}){
+    var bytes = utf8.encode(Random.secure().nextDouble().toString()); // data being hashed
+    var digest = sha1.convert(bytes).toString();
+    this.guid = digest;
+  }
 
-  Map<String, dynamic> toJson({bool updated=true, bool deleted=false}) => {
-    //"id": id,
-    "owner": owner,
+  factory Mock.fromJson(Map<String, dynamic> json){
+
+    int insIsDelete;
+    if(json["is_deleted"].runtimeType == bool){
+      insIsDelete = json["is_deleted"] ? 1 : 0;
+    }
+    else{
+      insIsDelete = json["is_deleted"]?? 0;
+    }
+
+    var ret = Mock(
+        guid: json["guid"],
+        testText: json["test_text"],
+        testNum: json["test_num"],
+        isDeleted: insIsDelete
+      //dirty??
+    );
+    return ret;
+  }
+
+  Map<String, dynamic> toJson({@required int dirty}) => {
+    "guid": guid,
     "test_text": testText,
     "test_num": testNum,
-    "is_update" : updated ? 1 : 0,
-    "is_deleted" : deleted? 1 : 0,
+    "is_dirty": dirty,
+    "is_deleted": isDeleted
   };
 
-  factory Mock.fromJson_API(Map<String, dynamic> json) => new Mock(
-    id: json["id"],
-    owner: json["owner"],
-    testText: json["test_text"],
-    testNum: json["test_num"],
-  );
-
-  Map<String, dynamic> toJson_API() => {
-    //"id": id,
-    //"owner": owner,
+  Map<String, dynamic> toJson_API({@required int rev}) => {
+    "guid": guid,
     "test_text": testText,
     "test_num": testNum.toString(),
+    "rev_sync": rev.toString(),
+    "is_deleted": isDeleted.toString()
   };
 }

@@ -7,11 +7,9 @@ import 'package:flutter/material.dart';
 
 /*
 * TODO:
-* - Completare meccanismo di sincronizzazone <---
-* usare id per sincronizzazione (non avere doppioni)
-* Sincronizzazione in INGRESSO (new, deleted)
+* Sincronizzazione in inrgesso non funziona (considera sempre come updated) - problema nella getMock (il return Null non funziona, debuggare getMock)
 * Sincronizzazione DELETED
-* */
+*/
 
 void main() => runApp(MyApp());
 

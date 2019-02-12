@@ -4,6 +4,8 @@ import '../data/auth_repository.dart';
 import '../models/mockupmodel.dart';
 
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 abstract class SyncDelegate{
   void onError();
@@ -20,27 +22,98 @@ class Synchronizer {
 
   Synchronizer({this.delegate});
 
+  Future<int> getRev() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int rev = (prefs.getInt('revision') ?? 0); //current rev starts from 0
+    print("current revision: $rev");
+    return rev;
+  }
+
+  Future<bool> setRev(int rev) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool b = await prefs.setInt('revision', rev);
+    return b;
+  }
+
   void syncAll() async {
 
-    List<Mock> updated = await _db.getAllUpdated();
     Map<String, String> headers;
 
+    //Try to get authentication header (user token)
     try {
+      //get authentication token
       headers = await _auth.getHeader();
+      print("Auth headers: $headers");
     }
     catch(error){
-      if(error.toString() == "No token")
+      if(error.toString() == "Unauthenticated")
         delegate.onUnAuth();
       else
         delegate.onError();
       return;
     }
 
-    for(Mock u in updated){
+    int serverRev;
+    int currentRev;
+
+    try{
+      serverRev = await _api.getMaxRev(auth_headers: headers); //max(rev) server side
+      print("Server rev: $serverRev");
+      currentRev = await getRev();
+      print("Client rev: $currentRev");
+    }
+    catch(error){
+      print(error);
+      delegate.onError();
+      return;
+    }
+
+    //pull...
+    //get elements with rev > current rev (NOT >=)
+    List<Mock> serverUpdated;
+    try {
+      serverUpdated = await _api.getUpdatedMocks(auth_headers: headers, rev: currentRev);
+      print("Tryng to pull ${serverUpdated.length} elements");
+    }
+    catch(error){
+      print(error);
+      delegate.onError();
+      return;
+    }
+
+    //try insert or update....
+    for(Mock u in serverUpdated){
       try{
-        var ret = await _api.addMock(headers, u);
+        //TODO: single Update or Create query
+        var exists = _db.getMock(u.guid);
+        if(exists != Null){ //this shit doesn't work!
+          //update
+          print("update");
+          _db.updateMock(u);
+        }
+        else{
+          print("insert");
+          var ret = _db.insertMock(u, is_dirty: 0); //todo: check for correct insert
+        }
+      }
+      catch(error){
+        print(error);
+        delegate.onError();
+        return;
+      }
+    }
+
+    //push...
+    //push all dirty elements to server setting sync_rev = serverRev+1
+    List<Mock> clientUpdated = await _db.getAllDirty(); //get all is_dirty = 1 (true)
+    print("Tryng to PUSH ${clientUpdated.length} elements");
+    serverRev += 1;
+
+    for(Mock u in clientUpdated) {
+      try {
+        var ret = await _api.addMock(headers, u, serverRev); //push (create or update)
         //update tag
-        _db.updateSynced(u.id);
+        _db.updateDirtyFlag(u.guid); //set is_dirty = 0 (false)
       }
       catch (error) {
         print(error);
@@ -48,7 +121,29 @@ class Synchronizer {
         return;
       }
     }
+
+    //we shall increase currentRev only if we have pushed
+    //get serverRev back from server and set curREv = serverrev=
+    try {
+      var newServerRev = await _api.getMaxRev(auth_headers: headers); //max(rev) server side
+      print("Updating client rev to: $newServerRev");
+      setRev(newServerRev);
+    }
+    catch(error){
+      print(error);
+      delegate.onError();
+      return;
+    }
+
     delegate.onSuccess();
   }
 
 }
+
+/*
+* Test:
+* - Inserimento locale -> rest
+* -  Inserimento rest -> locale
+  - aggiornamento locale (dirty) -> rest
+  - aggiornamento rest (rev > rev) -> mobile
+*/

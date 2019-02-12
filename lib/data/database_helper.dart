@@ -8,17 +8,17 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 const String create_test_table= """CREATE TABLE Mock (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    owner TEXT,
+    guid TEXT PRIMARY KEY,
     test_text TEXT,
     test_num INTEGER,
-    is_update BIT,
+    is_dirty BIT,
     is_deleted BIT
    )""";
 
-const String populate_with_garbage = """
-insert into Mock(owner,test_text,test_num,is_update,is_deleted) values ("test","Hello",69,1,1);
-""";
+const String create_sync_table= """CREATE TABLE Mock (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rev INTEGER NOT NULL DEFAULT 0
+   )""";
 
 class DBProvider{
   DBProvider._(); //private constructor
@@ -44,32 +44,31 @@ class DBProvider{
 
   void _onCreate(Database db, int newVersion) async{
     await db.execute(create_test_table);
-    await db.execute(populate_with_garbage);
-    //print(create_test_table);
+    //await db.execute(create_sync_table);
   }
 
 /*-- INSERT --*/
   //insert Mock
-  insertMock(Mock newMock) async{
+  insertMock(Mock newMock, {int is_dirty}) async{
     final db = await database; //call getter
-    var res = await db.insert("Mock", newMock.toJson()); //testare se funnziona con autoincrement
+    var res = await db.insert("Mock", newMock.toJson(dirty: is_dirty?? 1));
     return res;
   }
 
   insertRandom() async {
     final db = await database; //call getter
-    Mock newMock = Mock(owner: "test", testText: "Helloworld"+Random().nextInt(1000).toString(),testNum: Random().nextInt(10000));
-    var res = await db.insert("Mock", newMock.toJson());
+    Mock newMock = Mock.create(testText: "Hello"+"Helloworld"+Random().nextInt(1000).toString(), testNum: Random().nextInt(10000));
+    var res = await db.insert("Mock", newMock.toJson(dirty: 1));
     return res;
   }
 
 /*-- REQUEST --*/
 
   //read Mock(id)
-  getMock(int id) async {
+  getMock(String guid) async {
     final db = await database; //call getter
-    var res = await db.query("Mock", where: "id = ?", whereArgs: [id]);
-    return res.isNotEmpty ? Mock.fromJson(res.first) : Null;
+    var res = await db.query("Mock", where: "guid = ?", whereArgs: [guid]);
+    return res.isNotEmpty ? Mock.fromJson(res.first) : Null; //this is not ok!
   }
 
   Future<List<Mock>> getAllMocks() async {
@@ -79,17 +78,24 @@ class DBProvider{
     return list;
   }
 
-  Future<List<Mock>> getAllUpdated() async {
+  Future<List<Mock>> getAllDirty() async {
     final db = await database; //call getter
-    var res = await db.query("Mock", where: "is_update = ?", whereArgs: [1]);
+    var res = await db.query("Mock", where: "is_dirty = ?", whereArgs: [1]);
     List<Mock> list = res.isNotEmpty ? res.map((c) => Mock.fromJson(c)).toList() : [];
     return list;
   }
 
   /*-- UPDATE -- */
-  updateSynced(int id) async{
+  updateDirtyFlag(String guid) async{
     final db = await database; //call getter
-    var res = await db.update("Mock", {"is_update":1}, where: "id = ?", whereArgs: [id]);
+    var res = await db.update("Mock", {"is_dirty":0}, where: "guid = ?", whereArgs: [guid]);
     return res==1; //bool?
+  }
+
+  updateMock(Mock updated) async{
+    final db = await database; //call getter
+    //per il futuro passare dirty = 1 o 0 se è stato aggiornato da locale o da API
+    var res = await db.update("Mock", updated.toJson(dirty: 0), where: "guid = ?", whereArgs: [updated.guid]);
+    return res;
   }
 }
