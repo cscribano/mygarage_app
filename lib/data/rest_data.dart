@@ -1,4 +1,4 @@
-import '../models/mockupmodel.dart';
+import '../models/vehiclemodel.dart';
 import '../utils/network_util.dart';
 
 import 'dart:async';
@@ -27,15 +27,15 @@ class RestData{
     return response['token'];
   }
 
-  Future<List<Mock>>getMocks(Map<String,String> auth_headers) async {
+  Future<List<Vehicle>>getVehicles(Map<String,String> auth_headers) async {
     var response = await _netutil.get(urls['get_model'], headers: auth_headers);
-    List<Mock> list = response.isNotEmpty ? response.map<Mock>((c) => Mock.fromJson(c)).toList() : [];
+    List<Vehicle> list = response.isNotEmpty ? response.map<Vehicle>((c) => Vehicle.fromJson(c)).toList() : [];
     return list;
   }
 
-  Future<List<Mock>>getUpdatedMocks({Map<String,String> auth_headers, int rev}) async {
+  Future<List<Vehicle>>getUpdatedVehicles({Map<String,String> auth_headers, int rev}) async {
     var response = await _netutil.get(urls['get_updated']+rev.toString(), headers: auth_headers);
-    List<Mock> list = response.isNotEmpty ? response.map<Mock>((c) => Mock.fromJson(c)).toList() : [];
+    List<Vehicle> list = response.isNotEmpty ? response.map<Vehicle>((c) => Vehicle.fromJson(c)).toList() : [];
     return list;
   }
 
@@ -45,8 +45,8 @@ class RestData{
   }
 
   /*-- PUT -- */
-  addMock(Map<String,String> auth_headers, Mock newMock, int revision) async{
-      var post = newMock.toJson_API(rev: revision?? 1);
+  addVehicle(Map<String,String> auth_headers, Vehicle newVehicle, int revision) async{
+      var post = newVehicle.toJson_API(rev: revision?? 1);
       return await _netutil.post(urls['get_model'], headers: auth_headers, body: post);
   }
 

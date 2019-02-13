@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final mock = mockFromJson(jsonString);
+//     final Vehicle = VehicleFromJson(jsonString);
 
 import 'dart:convert';
 import 'dart:math';
@@ -8,37 +8,37 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 
 /*
-Mock mockFromJson(String str) {
+Vehicle VehicleFromJson(String str) {
   final jsonData = json.decode(str);
-  return Mock.fromJson(jsonData);
+  return Vehicle.fromJson(jsonData);
 }
 
-String mockToJson(Mock data) {
+String VehicleToJson(Vehicle data) {
   final dyn = data.toJson();
   return json.encode(dyn);
 }
 */
 
-class Mock {
+class Vehicle {
   String guid;
   int isDeleted;
   String testText;
   int testNum;
 
-  Mock({
+  Vehicle({
     this.guid,
     this.testText,
     this.testNum,
     this.isDeleted,
   });
 
-  Mock.create({this.testText,this.testNum,}){
+  Vehicle.create({this.testText,this.testNum,}){
     var bytes = utf8.encode(Random.secure().nextDouble().toString()); // data being hashed
     var digest = sha1.convert(bytes).toString();
     this.guid = digest;
   }
 
-  factory Mock.fromJson(Map<String, dynamic> json){
+  factory Vehicle.fromJson(Map<String, dynamic> json){
 
     int insIsDelete;
     if(json["is_deleted"].runtimeType == bool){
@@ -48,7 +48,7 @@ class Mock {
       insIsDelete = json["is_deleted"]?? 0;
     }
 
-    var ret = Mock(
+    var ret = Vehicle(
         guid: json["guid"],
         testText: json["test_text"],
         testNum: json["test_num"],

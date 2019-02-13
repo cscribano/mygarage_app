@@ -1,4 +1,4 @@
-import '../models/mockupmodel.dart';
+import '../models/vehiclemodel.dart';
 
 import 'dart:io';
 import 'dart:math';
@@ -7,7 +7,7 @@ import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-const String create_test_table= """CREATE TABLE Mock (
+const String create_test_table= """CREATE TABLE Vehicle (
     guid TEXT PRIMARY KEY,
     test_text TEXT,
     test_num INTEGER,
@@ -43,54 +43,54 @@ class DBProvider{
   }
 
 /*-- INSERT --*/
-  //insert Mock
-  insertMock(Mock newMock, {int is_dirty}) async{
+  //insert Vehicle
+  insertVehicle(Vehicle newVehicle, {int is_dirty}) async{
     final db = await database; //call getter
-    var res = await db.insert("Mock", newMock.toJson(dirty: is_dirty?? 1));
+    var res = await db.insert("Vehicle", newVehicle.toJson(dirty: is_dirty?? 1));
     return res;
   }
 
   insertRandom() async {
     final db = await database; //call getter
-    Mock newMock = Mock.create(testText: "Hello"+"Helloworld"+Random().nextInt(1000).toString(), testNum: Random().nextInt(10000));
-    var res = await db.insert("Mock", newMock.toJson(dirty: 1));
+    Vehicle newVehicle = Vehicle.create(testText: "Hello"+"Helloworld"+Random().nextInt(1000).toString(), testNum: Random().nextInt(10000));
+    var res = await db.insert("Vehicle", newVehicle.toJson(dirty: 1));
     return res;
   }
 
 /*-- REQUEST --*/
 
-  //read Mock(id)
-  getMock(String guid) async {
+  //read Vehicle(id)
+  getVehicle(String guid) async {
     final db = await database; //call getter
-    var res = await db.query("Mock", where: "guid = ?", whereArgs: [guid]);
-    return res.isNotEmpty ? Mock.fromJson(res.first) : Null; //this is not ok!
+    var res = await db.query("Vehicle", where: "guid = ?", whereArgs: [guid]);
+    return res.isNotEmpty ? Vehicle.fromJson(res.first) : Null; //this is not ok!
   }
 
-  Future<List<Mock>> getAllMocks() async {
+  Future<List<Vehicle>> getAllVehicles() async {
     final db = await database;
-    var res = await db.query("Mock").timeout(const Duration(seconds: 2));
-    List<Mock> list = res.isNotEmpty ? res.map((c) => Mock.fromJson(c)).toList() : [];
+    var res = await db.query("Vehicle").timeout(const Duration(seconds: 2));
+    List<Vehicle> list = res.isNotEmpty ? res.map((c) => Vehicle.fromJson(c)).toList() : [];
     return list;
   }
 
-  Future<List<Mock>> getAllDirty() async {
+  Future<List<Vehicle>> getAllDirty() async {
     final db = await database; //call getter
-    var res = await db.query("Mock", where: "is_dirty = ?", whereArgs: [1]);
-    List<Mock> list = res.isNotEmpty ? res.map((c) => Mock.fromJson(c)).toList() : [];
+    var res = await db.query("Vehicle", where: "is_dirty = ?", whereArgs: [1]);
+    List<Vehicle> list = res.isNotEmpty ? res.map((c) => Vehicle.fromJson(c)).toList() : [];
     return list;
   }
 
   /*-- UPDATE -- */
   updateDirtyFlag(String guid) async{
     final db = await database; //call getter
-    var res = await db.update("Mock", {"is_dirty":0}, where: "guid = ?", whereArgs: [guid]);
+    var res = await db.update("Vehicle", {"is_dirty":0}, where: "guid = ?", whereArgs: [guid]);
     return res==1; //bool?
   }
 
-  updateMock(Mock updated) async{
+  updateVehicle(Vehicle updated) async{
     final db = await database; //call getter
     //per il futuro passare dirty = 1 o 0 se è stato aggiornato da locale o da API
-    var res = await db.update("Mock", updated.toJson(dirty: 0), where: "guid = ?", whereArgs: [updated.guid]);
+    var res = await db.update("Vehicle", updated.toJson(dirty: 0), where: "guid = ?", whereArgs: [updated.guid]);
     return res;
   }
 }

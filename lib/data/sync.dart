@@ -1,7 +1,7 @@
 import '../data/database_helper.dart';
 import '../data/rest_data.dart';
 import '../data/auth_repository.dart';
-import '../models/mockupmodel.dart';
+import '../models/vehiclemodel.dart';
 import '../exceptions.dart';
 
 import 'dart:async';
@@ -72,9 +72,9 @@ class Synchronizer {
 
     //pull...
     //get elements with rev > current rev (NOT >=)
-    List<Mock> serverUpdated;
+    List<Vehicle> serverUpdated;
     try {
-      serverUpdated = await _api.getUpdatedMocks(auth_headers: headers, rev: currentRev);
+      serverUpdated = await _api.getUpdatedVehicles(auth_headers: headers, rev: currentRev);
       print("Tryng to pull ${serverUpdated.length} elements");
     }
     catch(error){
@@ -84,18 +84,18 @@ class Synchronizer {
     }
 
     //try insert or update....
-    for(Mock u in serverUpdated){
+    for(Vehicle u in serverUpdated){
       try{
         //TODO: single Update or Create query
-        var exists = await _db.getMock(u.guid);
+        var exists = await _db.getVehicle(u.guid);
         if(exists != Null){ //this shit doesn't work!
           //update
           print("update");
-          _db.updateMock(u);
+          _db.updateVehicle(u);
         }
         else{
           print("insert");
-          var ret = _db.insertMock(u, is_dirty: 0); //todo: check for correct insert
+          var ret = _db.insertVehicle(u, is_dirty: 0); //todo: check for correct insert
         }
       }
       catch(error){
@@ -107,13 +107,13 @@ class Synchronizer {
 
     //push...
     //push all dirty elements to server setting sync_rev = serverRev+1
-    List<Mock> clientUpdated = await _db.getAllDirty(); //get all is_dirty = 1 (true)
+    List<Vehicle> clientUpdated = await _db.getAllDirty(); //get all is_dirty = 1 (true)
     print("Tryng to PUSH ${clientUpdated.length} elements");
     serverRev += 1;
 
-    for(Mock u in clientUpdated) {
+    for(Vehicle u in clientUpdated) {
       try {
-        var ret = await _api.addMock(headers, u, serverRev); //push (create or update)
+        var ret = await _api.addVehicle(headers, u, serverRev); //push (create or update)
         //update tag
         _db.updateDirtyFlag(u.guid); //set is_dirty = 0 (false)
       }

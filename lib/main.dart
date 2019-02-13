@@ -1,7 +1,7 @@
-import 'package:mockapp_bloc/pages/login.dart';
-import 'package:mockapp_bloc/pages/list.dart';
+import 'pages/login.dart';
+import 'pages/list.dart';
 import 'widgets/bloc_provider.dart';
-import 'blocs/mock_bloc.dart';
+import 'blocs/vehicle_bloc.dart';
 import 'translations.dart';
 
 import 'package:flutter/material.dart';
@@ -10,7 +10,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 /*
 * TODO:
 * Sincronizzazione DELETED
-* Gestione internazionalizzazione
 */
 
 void main() => runApp(MyApp());
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      bloc: MockBloc(),
+      bloc: VehicleBloc(),
       child: MaterialApp(
         localizationsDelegates: [
           const TranslationsDelegate(),
