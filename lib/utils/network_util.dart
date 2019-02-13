@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../exceptions.dart';
+
 class NetworkUtil{
 
   NetworkUtil._(); //private constructor
@@ -16,7 +18,8 @@ class NetworkUtil{
     final int statusCode = response.statusCode;
 
     if(statusCode < 200 || statusCode >= 400){
-      throw Exception("Error while fetching data: "+statusCode.toString());
+      //throw Exception("Error while fetching data: "+statusCode.toString());
+      throw HttpException(httpCode: statusCode);
     }
     return jsonDecode(ret);
   }
@@ -30,7 +33,8 @@ class NetworkUtil{
     final int statusCode = response.statusCode;
 
     if(statusCode < 200 || statusCode >= 400){
-      throw Exception("Error while fetching data: "+statusCode.toString()); //FIX: 20x == not error
+      //throw Exception("Error while fetching data: "+statusCode.toString()); //FIX: 20x == not error
+      throw HttpException(httpCode: statusCode);
     }
     return jsonDecode(ret);
   }

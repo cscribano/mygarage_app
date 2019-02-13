@@ -2,6 +2,7 @@ import '../data/database_helper.dart';
 import '../data/rest_data.dart';
 import '../data/auth_repository.dart';
 import '../models/mockupmodel.dart';
+import '../exceptions.dart';
 
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,11 +46,12 @@ class Synchronizer {
       headers = await _auth.getHeader();
       print("Auth headers: $headers");
     }
+    on UnauthenticatedException{
+      delegate.onUnAuth();
+      return;
+    }
     catch(error){
-      if(error.toString() == "Unauthenticated")
-        delegate.onUnAuth();
-      else
-        delegate.onError();
+      delegate.onError();
       return;
     }
 
@@ -85,7 +87,7 @@ class Synchronizer {
     for(Mock u in serverUpdated){
       try{
         //TODO: single Update or Create query
-        var exists = _db.getMock(u.guid);
+        var exists = await _db.getMock(u.guid);
         if(exists != Null){ //this shit doesn't work!
           //update
           print("update");

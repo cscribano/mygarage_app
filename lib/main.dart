@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 
 /*
 * TODO:
-* Sincronizzazione in inrgesso non funziona (considera sempre come updated) - problema nella getMock (il return Null non funziona, debuggare getMock)
 * Sincronizzazione DELETED
+* Gestione internazionalizzazione
 */
 
 void main() => runApp(MyApp());

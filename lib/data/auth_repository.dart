@@ -1,4 +1,5 @@
 import 'rest_data.dart';
+import '../exceptions.dart';
 
 import 'dart:async';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -24,7 +25,7 @@ class UserRepository{
   Future<String> getToken() async {
     var token =  await storage.read(key: 'token').timeout(const Duration(seconds: 5));
     if(token == null)
-      throw("Unauthenticated");
+      throw UnauthenticatedException();
     //test for a 401 response
     return token; //suspect
   }
@@ -32,17 +33,16 @@ class UserRepository{
   getHeader() async {
     var token =  await storage.read(key: 'token').timeout(const Duration(seconds: 5));
     if(token == null)
-      throw ("Unauthenticated");
+      throw UnauthenticatedException();
 
     //test authentication
     try{
-      api.getMaxRev(auth_headers: {"Authorization" : "Token "+token});
+      await api.getMaxRev(auth_headers: {"Authorization" : "Token "+token});
     }
-    catch(error) {
-      //if unauthorized
-      if (error == "Error while fetching data: 400"){
-        this.deleteToken();
-      throw ("Unauthenticated");
+    on HttpException catch(e) {
+      if(e.httpCode == 401){
+          await this.deleteToken();
+          throw UnauthenticatedException();
       }
     }
     return {"Authorization" : "Token "+token};

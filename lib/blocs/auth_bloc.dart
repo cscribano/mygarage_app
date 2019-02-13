@@ -36,7 +36,6 @@ class AuthBloc implements BlocBase {
       var token = await _repo.authenticate(username, password);
       print(token);
       _repo.persistToken(token);
-      //_inSink.add(AuthState.LOGGED_IN);
       authState();
     }
     catch(error){

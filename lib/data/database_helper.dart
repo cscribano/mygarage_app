@@ -15,10 +15,6 @@ const String create_test_table= """CREATE TABLE Mock (
     is_deleted BIT
    )""";
 
-const String create_sync_table= """CREATE TABLE Mock (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    rev INTEGER NOT NULL DEFAULT 0
-   )""";
 
 class DBProvider{
   DBProvider._(); //private constructor
@@ -44,7 +40,6 @@ class DBProvider{
 
   void _onCreate(Database db, int newVersion) async{
     await db.execute(create_test_table);
-    //await db.execute(create_sync_table);
   }
 
 /*-- INSERT --*/
