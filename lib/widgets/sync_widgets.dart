@@ -2,6 +2,7 @@ import 'package:mockapp_bloc/widgets/bloc_provider.dart';
 
 import '../data/sync.dart';
 import '../blocs/mock_bloc.dart';
+import '../translations.dart';
 
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
     Navigator.pop(_cxt);
     Scaffold.of(_cxt).showSnackBar(
       SnackBar(
-        content: Text("An unknown error occourred"),
+        content: Text(Translations.of(_cxt).text('unknown_error_snack')),
         backgroundColor: Colors.red,
       ),
     );
@@ -33,15 +34,15 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
         context: _cxt,
         builder: (_cxt) {
           return AlertDialog(
-            title: Text("Synchronization"),
-            content: Text("To synchronize your data you need to log to your user account"),
+            title: Text(Translations.of(_cxt).text('login_to_sync_title')),
+            content: Text(Translations.of(_cxt).text('login_to_sync_text')),
             actions: <Widget>[
               FlatButton(
-                child: Text("OK"),
+                child: Text(Translations.of(_cxt).text('ok_btn')),
                 onPressed: () => Navigator.of(_cxt).pop(),
               ),
               FlatButton(
-                child: Text("Login"),
+                child: Text(Translations.of(_cxt).text('login_btn')),
                 onPressed: () => Navigator.of(_cxt).pushReplacementNamed("/Login"),
               ),
             ],
@@ -54,7 +55,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
     Navigator.pop(_cxt);
     Scaffold.of(_cxt).showSnackBar(
       SnackBar(
-        content: Text("All data synchronized!"),
+        content: Text(Translations.of(_cxt).text('sync_ok_snack')),
         backgroundColor: Colors.green,
       ),
     );
@@ -69,7 +70,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
 
     return IconButton(
       icon: Icon(Icons.sync, color: Colors.white,),
-      tooltip: "Syncronize",
+      tooltip: Translations.of(_cxt).text('sync_btn_tootlip'),
       onPressed: () async {
         showDialog(
             context: context,

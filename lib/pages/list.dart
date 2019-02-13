@@ -2,6 +2,7 @@ import '../models/mockupmodel.dart';
 import '../blocs/mock_bloc.dart';
 import '../widgets/bloc_provider.dart';
 import '../widgets/sync_widgets.dart';
+import '../translations.dart';
 
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage>{
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-          title: Text("Flutter SQLite"),
+          title: Text(Translations.of(context).text('home_title')),
         actions: <Widget>[
           SyncButton(),
         ],

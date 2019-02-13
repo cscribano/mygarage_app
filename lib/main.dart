@@ -2,8 +2,10 @@ import 'package:mockapp_bloc/pages/login.dart';
 import 'package:mockapp_bloc/pages/list.dart';
 import 'widgets/bloc_provider.dart';
 import 'blocs/mock_bloc.dart';
+import 'translations.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
@@ -20,7 +22,16 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       bloc: MockBloc(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        localizationsDelegates: [
+          const TranslationsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', 'US'), // English
+          const Locale('it', 'IT'), // Italiano
+        ],
+        title:'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

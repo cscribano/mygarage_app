@@ -26,6 +26,9 @@ dependencies:
   crypto: any
   shared_preferences: ^0.5.1+1
 
+  flutter_localizations:
+    sdk: flutter
+
 
 dev_dependencies:
   flutter_test:
@@ -38,6 +41,9 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
 
+  assets:
+  - locale/i18n_en.json
+  - locale/i18n_it.json
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

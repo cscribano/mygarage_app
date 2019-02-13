@@ -1,0 +1,24 @@
+{
+  "main_title" : "Flutter Application",
+
+  "unknown_error_snack" : "An unknown error occourred",
+  "ok_btn" : "OK",
+  "login_btn" : "Login",
+
+  "login_to_sync_text" : "To synchronize your data you need to log to your user account",
+  "login_to_sync_title" : "Synchronization",
+  "sync_ok_snack" : "All data synchronized!",
+  "sync_btn_tootlip" : "Synchronize",
+
+  "home_title" : "Flutter SQLite ITA",
+
+  "login_title" : "Login",
+  "login_fail_snack" : "Login failed, please retry.",
+  "skip_login_btn" : "Continue without Login",
+  "no_account_text" : "Don't have an account?",
+  "register_gesture" : "Register",
+  "username_hint" : "My Username",
+  "username_text" : "Username",
+  "password_hint" : "Password",
+  "password_text" : "Enter your password"
+}

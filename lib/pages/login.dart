@@ -1,3 +1,5 @@
+import 'package:mockapp_bloc/translations.dart';
+
 import '../blocs/auth_bloc.dart';
 
 import 'package:flutter/material.dart';
@@ -30,6 +32,9 @@ class _LoginFormState extends State<LoginForm>{
 
   @override
   Widget build(BuildContext context) {
+
+    var translation = Translations.of(context);
+
     return Form(
       child: ListView(
         children: <Widget>[
@@ -38,23 +43,23 @@ class _LoginFormState extends State<LoginForm>{
               controller: usernameController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                  hintText: 'My Username',
-                  labelText: 'Username')),
+                  hintText: translation.text('username_hint'),
+                  labelText: translation.text('username_text'))),
 
           //text field
           TextFormField(
               controller: passwordController,
               obscureText: true, // Use secure text for passwords.
               decoration: InputDecoration(
-                  hintText: 'Password',
-                  labelText: 'Enter your password')),
+                  hintText: translation.text('password_hint'),
+                  labelText: translation.text('password_text'))),
 
           //Login Button
           Container(
             //padding: EdgeInsets.only(top: 50.0),
             child: RaisedButton(
               child: Text(
-                'Login',
+                translation.text('login_btn'),
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () => _authBloc.doLogin(usernameController.text, passwordController.text),//null,
@@ -65,7 +70,7 @@ class _LoginFormState extends State<LoginForm>{
 
           //Continue without login
           RaisedButton(
-            child: Text("Continue without Login"),
+            child: Text(translation.text('skip_login_btn')),
             onPressed: () {
               Navigator.of(context).canPop() ? Navigator.of(context).pop() : Navigator.of(context).pushReplacementNamed('/Home');
             },
@@ -78,14 +83,14 @@ class _LoginFormState extends State<LoginForm>{
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 GestureDetector(
-                  child: new Text('Don\'t have an account? ',
+                  child: new Text(translation.text('no_account_text'),
                       style: new TextStyle(color: Color(0xFF2E3233))),
                   onTap: () {},
                 ),
                 GestureDetector(
                     onTap: (){},
                     child: new Text(
-                      'Register.',
+                      translation.text('register_gesture'),
                       style: new TextStyle(
                           color: Color(0xFF84A2AF), fontWeight: FontWeight.bold),
                     ))
@@ -113,10 +118,13 @@ class _LoginPageState extends State<LoginPage>{
 
   @override
   Widget build(BuildContext context) {
+
+    var translation = Translations.of(context);
+
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text(translation.text('login_title')),
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -147,7 +155,7 @@ class _LoginPageState extends State<LoginPage>{
                           //display error message if ERROR
                           Scaffold.of(context).showSnackBar(
                             SnackBar(
-                              content: Text("Login failed, please retry."),
+                              content: Text(translation.text('login_fail_snack')),
                               backgroundColor: Colors.red,
                             ),
                           );
