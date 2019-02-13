@@ -1,4 +1,4 @@
-import 'rest_data.dart';
+import 'rest_helper.dart';
 import '../exceptions.dart';
 
 import 'dart:async';

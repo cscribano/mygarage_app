@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
+import 'basemodel.dart';
 
 /*
 Vehicle VehicleFromJson(String str) {
@@ -19,18 +20,19 @@ String VehicleToJson(Vehicle data) {
 }
 */
 
-class Vehicle {
+class Vehicle extends baseModel{
   String guid;
   int isDeleted;
   String testText;
   int testNum;
 
   Vehicle({
+    String key,
     this.guid,
     this.testText,
     this.testNum,
     this.isDeleted,
-  });
+  }) : super(key: key);
 
   Vehicle.create({this.testText,this.testNum,}){
     var bytes = utf8.encode(Random.secure().nextDouble().toString()); // data being hashed

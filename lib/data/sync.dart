@@ -1,9 +1,11 @@
 import '../data/database_helper.dart';
-import '../data/rest_data.dart';
-import '../data/auth_repository.dart';
+import '../data/rest_helper.dart';
+import '../data/db_providers/vehicle_provider.dart';
+import '../data/auth_provider.dart';
 import '../models/vehiclemodel.dart';
 import '../exceptions.dart';
 
+import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,30 +16,16 @@ abstract class SyncDelegate{
   void onSuccess();
 }
 
-class Synchronizer {
+class Synchronizer{
 
-  final DBProvider _db = DBProvider();
-  final RestData _api = RestData();
-  final UserRepository _auth = UserRepository();
   final SyncDelegate delegate;
+  final UserRepository _auth = UserRepository();
 
-  Synchronizer({this.delegate});
-
-  Future<int> getRev() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int rev = (prefs.getInt('revision') ?? 0); //current rev starts from 0
-    print("current revision: $rev");
-    return rev;
-  }
-
-  Future<bool> setRev(int rev) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool b = await prefs.setInt('revision', rev);
-    return b;
-  }
+  Synchronizer({@required this.delegate});
 
   void syncAll() async {
 
+    //1. Try to get authentication credentials
     Map<String, String> headers;
 
     //Try to get authentication header (user token)
@@ -54,6 +42,47 @@ class Synchronizer {
       delegate.onError();
       return;
     }
+
+    //sync vehicles
+    try {
+      var ret = await ModelSynchronizer(delegate: delegate, headers: headers, provider: vehicleProvider()).syncAll();
+    }
+    catch(error){
+      print("Errore (Synchronizer): $error");
+      delegate.onError();
+      return;
+    }
+    delegate.onSuccess();
+  }
+}
+
+class ModelSynchronizer<T extends baseProvider> {
+
+  //final DBProvider _db = DBProvider();
+  //final vehicleProvider _db = vehicleProvider();
+  T _db;
+  final RestData _api = RestData();
+  Map<String, String> headers;
+  final SyncDelegate delegate;
+
+  ModelSynchronizer({@required this.delegate, @required this.headers, @required provider,}){
+    this._db = provider;
+  }
+
+  Future<int> getRev() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int rev = (prefs.getInt('revision') ?? 0); //current rev starts from 0
+    print("current revision: $rev");
+    return rev;
+  }
+
+  Future<bool> setRev(int rev) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool b = await prefs.setInt('revision', rev);
+    return b;
+  }
+
+  Future<void> syncAll() async {
 
     int serverRev;
     int currentRev;
@@ -86,17 +115,7 @@ class Synchronizer {
     //try insert or update....
     for(Vehicle u in serverUpdated){
       try{
-        //TODO: single Update or Create query
-        var exists = await _db.getVehicle(u.guid);
-        if(exists != Null){ //this shit doesn't work!
-          //update
-          print("update");
-          _db.updateVehicle(u);
-        }
-        else{
-          print("insert");
-          var ret = _db.insertVehicle(u, is_dirty: 0); //todo: check for correct insert
-        }
+        _db.upsert(u, is_dirty: 0);
       }
       catch(error){
         print(error);
@@ -113,9 +132,9 @@ class Synchronizer {
 
     for(Vehicle u in clientUpdated) {
       try {
-        var ret = await _api.addVehicle(headers, u, serverRev); //push (create or update)
+        var ret = await _api.upsert(headers, u, serverRev); //push (create or update)
         //update tag
-        _db.updateDirtyFlag(u.guid); //set is_dirty = 0 (false)
+        _db.updateDirtyFlag(u); //set is_dirty = 0 (false)
       }
       catch (error) {
         print(error);
@@ -136,16 +155,6 @@ class Synchronizer {
       delegate.onError();
       return;
     }
-
-    delegate.onSuccess();
+    //delegate.onSuccess();
   }
-
 }
-
-/*
-* Test:
-* - Inserimento locale -> rest
-* -  Inserimento rest -> locale
-  - aggiornamento locale (dirty) -> rest
-  - aggiornamento rest (rev > rev) -> mobile
-*/

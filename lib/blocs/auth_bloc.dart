@@ -1,5 +1,5 @@
 import '../widgets/bloc_provider.dart';
-import '../data/auth_repository.dart';
+import '../data/auth_provider.dart';
 
 import 'dart:async';
 

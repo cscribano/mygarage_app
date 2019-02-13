@@ -9,6 +9,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
+* fixare crash se si preme sync tante volte in poco tempo (opzioni: singleto, rendere incliccabile finche non finisce)
+* implement RestProvider
+* finire implementazione generica sync (funzionante con diversi Model)
 * Sincronizzazione DELETED
 */
 
