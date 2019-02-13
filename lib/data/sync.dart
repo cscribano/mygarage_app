@@ -46,6 +46,7 @@ class Synchronizer{
     //sync vehicles
     try {
       var ret = await ModelSynchronizer(delegate: delegate, headers: headers, provider: vehicleProvider()).syncAll();
+      //then, onerror......
     }
     catch(error){
       print("Errore (Synchronizer): $error");

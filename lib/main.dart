@@ -13,6 +13,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 * implement RestProvider
 * finire implementazione generica sync (funzionante con diversi Model)
 * Sincronizzazione DELETED
+* creare modello "expense" con foreign key e testare sincronizzazione.
 */
 
 void main() => runApp(MyApp());
