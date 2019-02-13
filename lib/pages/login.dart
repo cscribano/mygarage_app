@@ -1,5 +1,4 @@
-import 'package:mockapp_bloc/translations.dart';
-
+import '../translations.dart';
 import '../blocs/auth_bloc.dart';
 
 import 'package:flutter/material.dart';

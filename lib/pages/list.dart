@@ -1,5 +1,4 @@
-import 'package:mockapp_bloc/blocs/vehicle_bloc.dart';
-
+import '../blocs/vehicle_bloc.dart';
 import '../models/vehiclemodel.dart';
 import '../blocs/vehicle_bloc.dart';
 import '../widgets/bloc_provider.dart';

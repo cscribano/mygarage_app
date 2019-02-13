@@ -1,4 +1,4 @@
-import 'package:mockapp_bloc/widgets/bloc_provider.dart';
+import '../widgets/bloc_provider.dart';
 import '../data/auth_repository.dart';
 
 import 'dart:async';

@@ -1,4 +1,4 @@
-# mockapp_bloc
+# mygarage_app
 
 A new Flutter application.
 
