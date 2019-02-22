@@ -18,6 +18,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
   @override
   void onError(){
     Navigator.pop(_cxt);
+    Scaffold.of(_cxt).removeCurrentSnackBar();
     Scaffold.of(_cxt).showSnackBar(
       SnackBar(
         content: Text(Translations.of(_cxt).text('unknown_error_snack')),
@@ -29,6 +30,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
   @override
   void onUnAuth(){
     Navigator.pop(_cxt);
+    Scaffold.of(_cxt).removeCurrentSnackBar();
     showDialog(
         context: _cxt,
         builder: (_cxt) {
@@ -52,6 +54,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
   @override
   void onSuccess(){
     Navigator.pop(_cxt);
+    Scaffold.of(_cxt).removeCurrentSnackBar();
     Scaffold.of(_cxt).showSnackBar(
       SnackBar(
         content: Text(Translations.of(_cxt).text('sync_ok_snack')),

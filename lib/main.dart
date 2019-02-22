@@ -13,7 +13,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 * nota: fixato rendendo classe VehicleProvider singleton! (vedere utilizzi singleton, user repo??)
 *
 * fix: chiamando piuo volte sync si "accumulano" gli snack (prima di generare snack pop di quello esistente?)
-* nota: anche questo potrebbe essere risolto con singleton? (classe Synchronizer)
+* ok:Scaffold.of(_cxt).removeCurrentSnackBar();
 *
 * implement RestProvider
 * finire implementazione generica sync (funzionante con diversi Model)
