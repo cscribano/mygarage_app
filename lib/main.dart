@@ -10,6 +10,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 /*
 * TODO:
 * fixare crash se si preme sync tante volte in poco tempo (opzioni: singleto, rendere incliccabile finche non finisce)
+* nota: fixato rendendo classe VehicleProvider singleton! (vedere utilizzi singleton, user repo??)
+*
+* fix: chiamando piuo volte sync si "accumulano" gli snack (prima di generare snack pop di quello esistente?)
+* nota: anche questo potrebbe essere risolto con singleton? (classe Synchronizer)
+*
 * implement RestProvider
 * finire implementazione generica sync (funzionante con diversi Model)
 * Sincronizzazione DELETED

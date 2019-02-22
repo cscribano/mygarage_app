@@ -8,6 +8,10 @@ class vehicleProvider implements baseProvider<Vehicle>{
   static DBProvider _db = DBProvider();
   final database = _db.database;
 
+  vehicleProvider._();
+  static final vehicleProvider _vp = vehicleProvider._(); //singleton
+  factory vehicleProvider() => _vp;
+
   /*-- Interface methods --*/
   @override
   Future<int> upsert(Vehicle item, {int is_dirty}) async{
