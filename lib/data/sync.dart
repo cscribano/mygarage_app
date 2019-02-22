@@ -1,9 +1,10 @@
-import '../data/database_helper.dart';
 import '../data/rest_helper.dart';
 import '../data/db_providers/vehicle_provider.dart';
+import '../data/rest_providers/vehicle_rest_provider.dart';
 import '../data/auth_provider.dart';
-import '../models/vehiclemodel.dart';
+import '../models/basemodel.dart';
 import '../exceptions.dart';
+import '../data/base_providers.dart';
 
 import 'package:flutter/foundation.dart';
 import 'dart:async';
@@ -44,30 +45,25 @@ class Synchronizer{
     }
 
     //sync vehicles
-    try {
-      var ret = await ModelSynchronizer(delegate: delegate, headers: headers, provider: vehicleProvider()).syncAll();
-      //then, onerror......
-    }
-    catch(error){
-      print("Errore (Synchronizer): $error");
-      delegate.onError();
-      return;
-    }
-    delegate.onSuccess();
+    var ret = await ModelSynchronizer(delegate: delegate, headers: headers, provider: VehicleProvider(), rest_provider: VehicleRestProvider()).syncAll()
+      .then((value) => delegate.onSuccess())
+      .catchError((error) => delegate.onError());
   }
 }
 
-class ModelSynchronizer<T extends baseProvider> {
+class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvider> {
 
-  //final DBProvider _db = DBProvider();
-  //final vehicleProvider _db = vehicleProvider();
+
   T _db;
+  R _rest;
+
   final RestData _api = RestData();
   Map<String, String> headers;
   final SyncDelegate delegate;
 
-  ModelSynchronizer({@required this.delegate, @required this.headers, @required provider,}){
+  ModelSynchronizer({@required this.delegate, @required this.headers, @required provider, @required rest_provider}){
     this._db = provider;
+    this._rest = rest_provider;
   }
 
   Future<int> getRev() async {
@@ -91,7 +87,7 @@ class ModelSynchronizer<T extends baseProvider> {
     try{
       serverRev = await _api.getMaxRev(auth_headers: headers); //max(rev) server side
       print("Server rev: $serverRev");
-      currentRev = await getRev();
+      currentRev = await getRev(); //current client Rev
       print("Client rev: $currentRev");
     }
     catch(error){
@@ -102,9 +98,9 @@ class ModelSynchronizer<T extends baseProvider> {
 
     //pull...
     //get elements with rev > current rev (NOT >=)
-    List<Vehicle> serverUpdated;
+    List<BaseModel> serverUpdated;
     try {
-      serverUpdated = await _api.getUpdatedVehicles(auth_headers: headers, rev: currentRev);
+      serverUpdated = await _rest.getUpdatedItems(auth_headers: headers, revision: currentRev);
       print("Tryng to pull ${serverUpdated.length} elements");
     }
     catch(error){
@@ -114,7 +110,7 @@ class ModelSynchronizer<T extends baseProvider> {
     }
 
     //try insert or update....
-    for(Vehicle u in serverUpdated){
+    for(BaseModel u in serverUpdated){
       try{
         _db.upsert(u, is_dirty: 0);
       }
@@ -127,13 +123,13 @@ class ModelSynchronizer<T extends baseProvider> {
 
     //push...
     //push all dirty elements to server setting sync_rev = serverRev+1
-    List<Vehicle> clientUpdated = await _db.getAllDirty(); //get all is_dirty = 1 (true)
+    List<BaseModel> clientUpdated = await _db.getAllDirty(); //get all is_dirty = 1 (true)
     print("Tryng to PUSH ${clientUpdated.length} elements");
     serverRev += 1;
 
-    for(Vehicle u in clientUpdated) {
+    for(BaseModel u in clientUpdated) {
       try {
-        var ret = await _api.upsert(headers, u, serverRev); //push (create or update)
+        var ret = await _rest.upsert(headers, u, serverRev); //push (create or update)
         //update tag
         _db.updateDirtyFlag(u); //set is_dirty = 0 (false)
       }

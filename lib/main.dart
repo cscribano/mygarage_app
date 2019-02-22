@@ -9,16 +9,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
+* * Sincronizzazione DELETED
+* creare modello "expense" con foreign key e testare sincronizzazione.
+*
 * fixare crash se si preme sync tante volte in poco tempo (opzioni: singleto, rendere incliccabile finche non finisce)
 * nota: fixato rendendo classe VehicleProvider singleton! (vedere utilizzi singleton, user repo??)
 *
 * fix: chiamando piuo volte sync si "accumulano" gli snack (prima di generare snack pop di quello esistente?)
 * ok:Scaffold.of(_cxt).removeCurrentSnackBar();
 *
-* implement RestProvider
-* finire implementazione generica sync (funzionante con diversi Model)
-* Sincronizzazione DELETED
-* creare modello "expense" con foreign key e testare sincronizzazione.
+* implement RestProvider (ok)
+* finire implementazione generica sync (funzionante con diversi Model) (ok)
 */
 
 void main() => runApp(MyApp());
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         ],
         title:'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.red,
         ),
         routes: {
           '/Login' : (context) => LoginPage(),

@@ -20,7 +20,7 @@ String VehicleToJson(Vehicle data) {
 }
 */
 
-class Vehicle extends baseModel{
+class Vehicle extends BaseModel{
   String guid;
   int isDeleted;
   String testText;

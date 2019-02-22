@@ -22,7 +22,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
     Scaffold.of(_cxt).showSnackBar(
       SnackBar(
         content: Text(Translations.of(_cxt).text('unknown_error_snack')),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.red[800],
       ),
     );
   }
@@ -58,7 +58,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
     Scaffold.of(_cxt).showSnackBar(
       SnackBar(
         content: Text(Translations.of(_cxt).text('sync_ok_snack')),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.green[800],
       ),
     );
   }

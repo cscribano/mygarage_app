@@ -1,19 +1,18 @@
 import '../models/vehiclemodel.dart';
 import '../widgets/bloc_provider.dart';
 import '../data/db_providers/vehicle_provider.dart';
-import '../data/rest_helper.dart';
 
 import 'dart:async';
 import 'dart:math';
 
 class VehicleBloc implements BlocBase{
 
-  StreamController<List<Vehicle>> _VehicleController = StreamController<List<Vehicle>>.broadcast();
-  Sink<List<Vehicle>> get _inVehicle => _VehicleController.sink;
-  Stream<List<Vehicle>> get outVehicle => _VehicleController.stream;
+  StreamController<List<Vehicle>> _vehicleController = StreamController<List<Vehicle>>.broadcast();
+  Sink<List<Vehicle>> get _inVehicle => _vehicleController.sink;
+  Stream<List<Vehicle>> get outVehicle => _vehicleController.stream;
 
-  final vehicleProvider _db = vehicleProvider();
-  final RestData _api = RestData();
+  final VehicleProvider _db = VehicleProvider();
+  //final RestData _api = RestData();
 
   VehicleBloc(){
     getVehicles();
@@ -38,7 +37,7 @@ class VehicleBloc implements BlocBase{
   @override
   void dispose() {
     // TODO: implement dispose
-    _VehicleController.close();
+    _vehicleController.close();
   }
 
 }

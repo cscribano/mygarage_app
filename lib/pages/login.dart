@@ -62,7 +62,7 @@ class _LoginFormState extends State<LoginForm>{
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () => _authBloc.doLogin(usernameController.text, passwordController.text),//null,
-              color: Colors.blue,
+              color: Colors.red,
             ),
             margin: EdgeInsets.only(top: 20.0),
           ),
@@ -133,7 +133,7 @@ class _LoginPageState extends State<LoginPage>{
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              FlutterLogo(size: 64.0,),
+              FlutterLogo(size: 64.0,colors: Colors.brown,),
               Flexible(
                 child: StreamBuilder<AuthState>(
                   stream: _authBloc.outStream,
@@ -155,7 +155,7 @@ class _LoginPageState extends State<LoginPage>{
                           Scaffold.of(context).showSnackBar(
                             SnackBar(
                               content: Text(translation.text('login_fail_snack')),
-                              backgroundColor: Colors.red,
+                              backgroundColor: Colors.red[800],
                             ),
                           );
                         });

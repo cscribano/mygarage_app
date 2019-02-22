@@ -1,5 +1,3 @@
-import '../models/basemodel.dart';
-
 import 'dart:io';
 import 'dart:async';
 import 'package:path/path.dart';
@@ -40,10 +38,4 @@ class DBProvider{
   void _onCreate(Database db, int newVersion) async{
     await db.execute(create_test_table);
   }
-}
-
-abstract class baseProvider<T extends baseModel>{
-  Future<int> upsert(T item, {int is_dirty});
-  Future<List<T>> getAllDirty();
-  Future<bool> updateDirtyFlag(T guid);
 }

@@ -1,16 +1,17 @@
 import '../database_helper.dart';
 import '../../models/vehiclemodel.dart';
+import '../base_providers.dart';
 
 import 'dart:async';
 
-class vehicleProvider implements baseProvider<Vehicle>{
+class VehicleProvider implements SyncBaseProvider<Vehicle>{
 
   static DBProvider _db = DBProvider();
   final database = _db.database;
 
-  vehicleProvider._();
-  static final vehicleProvider _vp = vehicleProvider._(); //singleton
-  factory vehicleProvider() => _vp;
+  VehicleProvider._();
+  static final VehicleProvider _vp = VehicleProvider._(); //singleton
+  factory VehicleProvider() => _vp;
 
   /*-- Interface methods --*/
   @override

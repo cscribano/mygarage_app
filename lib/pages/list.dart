@@ -1,6 +1,5 @@
 import '../blocs/vehicle_bloc.dart';
 import '../models/vehiclemodel.dart';
-import '../blocs/vehicle_bloc.dart';
 import '../widgets/bloc_provider.dart';
 import '../widgets/sync_widgets.dart';
 import '../translations.dart';
