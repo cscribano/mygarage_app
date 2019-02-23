@@ -10,6 +10,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
 
   BuildContext _cxt;
   Synchronizer syncronizer;
+  bool _lock = true;
 
   SyncButton(){
     syncronizer = Synchronizer(delegate: this);
@@ -17,7 +18,7 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
 
   @override
   void onError(){
-    Navigator.pop(_cxt);
+    Navigator.canPop(_cxt) ? Navigator.pop(_cxt) : null;
     Scaffold.of(_cxt).removeCurrentSnackBar();
     Scaffold.of(_cxt).showSnackBar(
       SnackBar(
@@ -25,11 +26,12 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
         backgroundColor: Colors.red[800],
       ),
     );
+    _lock = false;
   }
 
   @override
   void onUnAuth(){
-    Navigator.pop(_cxt);
+    Navigator.canPop(_cxt) ? Navigator.pop(_cxt) : null;
     Scaffold.of(_cxt).removeCurrentSnackBar();
     showDialog(
         context: _cxt,
@@ -49,11 +51,12 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
             ],
           );
         });
+    _lock = false;
   }
 
   @override
   void onSuccess(){
-    Navigator.pop(_cxt);
+    Navigator.canPop(_cxt) ? Navigator.pop(_cxt) : null;
     Scaffold.of(_cxt).removeCurrentSnackBar();
     Scaffold.of(_cxt).showSnackBar(
       SnackBar(
@@ -61,11 +64,11 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
         backgroundColor: Colors.green[800],
       ),
     );
+    _lock = false;
   }
 
   @override
   Widget build(BuildContext context) {
-
 
     final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
     _cxt = context;
@@ -79,10 +82,12 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
             builder: (BuildContext context) {
               return Center(child: CircularProgressIndicator(),);
             });
-        //await Future.delayed(const Duration(seconds: 5));
-        var res = await syncronizer.syncAll();
-        vehicleBloc.getVehicles();
+        if(_lock) {
+          var res = await syncronizer.syncAll();
+          _lock = true;
+        }
         //Navigator.pop(context);
+        vehicleBloc.getVehicles();
       },
     );
   }

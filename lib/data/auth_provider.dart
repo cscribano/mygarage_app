@@ -8,6 +8,10 @@ class UserRepository{
   final RestData api = RestData();
   final storage = new FlutterSecureStorage();
 
+  UserRepository._();
+  static final UserRepository _ur = UserRepository._(); //singleton
+  factory UserRepository() => _ur;
+
   Future<String> authenticate(String username, String password) async {
     return await api.getToken(username, password);
   }

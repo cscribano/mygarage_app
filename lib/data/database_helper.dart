@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-const String create_vehicle_table= """CREATE TABLE Vehicle (
+const String create_vehicle_table = """CREATE TABLE Vehicle (
     guid TEXT PRIMARY KEY,
     test_text TEXT,
     test_num INTEGER,
@@ -12,7 +12,7 @@ const String create_vehicle_table= """CREATE TABLE Vehicle (
     is_deleted BIT
    )""";
 
-const String create_expense_table= """CREATE TABLE Expense (
+const String create_expense_table = """CREATE TABLE Expense (
     guid TEXT PRIMARY KEY,
     vehicle TEXT,
     inner_text TEXT,

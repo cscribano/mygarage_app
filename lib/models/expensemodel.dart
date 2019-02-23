@@ -4,30 +4,31 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'basemodel.dart';
 
-
-class Vehicle extends BaseModel{
+class Expense extends BaseModel{
   String guid;
+  String vehicle;
   int isDeleted;
-  String testText;
-  int testNum;
+  String innerText;
+  int innerNum;
 
-  Vehicle({
+  Expense({
     String key,
     this.guid,
-    this.testText,
-    this.testNum,
+    this.vehicle,
+    this.innerText,
+    this.innerNum,
     this.isDeleted,
   }) : super(key: key);
 
-  Vehicle.create({this.testText,this.testNum,}){
+  Expense.create({this.vehicle, this.innerText,this.innerNum,}){
     var bytes = utf8.encode(Random.secure().nextDouble().toString()); // data being hashed
     var digest = sha1.convert(bytes).toString();
     this.guid = digest;
     this.isDeleted = 0;
   }
 
-
-  factory Vehicle.fromJson(Map<String, dynamic> json){
+  @override
+  factory Expense.fromJson(Map<String, dynamic> json){
 
     int insIsDelete;
     if(json["is_deleted"].runtimeType == bool){
@@ -37,28 +38,32 @@ class Vehicle extends BaseModel{
       insIsDelete = json["is_deleted"]?? 0;
     }
 
-    var ret = Vehicle(
+    var ret = Expense(
         guid: json["guid"],
-        testText: json["test_text"],
-        testNum: json["test_num"],
+        vehicle: json["vehicle"],
+        innerText: json["test_text"],
+        innerNum: json["test_num"],
         isDeleted: insIsDelete
       //dirty??
     );
     return ret;
   }
 
+  @override
   Map<String, dynamic> toJson({@required int dirty}) => {
     "guid": guid,
-    "test_text": testText,
-    "test_num": testNum,
+    "vehicle" : vehicle,
+    "inner_text": innerText,
+    "inner_num": innerNum,
     "is_dirty": dirty,
     "is_deleted": isDeleted
   };
 
   Map<String, dynamic> toJson_API({@required int rev}) => {
     "guid": guid,
-    "test_text": testText,
-    "test_num": testNum.toString(),
+    "vehicle" : vehicle,
+    "test_text": innerText,
+    "test_num": innerNum.toString(),
     "rev_sync": rev.toString(),
     "is_deleted": isDeleted.toString()
   };

@@ -45,23 +45,38 @@ class Synchronizer{
     }
 
     //sync vehicles
-    var ret = await ModelSynchronizer(delegate: delegate, headers: headers, provider: VehicleProvider(), rest_provider: VehicleRestProvider()).syncAll()
+    //this shit calls constructor multiple times -> crash
+    try {
+      var ret = await ModelSynchronizer(delegate: delegate,
+          headers: headers,
+          provider: VehicleProvider(),
+          rest_provider: VehicleRestProvider()).syncAll();
+    }
+    catch(error){
+      print(error);
+      delegate.onError();
+      return;
+    }
+    /*
       .then((value) => delegate.onSuccess())
       .catchError((error) => delegate.onError());
+    */
+    delegate.onSuccess();
+
   }
 }
 
 class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvider> {
 
-
   T _db;
   R _rest;
 
   final RestData _api = RestData();
-  Map<String, String> headers;
+  final Map<String, String> headers;
   final SyncDelegate delegate;
 
-  ModelSynchronizer({@required this.delegate, @required this.headers, @required provider, @required rest_provider}){
+  ModelSynchronizer({@required this.delegate, @required this.headers, @required T provider, @required R rest_provider}){
+    print("--- ENTERING CONSTRUCTOR ----");
     this._db = provider;
     this._rest = rest_provider;
   }
