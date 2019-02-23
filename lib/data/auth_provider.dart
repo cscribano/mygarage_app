@@ -30,7 +30,7 @@ class UserRepository{
     return token; //suspect
   }
 
-  getHeader() async {
+  Future<Map<String,String>> getHeader() async {
     var token =  await storage.read(key: 'token').timeout(const Duration(seconds: 5));
     if(token == null)
       throw UnauthenticatedException();

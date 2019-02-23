@@ -9,7 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-* * Sincronizzazione DELETED
+* Sincronizzazione DELETED (ok, non vengono ancora eliminati gli elementi marcati in locale)
 * creare modello "expense" con foreign key e testare sincronizzazione.
 *
 * fixare crash se si preme sync tante volte in poco tempo (opzioni: singleto, rendere incliccabile finche non finisce)

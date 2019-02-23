@@ -33,7 +33,7 @@ class VehicleProvider implements SyncBaseProvider<Vehicle>{
   @override
   Future<List<Vehicle>> getAllDirty() async {
     final db = await database; //call getter
-    var res = await db.query("Vehicle", where: "is_dirty = ?", whereArgs: [1]);
+    var res = await db.query("Vehicle", where: "is_dirty = ? OR is_deleted = ?", whereArgs: [1, 1]);
     List<Vehicle> list = res.isNotEmpty ? res.map((c) => Vehicle.fromJson(c)).toList() : [];
     return list;
   }
@@ -56,8 +56,14 @@ class VehicleProvider implements SyncBaseProvider<Vehicle>{
 
   Future<List<Vehicle>> getAllVehicles() async {
     final db = await database;
-    var res = await db.query("Vehicle").timeout(const Duration(seconds: 2));
+    var res = await db.query("Vehicle",  where: "is_deleted = ?", whereArgs: [0]).timeout(const Duration(seconds: 2));
     List<Vehicle> list = res.isNotEmpty ? res.map((c) => Vehicle.fromJson(c)).toList() : [];
     return list;
+  }
+
+  markAsDeleted(String guid) async{
+    final db = await database;
+    var ret = await db.update("Vehicle", {'is_deleted': '1'}, where: 'guid = ?', whereArgs: [guid]);
+    return ret;
   }
 }

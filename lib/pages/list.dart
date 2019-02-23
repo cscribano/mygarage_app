@@ -47,6 +47,10 @@ class _MyHomePageState extends State<MyHomePage>{
                   return ListTile(
                     title: Text(item.testText),
                     leading: Text(item.testNum.toString()),
+                    trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () => vehicleBloc.deleteVehicle(item.guid),
+                    ),
                   );
                 },
               );

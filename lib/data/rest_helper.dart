@@ -13,8 +13,8 @@ class RestData{
   };
 
   RestData._(); //private constructor
-  static final RestData _RestData = RestData._(); //singleton
-  factory RestData() => _RestData;
+  static final RestData _restData = RestData._(); //singleton
+  factory RestData() => _restData;
 
   NetworkUtil _netutil = NetworkUtil();
 

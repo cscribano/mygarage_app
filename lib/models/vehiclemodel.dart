@@ -38,6 +38,7 @@ class Vehicle extends BaseModel{
     var bytes = utf8.encode(Random.secure().nextDouble().toString()); // data being hashed
     var digest = sha1.convert(bytes).toString();
     this.guid = digest;
+    this.isDeleted = 0;
   }
 
   factory Vehicle.fromJson(Map<String, dynamic> json){

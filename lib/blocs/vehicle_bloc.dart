@@ -27,6 +27,11 @@ class VehicleBloc implements BlocBase{
     getVehicles();
   }
 
+  void deleteVehicle(String guid) async{
+    await _db.markAsDeleted(guid);
+    getVehicles();
+  }
+
   void addRandom() async{
     //_db.insertRandom();
     Vehicle newVehicle = Vehicle.create(testText: "Hello"+"Helloworld"+Random().nextInt(1000).toString(), testNum: Random().nextInt(10000));
