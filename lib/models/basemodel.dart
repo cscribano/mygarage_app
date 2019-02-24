@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class BaseModel {
-  BaseModel({this.key});
-  String key;
+  BaseModel({this.guid});
   String guid;
 
   factory BaseModel.fromJson(Map<String, dynamic> json) => BaseModel();

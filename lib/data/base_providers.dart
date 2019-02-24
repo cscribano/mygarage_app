@@ -30,7 +30,8 @@ class GenericProvider<T extends BaseModel> implements SyncBaseProvider<T>{
   @override
   Future<List<T>> getAllDirty() async{
     final db = await database; //call getter
-    var res = await db.query(model, where: "is_dirty = ? OR is_deleted = ?", whereArgs: [1, 1]);
+    //var res = await db.query(model, where: "is_dirty = ? OR is_deleted = ?", whereArgs: [1, 1]);
+    var res = await db.query(model, where: "is_dirty = ?", whereArgs: [1]);
     List<T> list = res.isNotEmpty ? res.map((c) =>this.fromJson(c)).toList() : [];
     return list;
   }

@@ -6,18 +6,16 @@ import 'basemodel.dart';
 
 
 class Vehicle extends BaseModel{
-  String guid;
   int isDeleted;
   String testText;
   int testNum;
 
   Vehicle({
-    String key,
-    this.guid,
+    String guid,
     this.testText,
     this.testNum,
     this.isDeleted,
-  }) : super(key: key);
+  }) : super(guid: guid);
 
   Vehicle.create({this.testText,this.testNum,}){
     var bytes = utf8.encode(Random.secure().nextDouble().toString()); // data being hashed

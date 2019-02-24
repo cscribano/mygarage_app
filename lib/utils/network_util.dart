@@ -12,7 +12,7 @@ class NetworkUtil{
 
   Future<dynamic> get(String url, {Map headers}) async {
     http.Response response;
-    response = await http.get(url, headers: headers).timeout(const Duration(seconds: 2));
+    response = await http.get(url, headers: headers).timeout(const Duration(seconds: 5));
 
     final String ret = response.body;
     final int statusCode = response.statusCode;
@@ -27,7 +27,7 @@ class NetworkUtil{
   Future<dynamic> post(String url, {Map headers, body, encoding}) async{
 
     http.Response response;
-    response = await http.post(url, body: body, headers: headers, encoding: encoding).timeout(const Duration(seconds: 2));
+    response = await http.post(url, body: body, headers: headers, encoding: encoding).timeout(const Duration(seconds: 5));
 
     final String ret = response.body;
     final int statusCode = response.statusCode;

@@ -9,14 +9,15 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
+* Sincronizzazione Expense
+* Probabilmente implementare generico anche per REST
+* ----
 * Evitare ri-sincronizzazione di elementi "deleted" ma non "dirty" (il problema è che la funzione getAllDirty restituisce anche i deleted,
 * altrimenti questi non verrebbero sincronizzati). Soluzioni: eliminazione client-side (fare come gestire con modello foreign key?)
 * non considerare più i deleted come dirty (in questo modo possiamo fare safe-delete).
+* OK: il metodo markAsDeleted imposta is_dirty = 1, il medoto getAllDirty restituisce SOLO i dirty (NO is_deleted = 1)
 *
-* Implementare visualizzazione/aggiunta di EXPENSE per ogni VEHICLE
-
-* Probabilmente implementare generico anche per REST
-*
+* Implementare visualizzazione/aggiunta di EXPENSE per ogni VEHICLE (ok)
 *
 * Sincronizzazione DELETED (ok, non vengono ancora eliminati gli elementi marcati in locale)
 * creare modello "expense" con foreign key e testare sincronizzazione.

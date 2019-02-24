@@ -1,12 +1,14 @@
 import '../blocs/vehicle_bloc.dart';
+import '../blocs/expense_bloc.dart';
 import '../models/vehiclemodel.dart';
 import '../widgets/bloc_provider.dart';
 import '../widgets/sync_widgets.dart';
 import '../translations.dart';
-
+import 'expenses_list.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
+
   MyHomePage({Key key}) : super(key: key);
 
   @override
@@ -51,6 +53,14 @@ class _MyHomePageState extends State<MyHomePage>{
                         icon: Icon(Icons.delete),
                         onPressed: () => vehicleBloc.deleteVehicle(item.guid),
                     ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BlocProvider(bloc: ExpenseBloc(vehicle: item.guid), child: VehicleExpenses(),),
+                          ),
+                      );
+                    }
                   );
                 },
               );

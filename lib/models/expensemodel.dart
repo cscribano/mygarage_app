@@ -5,20 +5,19 @@ import 'package:flutter/foundation.dart';
 import 'basemodel.dart';
 
 class Expense extends BaseModel{
-  String guid;
+  //String guid;
   String vehicle;
   int isDeleted;
   String innerText;
   int innerNum;
 
   Expense({
-    String key,
-    this.guid,
+    String guid,
     this.vehicle,
     this.innerText,
     this.innerNum,
     this.isDeleted,
-  }) : super(key: key);
+  }) : super(guid : guid);
 
   Expense.create({this.vehicle, this.innerText,this.innerNum,}){
     var bytes = utf8.encode(Random.secure().nextDouble().toString()); // data being hashed
@@ -41,8 +40,8 @@ class Expense extends BaseModel{
     var ret = Expense(
         guid: json["guid"],
         vehicle: json["vehicle"],
-        innerText: json["test_text"],
-        innerNum: json["test_num"],
+        innerText: json["inner_text"],
+        innerNum: json["inner_num"],
         isDeleted: insIsDelete
       //dirty??
     );

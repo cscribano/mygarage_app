@@ -39,7 +39,7 @@ class Synchronizer{
       delegate.onUnAuth();
       return;
     }
-    catch(error){
+    on Exception catch(error){
       delegate.onError();
       return;
     }
@@ -52,7 +52,7 @@ class Synchronizer{
           provider: VehicleProvider(),
           rest_provider: VehicleRestProvider()).syncAll();
     }
-    catch(error){
+    on Exception catch(error){
       print(error);
       delegate.onError();
       return;
@@ -105,7 +105,7 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
       currentRev = await getRev(); //current client Rev
       print("Client rev: $currentRev");
     }
-    catch(error){
+    on Exception catch(error){
       print(error);
       delegate.onError();
       return;
@@ -118,7 +118,7 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
       serverUpdated = await _rest.getUpdatedItems(auth_headers: headers, revision: currentRev);
       print("Tryng to pull ${serverUpdated.length} elements");
     }
-    catch(error){
+    on Exception catch(error){
       print(error);
       delegate.onError();
       return;
@@ -129,7 +129,7 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
       try{
         _db.upsert(u, is_dirty: 0);
       }
-      catch(error){
+      on Exception catch(error){
         print(error);
         delegate.onError();
         return;
@@ -148,7 +148,7 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
         //update tag
         _db.updateDirtyFlag(u); //set is_dirty = 0 (false)
       }
-      catch (error) {
+      on Exception catch(error){
         print(error);
         delegate.onError();
         return;
@@ -162,7 +162,7 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
       print("Updating client rev to: $newServerRev");
       setRev(newServerRev);
     }
-    catch(error){
+    on Exception catch(error){
       print(error);
       delegate.onError();
       return;

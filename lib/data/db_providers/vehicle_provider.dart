@@ -27,7 +27,7 @@ class VehicleProvider extends GenericProvider<Vehicle>{
 
   markAsDeleted(String guid) async{
     final db = await database;
-    var ret = await db.update("Vehicle", {'is_deleted': '1'}, where: 'guid = ?', whereArgs: [guid]);
+    var ret = await db.update("Vehicle", {'is_deleted': '1', 'is_dirty' : '1'}, where: 'guid = ?', whereArgs: [guid]);
     return ret;
   }
 }
