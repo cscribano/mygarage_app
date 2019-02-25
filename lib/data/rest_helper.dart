@@ -12,6 +12,8 @@ class RestData{
     'get_maxrev' : base_url+'api/updated/',
     'get_vehicles' : base_url+'api/vehicles/',
     'get_updated_vehicles' : base_url+'api/updated_vehicles/',
+    'get_expenses' : base_url+'api/expenses/',
+    'get_updated_expenses' : base_url+'api/updated_expenses/',
   };
 
   RestData._(); //private constructor

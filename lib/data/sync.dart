@@ -1,6 +1,8 @@
 import '../data/rest_helper.dart';
 import '../data/db_providers/vehicle_provider.dart';
+import '../data/db_providers/expense_provider.dart';
 import '../data/rest_providers/vehicle_rest_provider.dart';
+import '../data/rest_providers/expense_rest_provider.dart';
 import '../data/auth_provider.dart';
 import '../models/basemodel.dart';
 import '../exceptions.dart';
@@ -21,8 +23,16 @@ class Synchronizer{
 
   final SyncDelegate delegate;
   final UserRepository _auth = UserRepository();
+  final RestData _api = RestData();
+
 
   Synchronizer({@required this.delegate});
+
+  Future<bool> setRev(int rev) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool b = await prefs.setInt('revision', rev);
+    return b;
+  }
 
   void syncAll() async {
 
@@ -45,12 +55,9 @@ class Synchronizer{
     }
 
     //sync vehicles
-    //this shit calls constructor multiple times -> crash
     try {
-      var ret = await ModelSynchronizer(delegate: delegate,
-          headers: headers,
-          provider: VehicleProvider(),
-          rest_provider: VehicleRestProvider()).syncAll();
+      await ModelSynchronizer(headers: headers,provider: VehicleProvider(), rest_provider: VehicleRestProvider()).syncAll();
+      await ModelSynchronizer(headers: headers, provider: ExpenseProvider(), rest_provider: ExpenseRestProvider()).syncAll();
     }
     on Exception catch(error){
       print(error);
@@ -61,6 +68,20 @@ class Synchronizer{
       .then((value) => delegate.onSuccess())
       .catchError((error) => delegate.onError());
     */
+
+    //Finally update Client revision as global server max__rev
+
+    try {
+      var newServerRev = await _api.getMaxRev(auth_headers: headers); //max(rev) server side
+      print("Updating client rev to: $newServerRev");
+      setRev(newServerRev);
+    }
+    on Exception catch(error){
+      print(error);
+      delegate.onError();
+      return;
+    }
+
     delegate.onSuccess();
 
   }
@@ -76,11 +97,9 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
   T _db;
   R _rest;
 
-  final RestData _api = RestData();
   final Map<String, String> headers;
-  final SyncDelegate delegate;
 
-  ModelSynchronizer({@required this.delegate, @required this.headers, @required T provider, @required R rest_provider}){
+  ModelSynchronizer({@required this.headers, @required T provider, @required R rest_provider}){
     print("--- ENTERING CONSTRUCTOR ----");
     this._db = provider;
     this._rest = rest_provider;
@@ -93,27 +112,22 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
     return rev;
   }
 
-  Future<bool> setRev(int rev) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool b = await prefs.setInt('revision', rev);
-    return b;
-  }
-
   Future<void> syncAll() async {
 
     int serverRev;
     int currentRev;
 
     try{
-      serverRev = await _api.getMaxRev(auth_headers: headers); //max(rev) server side
-      print("Server rev: $serverRev");
+      //getMaxRev is now Model-specific (SyncRestBaseProvider)
+      serverRev = await _rest.getModelMaxRev(auth_headers: headers); //max(rev) server side
+      print("Server MODEL rev: $serverRev");
       currentRev = await getRev(); //current client Rev
       print("Client rev: $currentRev");
     }
     on Exception catch(error){
       print(error);
-      delegate.onError();
-      return;
+      //delegate.onError();
+      rethrow;
     }
 
     //pull...
@@ -125,8 +139,8 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
     }
     on Exception catch(error){
       print(error);
-      delegate.onError();
-      return;
+      //delegate.onError();
+      rethrow;
     }
 
     //try insert or update....
@@ -136,8 +150,8 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
       }
       on Exception catch(error){
         print(error);
-        delegate.onError();
-        return;
+        //delegate.onError();
+        rethrow;
       }
     }
 
@@ -155,23 +169,9 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
       }
       on Exception catch(error){
         print(error);
-        delegate.onError();
-        return;
+        //delegate.onError();
+        rethrow;
       }
     }
-
-    //we shall increase currentRev only if we have pushed
-    //get serverRev back from server and set curREv = serverrev=
-    try {
-      var newServerRev = await _api.getMaxRev(auth_headers: headers); //max(rev) server side
-      print("Updating client rev to: $newServerRev");
-      setRev(newServerRev);
-    }
-    on Exception catch(error){
-      print(error);
-      delegate.onError();
-      return;
-    }
-    //delegate.onSuccess();
   }
 }

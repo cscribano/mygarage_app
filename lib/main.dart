@@ -9,8 +9,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-* Sincronizzazione Expense
-* Probabilmente implementare generico anche per REST
+* markAsDeleted CASCADE su vehicle (valutare eliminazione effettiva da sqlite)
+*
+* Sincronizzazione Expense (0k)
+* Probabilmente implementare generico anche per REST (no)
 * ----
 * Evitare ri-sincronizzazione di elementi "deleted" ma non "dirty" (il problema è che la funzione getAllDirty restituisce anche i deleted,
 * altrimenti questi non verrebbero sincronizzati). Soluzioni: eliminazione client-side (fare come gestire con modello foreign key?)

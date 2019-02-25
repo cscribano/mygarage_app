@@ -61,8 +61,8 @@ class Expense extends BaseModel{
   Map<String, dynamic> toJson_API({@required int rev}) => {
     "guid": guid,
     "vehicle" : vehicle,
-    "test_text": innerText,
-    "test_num": innerNum.toString(),
+    "inner_text": innerText,
+    "inner_num": innerNum.toString(),
     "rev_sync": rev.toString(),
     "is_deleted": isDeleted.toString()
   };

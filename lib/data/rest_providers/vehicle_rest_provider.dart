@@ -30,4 +30,10 @@ class VehicleRestProvider implements SyncRestBaseProvider<Vehicle>{
     List<Vehicle> list = response.isNotEmpty ? response.map<Vehicle>((c) => Vehicle.fromJson(c)).toList() : [];
     return list;
   }
+
+  @override
+  Future<int> getModelMaxRev({Map<String, String> auth_headers}) async {
+    var response = await _netutil.get(_api.urls['get_updated_vehicles'], headers: auth_headers);
+    return response['rev_sync__max']?? 0; //danger?
+  }
 }

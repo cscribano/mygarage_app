@@ -12,6 +12,7 @@ abstract class SyncBaseProvider<T extends BaseModel>{
 abstract class SyncRestBaseProvider<T extends BaseModel>{
   Future<dynamic> upsert(Map<String,String> auth_headers, T newItem, int revision);
   Future<List<T>>getUpdatedItems({Map<String,String> auth_headers, int revision});
+  Future<int> getModelMaxRev({Map<String,String> auth_headers});
 }
 
 
