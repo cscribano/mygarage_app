@@ -22,7 +22,7 @@ const String create_expense_table = """CREATE TABLE Expense (
     FOREIGN KEY(vehicle) REFERENCES Vehicle(guid) ON DELETE CASCADE
    )""";
 
-
+/*Utility class to provide an instance of Database (schema is created if not exists)*/
 class DBProvider{
   DBProvider._(); //private constructor
   static final DBProvider _db = DBProvider._(); //singleton

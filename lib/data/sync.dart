@@ -66,6 +66,11 @@ class Synchronizer{
   }
 }
 
+/*
+* Parameters:
+* _db: any class that implements the SyncBaseProvider interface
+* _rest any class that implements the SyncRestBaseProvider interface
+* */
 class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvider> {
 
   T _db;

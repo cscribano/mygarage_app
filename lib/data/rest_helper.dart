@@ -1,6 +1,7 @@
 import '../utils/network_util.dart';
 import 'dart:async';
 
+/*Provides API endpoints (urls) and perform generic requests*/
 class RestData{
 
   //TODO: logout locale se si riceve 'Unauthorized'
@@ -8,8 +9,9 @@ class RestData{
 
   Map<String, String> urls = {
     'get_token' : base_url+'api-token-auth/',
-    'get_model' : base_url+'api/',
-    'get_updated' : base_url+'api/updated/',
+    'get_maxrev' : base_url+'api/updated/',
+    'get_vehicles' : base_url+'api/vehicles/',
+    'get_updated_vehicles' : base_url+'api/updated_vehicles/',
   };
 
   RestData._(); //private constructor
@@ -19,14 +21,16 @@ class RestData{
   NetworkUtil _netutil = NetworkUtil();
 
   /*-- GET --*/
+  /*Perform login to remote server, returns authentication token*/
   Future<String> getToken(String username, String password) async {
     final auth_headers = {'username': username, 'password': password};
     var response = await _netutil.post(urls['get_token'], body: auth_headers);
     return response['token'];
   }
 
+  /*Calls the max__rev endpoint*/
   getMaxRev({Map<String,String> auth_headers}) async{
-    var response = await _netutil.get(urls['get_updated'], headers: auth_headers);
+    var response = await _netutil.get(urls['get_maxrev'], headers: auth_headers);
     return response['rev_sync__max']?? 0; //danger?
   }
 }
