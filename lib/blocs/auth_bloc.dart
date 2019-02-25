@@ -51,8 +51,9 @@ class AuthBloc implements BlocBase {
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     // TODO: implement dispose
+    await _authStream.stream.drain();
     _authStream.close();
   }
 }

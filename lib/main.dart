@@ -9,11 +9,15 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-* markAsDeleted CASCADE su vehicle (valutare eliminazione effettiva da sqlite)
 *
+* Drawer (opzione Logout, cancella....)
+* Campi veri modelli vehicle, expense
+* Pagina registrazione
+* pagina reset password
+* * ----
+* markAsDeleted CASCADE su vehicle (valutare eliminazione effettiva da sqlite)  (0k, no eliminazione locale per ora
 * Sincronizzazione Expense (0k)
 * Probabilmente implementare generico anche per REST (no)
-* ----
 * Evitare ri-sincronizzazione di elementi "deleted" ma non "dirty" (il problema è che la funzione getAllDirty restituisce anche i deleted,
 * altrimenti questi non verrebbero sincronizzati). Soluzioni: eliminazione client-side (fare come gestire con modello foreign key?)
 * non considerare più i deleted come dirty (in questo modo possiamo fare safe-delete).

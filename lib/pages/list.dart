@@ -1,10 +1,15 @@
+import 'package:mygarage/blocs/auth_bloc.dart';
+
 import '../blocs/vehicle_bloc.dart';
 import '../blocs/expense_bloc.dart';
 import '../models/vehiclemodel.dart';
 import '../widgets/bloc_provider.dart';
-import '../widgets/sync_widgets.dart';
 import '../translations.dart';
 import 'expenses_list.dart';
+
+import '../widgets/sync_widgets.dart';
+import '../widgets/default_drawer.dart';
+
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -71,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage>{
         child: Icon(Icons.plus_one),
           onPressed: vehicleBloc.addRandom,
       ),
+      drawer: BlocProvider(bloc: AuthBloc(), child: DefaultDrawer(),),
     );
   }
 
