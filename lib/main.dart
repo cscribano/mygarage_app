@@ -9,9 +9,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-*
-* Drawer (opzione Logout, cancella....)
-* Campi veri modelli vehicle, expense
+** Campi veri modelli vehicle, expense
+* Drawer (opzione Logout, cancella....) -> Forse usare bloc_provider non è la migliore delle ide...
 * Pagina registrazione
 * pagina reset password
 * * ----

@@ -24,8 +24,8 @@ class NetworkUtil{
     return jsonDecode(ret);
   }
 
-  Future<dynamic> post(String url, {Map headers, body, encoding}) async{
-
+  Future<dynamic> post(String url, {Map headers, Map body, encoding}) async{
+    body.removeWhere((k,v) => (v == null));
     http.Response response;
     response = await http.post(url, body: body, headers: headers, encoding: encoding).timeout(const Duration(seconds: 5));
 
@@ -34,7 +34,7 @@ class NetworkUtil{
 
     if(statusCode < 200 || statusCode >= 400){
       //throw Exception("Error while fetching data: "+statusCode.toString()); //FIX: 20x == not error
-      throw HttpException(httpCode: statusCode);
+      throw HttpException(httpCode: statusCode, error: response.body.toString());
     }
     return jsonDecode(ret);
   }

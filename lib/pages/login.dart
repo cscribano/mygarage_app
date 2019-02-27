@@ -3,12 +3,6 @@ import '../blocs/auth_bloc.dart';
 
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
-
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
 
 class LoginForm extends StatefulWidget {
   final AuthBloc authBloc;
@@ -106,12 +100,19 @@ class _LoginFormState extends State<LoginForm>{
   void dispose() {
     usernameController.dispose();
     passwordController.dispose();
+    _authBloc.dispose();
     super.dispose();
   }
 }
 
-class _LoginPageState extends State<LoginPage>{
+class LoginPage extends StatefulWidget {
+  LoginPage({Key key}) : super(key: key);
 
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage>{
 
   final AuthBloc _authBloc = AuthBloc();
 
@@ -152,6 +153,7 @@ class _LoginPageState extends State<LoginPage>{
                       else if(snapshot.data == AuthState.ERROR){
                         WidgetsBinding.instance.addPostFrameCallback((_){
                           //display error message if ERROR
+                          Scaffold.of(context).removeCurrentSnackBar();
                           Scaffold.of(context).showSnackBar(
                             SnackBar(
                               content: Text(translation.text('login_fail_snack')),

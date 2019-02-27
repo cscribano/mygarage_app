@@ -34,8 +34,8 @@ class VehicleBloc implements BlocBase{
 
   void addRandom() async{
     //_db.insertRandom();
-    Vehicle newVehicle = Vehicle.create(testText: "Hello"+"Helloworld"+Random().nextInt(1000).toString(), testNum: Random().nextInt(10000));
-    await _db.upsert(newVehicle);
+    //Vehicle newVehicle = Vehicle.create(testText: "Hello"+"Helloworld"+Random().nextInt(1000).toString(), testNum: Random().nextInt(10000));
+    //await _db.upsert(newVehicle);
     getVehicles();
   }
 

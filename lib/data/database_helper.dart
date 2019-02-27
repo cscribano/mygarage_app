@@ -6,8 +6,13 @@ import 'package:sqflite/sqflite.dart';
 
 const String create_vehicle_table = """CREATE TABLE Vehicle (
     guid TEXT PRIMARY KEY,
-    test_text TEXT,
-    test_num INTEGER,
+    type TEXT,
+    brand TEXT,
+    model TEXT,
+    fuel TEXT,
+    current_odo TEXT,
+    buy_price REAL,
+    model_year INTEGER,
     is_dirty BIT,
     is_deleted BIT
    )""";
@@ -15,8 +20,13 @@ const String create_vehicle_table = """CREATE TABLE Vehicle (
 const String create_expense_table = """CREATE TABLE Expense (
     guid TEXT PRIMARY KEY,
     vehicle TEXT,
-    inner_text TEXT,
-    inner_num INTEGER,
+    expense_class TEXT,
+    expense_category TEXT,
+    details TEXT,
+    date_paid TEXT,
+    date_to_pay TEXT,
+    cost REAL,
+    paid REAL,
     is_dirty BIT,
     is_deleted BIT,
     FOREIGN KEY(vehicle) REFERENCES Vehicle(guid) ON DELETE CASCADE

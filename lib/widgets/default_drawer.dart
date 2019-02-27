@@ -80,7 +80,6 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
               if(snapshot.hasData && snapshot.data == AuthState.LOGGED_IN) {
                 return LogoutTile();
               }
-              //authBloc.authState(); //sketchy?
               return LoginTile();
             },
           ),

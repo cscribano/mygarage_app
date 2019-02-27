@@ -43,8 +43,8 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
                 itemBuilder: (BuildContext context, int index) {
                   Expense item = snapshot.data[index];
                   return ListTile(
-                      title: Text(item.innerText),
-                      leading: Text(item.innerNum.toString()),
+                      title: Text(item.expenseCategory),
+                      leading: Text(item.cost.toString()),
                   );
                 },
               );

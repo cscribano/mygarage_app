@@ -52,8 +52,8 @@ class _MyHomePageState extends State<MyHomePage>{
                 itemBuilder: (BuildContext context, int index) {
                   Vehicle item = snapshot.data[index];
                   return ListTile(
-                    title: Text(item.testText),
-                    leading: Text(item.testNum.toString()),
+                    title: Text(item.model),
+                    leading: Text(item.buyPrice.toString() + "€"),
                     trailing: IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () => vehicleBloc.deleteVehicle(item.guid),

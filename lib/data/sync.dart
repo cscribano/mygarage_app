@@ -157,9 +157,17 @@ class ModelSynchronizer<T extends SyncBaseProvider, R extends SyncRestBaseProvid
 
     //push...
     //push all dirty elements to server setting sync_rev = serverRev+1
-    List<BaseModel> clientUpdated = await _db.getAllDirty(); //get all is_dirty = 1 (true)
-    print("Tryng to PUSH ${clientUpdated.length} elements");
-    serverRev += 1;
+    List<BaseModel> clientUpdated;
+    try{
+      clientUpdated = await _db.getAllDirty(); //get all is_dirty = 1 (true)
+      print("Tryng to PUSH ${clientUpdated.length} elements");
+      serverRev += 1;
+    }
+    on Exception catch(error){
+      print(error);
+      //delegate.onError();
+      rethrow;
+    }
 
     for(BaseModel u in clientUpdated) {
       try {

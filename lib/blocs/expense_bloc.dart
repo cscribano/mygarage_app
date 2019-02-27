@@ -9,6 +9,10 @@ import 'package:flutter/foundation.dart';
 
 class ExpenseBloc implements BlocBase{
 
+  List<String> EXPENSE_CLASS = ["PAPER", "WORK"];
+  List<String> WORK_CAT = ["ENGINE", "TRANSMISSION", "ROUTINE","TYRE", "BODY", "ELECTRIC", "GLASS", "OTHER"];
+  List<String> PAPER_CAT = ["TAX", "INSURANCE", "TICKET", "PARK", "ACCIDENT", "ACCESSORY", "OTHER"];
+
   StreamController<List<Expense>> _expenseController = StreamController<List<Expense>>.broadcast();
   Sink<List<Expense>> get _inExpense => _expenseController.sink;
   Stream<List<Expense>> get outExpense => _expenseController.stream;
@@ -26,7 +30,8 @@ class ExpenseBloc implements BlocBase{
 
   void addRandom() async{
     //_db.insertRandom();
-    Expense newExpense = Expense.create(vehicle: vehicle, innerText: "Hello"+"Helloworld"+Random().nextInt(1000).toString(), innerNum: Random().nextInt(10000));
+    //Expense newExpense = Expense.create(vehicle: vehicle, innerText: "Hello"+"Helloworld"+Random().nextInt(1000).toString(), innerNum: Random().nextInt(10000));
+    Expense newExpense = Expense.create(vehicle: vehicle, expenseClass: "WORK", expenseCategory: "ENGINE", details:"", dateToPay: DateTime.now(), datePaid: DateTime.now(), cost: Random().nextDouble(), paid: Random().nextDouble());
     await _db.upsert(newExpense);
     getExpenses();
   }
