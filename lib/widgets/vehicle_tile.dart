@@ -3,35 +3,9 @@ import '../blocs/vehicle_bloc.dart';
 import '../blocs/expense_bloc.dart';
 import '../widgets/bloc_provider.dart';
 import '../pages/expenses_list.dart';
+import 'icons.dart';
 
 import 'package:flutter/material.dart';
-
-class VehicleIcons extends StatelessWidget{
-
-  static final String baseIconsPath = "assets/icons/";
-
-  static final Map<String, String> _type2Pic = {
-    "CAR" : "icons8-fiat-500-48.png",
-    "BIKE" : "icons8-motorcycle-48.png",
-    "VAN" : "icons8-van-48.png",
-    "RV" : "icons8-camper-48.png",
-    "AGRO" : "icons8-tractor-48.png",
-    "BOAT" : "icons8-sailing-ship-48.png",
-    "OTHER" : "icons8-rocket-48.png",
-  };
-
-  final String vehicleType;
-  VehicleIcons({this.vehicleType});
-
-  @override
-  Widget build(BuildContext context) {
-    if(_type2Pic.containsKey(vehicleType.toUpperCase())){
-      return Image.asset(baseIconsPath+_type2Pic[vehicleType.toUpperCase()]);
-    }
-    return Image.asset(baseIconsPath+_type2Pic["OTHER"]);
-  }
-
-}
 
 class VehicleTile extends StatelessWidget{
 
@@ -60,7 +34,7 @@ class VehicleTile extends StatelessWidget{
             leading: CircleAvatar(
                 radius: 25.0,
                 backgroundColor: Colors.yellow[300],
-                child: Container(margin: EdgeInsets.all(5.0),child: VehicleIcons(vehicleType: vehicle.type,),)
+                child: Container(margin: EdgeInsets.all(5.0),child: VehicleIcons48(vehicleType: vehicle.type,),)
             ),
             /*trailing: IconButton(
               icon: Icon(Icons.delete),

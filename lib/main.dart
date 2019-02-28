@@ -1,5 +1,7 @@
 import 'pages/login.dart';
 import 'pages/vehicles_list.dart';
+import 'pages/insert_vehicle.dart';
+
 import 'widgets/bloc_provider.dart';
 import 'blocs/vehicle_bloc.dart';
 import 'translations.dart';
@@ -63,7 +65,8 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/Login' : (context) => LoginPage(),
-          '/Home' : (context) => VehiclesList()
+          '/Home' : (context) => VehiclesList(),
+          '/InsertVehicle' : (context) => InsertVehicle(),
         } ,
         home: LoginPage(),
       ),

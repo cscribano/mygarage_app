@@ -8,6 +8,8 @@ import '../translations.dart';
 import '../widgets/sync_widgets.dart';
 import '../widgets/default_drawer.dart';
 
+import 'insert_vehicle.dart';
+
 import 'package:flutter/material.dart';
 
 class VehiclesList extends StatefulWidget {
@@ -57,7 +59,7 @@ class _VehiclesListState extends State<VehiclesList>{
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-          onPressed: vehicleBloc.addRandom,
+          onPressed: () => Navigator.pushNamed(context, '/InsertVehicle'),
       ),
       drawer: BlocProvider(bloc: AuthBloc(), child: DefaultDrawer(highlitedVoice: 2,),),
     );
