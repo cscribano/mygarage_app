@@ -1,5 +1,5 @@
 import 'pages/login.dart';
-import 'pages/list.dart';
+import 'pages/vehicles_list.dart';
 import 'widgets/bloc_provider.dart';
 import 'blocs/vehicle_bloc.dart';
 import 'translations.dart';
@@ -9,11 +9,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-** Campi veri modelli vehicle, expense
-* Drawer (opzione Logout, cancella....) -> Forse usare bloc_provider non è la migliore delle ide...
+* Pagina Inserimento veicolo
+* Pagina dettagli veicolo
 * Pagina registrazione
 * pagina reset password
-* * ----
+* * ---- DONE -----
+* ** Campi veri modelli vehicle, expense
+* Drawer (opzione Logout, cancella....) -> Forse usare bloc_provider non è la migliore delle ide...
 * markAsDeleted CASCADE su vehicle (valutare eliminazione effettiva da sqlite)  (0k, no eliminazione locale per ora
 * Sincronizzazione Expense (0k)
 * Probabilmente implementare generico anche per REST (no)
@@ -61,7 +63,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/Login' : (context) => LoginPage(),
-          '/Home' : (context) => MyHomePage()
+          '/Home' : (context) => VehiclesList()
         } ,
         home: LoginPage(),
       ),

@@ -1,26 +1,24 @@
+import '../widgets/vehicle_tile.dart';
 import 'package:mygarage/blocs/auth_bloc.dart';
-
 import '../blocs/vehicle_bloc.dart';
-import '../blocs/expense_bloc.dart';
 import '../models/vehiclemodel.dart';
 import '../widgets/bloc_provider.dart';
 import '../translations.dart';
-import 'expenses_list.dart';
 
 import '../widgets/sync_widgets.dart';
 import '../widgets/default_drawer.dart';
 
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
+class VehiclesList extends StatefulWidget {
 
-  MyHomePage({Key key}) : super(key: key);
+  VehiclesList({Key key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _VehiclesListState createState() => _VehiclesListState();
 }
 
-class _MyHomePageState extends State<MyHomePage>{
+class _VehiclesListState extends State<VehiclesList>{
 
   @override
   Widget build(BuildContext context) {
@@ -51,32 +49,17 @@ class _MyHomePageState extends State<MyHomePage>{
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   Vehicle item = snapshot.data[index];
-                  return ListTile(
-                    title: Text(item.model),
-                    leading: Text(item.buyPrice.toString() + "€"),
-                    trailing: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () => vehicleBloc.deleteVehicle(item.guid),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BlocProvider(bloc: ExpenseBloc(vehicle: item.guid), child: VehicleExpenses(),),
-                          ),
-                      );
-                    }
-                  );
+                  return VehicleTile(vehicle: item,);
                 },
               );
             }
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.plus_one),
+        child: Icon(Icons.add),
           onPressed: vehicleBloc.addRandom,
       ),
-      drawer: BlocProvider(bloc: AuthBloc(), child: DefaultDrawer(),),
+      drawer: BlocProvider(bloc: AuthBloc(), child: DefaultDrawer(highlitedVoice: 2,),),
     );
   }
 

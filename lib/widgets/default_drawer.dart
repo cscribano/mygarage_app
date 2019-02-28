@@ -3,6 +3,9 @@ import 'package:mygarage/blocs/auth_bloc.dart';
 import 'bloc_provider.dart';
 
 class DefaultDrawer extends StatefulWidget{
+  final int highlitedVoice;
+  DefaultDrawer({this.highlitedVoice});
+
   @override
   State<StatefulWidget> createState() => _DefaultDrawerState();
 }
@@ -31,35 +34,40 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
 
           //Overview
           ListTile(
-            title: Text("Overview", style: TextStyle(color: Colors.black54),),
+            selected: widget.highlitedVoice == 1,
+            title: Text("Overview"),
             leading: Icon(Icons.view_quilt,),
             onTap:null,
           ),
 
           //Garage
           ListTile(
-            title: Text("Vehicles", style: TextStyle(color: Colors.black54),),
+            selected: widget.highlitedVoice == 2,
+            title: Text("Vehicles"),
             leading: Icon(Icons.directions_car),
             onTap:null,
           ),
 
           //Garage
           ListTile(
-            title: Text("Repairs", style: TextStyle(color: Colors.black54),),
+            selected: widget.highlitedVoice == 3,
+            title: Text("Repairs"),
             leading: Icon(Icons.build),
             onTap:null,
           ),
 
           //Payments
           ListTile(
-            title: Text("Payments", style: TextStyle(color: Colors.black54),),
+            selected: widget.highlitedVoice == 4,
+            title: Text("Payments"),
             leading: Icon(Icons.payment),
             onTap:null,
           ),
 
           //Stats
           ListTile(
-            title: Text("Graphs", style: TextStyle(color: Colors.black54),),
+            selected: widget.highlitedVoice == 5,
+            title: Text("Graphs"),
             leading: Icon(Icons.pie_chart),
             onTap:null,
           ),
@@ -68,7 +76,8 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
 
           //Stats
           ListTile(
-            title: Text("Help", style: TextStyle(color: Colors.black54),),
+            selected: widget.highlitedVoice == 6,
+            title: Text("Help"),
             leading: Icon(Icons.help),
             onTap:null,
           ),
@@ -94,7 +103,7 @@ class LogoutTile extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Logout", style: TextStyle(color: Colors.black54),),
+      title: Text("Logout"),
       leading: Icon(Icons.exit_to_app),
       onTap: () => _logutDialog(context),
     );
@@ -136,7 +145,7 @@ class LoginTile extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Login", style: TextStyle(color: Colors.black54),),
+      title: Text("Login"),
       leading: Icon(Icons.exit_to_app),
       onTap: () => Navigator.of(context).pushReplacementNamed("/Login"),
     );

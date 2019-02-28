@@ -10,7 +10,7 @@ const String create_vehicle_table = """CREATE TABLE Vehicle (
     brand TEXT,
     model TEXT,
     fuel TEXT,
-    current_odo TEXT,
+    current_odo INTEGER,
     buy_price REAL,
     model_year INTEGER,
     is_dirty BIT,

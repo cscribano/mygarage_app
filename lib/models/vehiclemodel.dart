@@ -10,7 +10,7 @@ class Vehicle extends BaseModel{
   String model;
   String fuel;
   int currentOdo;
-  int buyPrice;
+  double buyPrice;
   int modelYear;
 
   int isDeleted;
@@ -60,7 +60,7 @@ class Vehicle extends BaseModel{
         model: json["model"],
         fuel: json["fuel"],
         currentOdo: json["current_odo"],
-        buyPrice: json["buy_price"],//.toDouble(),
+        buyPrice: json["buy_price"] != null ? json["buy_price"].toDouble() : null,
         modelYear: json["model_year"],
         isDeleted: insIsDelete
       //dirty??
@@ -86,9 +86,9 @@ class Vehicle extends BaseModel{
     "brand": brand,
     "model": model,
     "fuel": fuel,
-    "current_odo": currentOdo,
-    "buy_price": buyPrice,
-    "model_year": modelYear,
+    "current_odo": currentOdo.toString(),
+    "buy_price": buyPrice.toString(),
+    "model_year": modelYear.toString(),
     "rev_sync": rev.toString(),
     "is_deleted": isDeleted.toString(),
   };
