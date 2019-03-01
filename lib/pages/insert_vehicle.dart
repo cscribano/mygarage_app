@@ -187,7 +187,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       vehicleBloc.addVehicle(_newVehicle);
-      //this.widget.presenter.onCalculateClicked(_weight, _height);
+      Navigator.of(context).pop();
     }
   }
 }

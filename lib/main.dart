@@ -11,12 +11,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-* Pagina Inserimento veicolo
 * Pagina dettagli veicolo
+* Pagina spese
 * Pagina registrazione
 * pagina reset password
 * * ---- DONE -----
 * ** Campi veri modelli vehicle, expense
+* * Pagina Inserimento veicolo
 * Drawer (opzione Logout, cancella....) -> Forse usare bloc_provider non è la migliore delle ide...
 * markAsDeleted CASCADE su vehicle (valutare eliminazione effettiva da sqlite)  (0k, no eliminazione locale per ora
 * Sincronizzazione Expense (0k)

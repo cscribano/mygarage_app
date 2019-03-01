@@ -22,14 +22,33 @@ class VehiclesList extends StatefulWidget {
 
 class _VehiclesListState extends State<VehiclesList>{
 
+  final _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
+    //addPostScaffold("prova", Colors.red);
+    vehicleBloc.outInsert.listen((data){
+        if(data == InsertState.SUCCESS){
+          addPostScaffold("Vehicle succesfully added!", Colors.green[800]);
+        }
+        else{
+          addPostScaffold("Something went wrong inserting the vehicle", Colors.red[800]);
+        }
+        build(context);//trigger widget rebuild
+    },
+      onError: (error) => addPostScaffold("An unknown error happened", Colors.red[800]),
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
     final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
-    final scaffoldKey = new GlobalKey<ScaffoldState>();
 
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
           title: Text(Translations.of(context).text('home_title')),
         actions: <Widget>[
@@ -63,6 +82,10 @@ class _VehiclesListState extends State<VehiclesList>{
       ),
       drawer: BlocProvider(bloc: AuthBloc(), child: DefaultDrawer(highlitedVoice: 2,),),
     );
+  }
+
+  void addPostScaffold(String text, Color color){
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(text), backgroundColor: color,)));
   }
 
 }
