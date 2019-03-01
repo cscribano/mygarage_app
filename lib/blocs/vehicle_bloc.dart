@@ -24,6 +24,7 @@ class VehicleBloc implements BlocBase{
 
   void addVehicle(Vehicle newVehicle){
     _db.upsert(newVehicle);
+    print("INSERITO");
     getVehicles();
   }
 

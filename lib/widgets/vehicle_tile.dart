@@ -12,16 +12,16 @@ class VehicleTile extends StatelessWidget{
   final Vehicle vehicle;
   VehicleTile({this.vehicle});
 
-  String _capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+  String _capitalize(String s) => s[0].toUpperCase() + s.substring(1); //todo: UNSAFE if string is null
 
   @override
   Widget build(BuildContext context) {
     final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
 
     return Card(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
       child: Container(
-        padding: EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
+        padding: EdgeInsets.only(top: 8, bottom: 8, left: 5, right: 5),
         child: ListTile(
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,9 +32,9 @@ class VehicleTile extends StatelessWidget{
             ),
             //leading: Text(vehicle.buyPrice.toString() + "€"),
             leading: CircleAvatar(
-                radius: 25.0,
+                radius: 20.0,
                 backgroundColor: Colors.yellow[300],
-                child: Container(margin: EdgeInsets.all(5.0),child: VehicleIcons48(vehicleType: vehicle.type,),)
+                child: Container(margin: EdgeInsets.all(5.0),child: VehicleIcons48(iconKey: vehicle.type,),)
             ),
             /*trailing: IconButton(
               icon: Icon(Icons.delete),

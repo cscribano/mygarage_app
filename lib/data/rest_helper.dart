@@ -5,7 +5,8 @@ import 'dart:async';
 class RestData{
 
   //TODO: logout locale se si riceve 'Unauthorized'
-  static const String base_url = "http://10.0.2.2:8000/";
+ //static const String base_url = "http://10.0.2.2:8000/";
+  static const String base_url = "http://192.168.18.216:8000/";
 
   Map<String, String> urls = {
     'get_token' : base_url+'api-token-auth/',
