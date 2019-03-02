@@ -1,8 +1,7 @@
 import '../widgets/bloc_provider.dart';
 import '../blocs/expense_bloc.dart';
 import '../models/expensemodel.dart';
-import '../widgets/sync_widgets.dart';
-import '../translations.dart';
+import '../widgets/garage_tiles.dart';
 
 import 'package:flutter/material.dart';
 
@@ -42,17 +41,15 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   Expense item = snapshot.data[index];
-                  return ListTile(
-                      title: Text(item.expenseCategory),
-                      leading: Text(item.cost.toString()),
-                  );
+                  return ExpenseTile(expense: item,);
                 },
               );
             }
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: expenseBloc.addRandom
+        child: Icon(Icons.add),
+        onPressed: expenseBloc.addRandom,
       ),
     );
   }

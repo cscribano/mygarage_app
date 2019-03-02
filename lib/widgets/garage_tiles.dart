@@ -1,14 +1,26 @@
 import '../models/vehiclemodel.dart';
-import '../blocs/expense_bloc.dart';
+import '../models/expensemodel.dart';
 import '../widgets/bloc_provider.dart';
 import '../pages/expenses_list.dart';
 import '../blocs/vehicle_bloc.dart';
+import '../blocs/expense_bloc.dart';
 import '../pages/insert_vehicle.dart';
 import 'icons.dart';
 
 import 'package:flutter/material.dart';
 
-String _capitalize(String s) => s[0].toUpperCase() + s.substring(1); //Unsafe in string is empty
+String _capitalize(String s) => s != "" ? s[0].toUpperCase() + s.substring(1) : "[Missing text]"; //Unsafe in string is empty
+String _dateFormat(DateTime d){
+  return d.day.toString() + "/" + d.month.toString() + "/" + d.year.toString();
+}
+
+void _pushbuilder ({BuildContext context, Widget widget}){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) => widget,
+      ),
+    );
+}
 
 class VehicleTile extends StatelessWidget{
 
@@ -20,41 +32,64 @@ class VehicleTile extends StatelessWidget{
     final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
 
     return MyGarageTile(
-      text: _capitalize(vehicle.brand) + " " +_capitalize(vehicle.model),
-      subtext: "Altre informazioni...",
-      icon: VehicleIcons48(iconKey: vehicle.type,),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BlocProvider(bloc: ExpenseBloc(vehicle: vehicle.guid), child: VehicleExpenses(),),
-          ),
-        );
-      },
+      text: Text(_capitalize(vehicle.brand) + " " +_capitalize(vehicle.model), style: TextStyle(fontWeight: FontWeight.bold,),),
+      subtext: Text("Altre informazioni...",),
+      icon: Icons48(iconKey: vehicle.type,defaultKey: "OTHER_VEHICLE",),
+      onTap: () => _pushbuilder(
+        context: context,
+        widget: BlocProvider(bloc: ExpenseBloc(vehicle: vehicle.guid), child: VehicleExpenses(),),
+      ),
       deleteCallback: () => vehicleBloc.deleteVehicle(vehicle.guid),
-      editCallback: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => InsertVehicle(editVehicle: vehicle,)
-          ),
-        );
-      },
+      editCallback: () => _pushbuilder(
+        context: context,
+        widget: InsertVehicle(editVehicle: vehicle,),
+      ),
     );
   }
 }
 
+class ExpenseTile extends StatelessWidget{
+  final Expense expense;
+  ExpenseTile({Key key, this.expense}) : super(key:key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MyGarageTile(
+      text: Text(_capitalize(expense.details)),
+      icon: Icons48(iconKey: expense.expenseCategory,defaultKey: "OTHER_VEHICLE",),
+      subtext: Text("[Vehicle name here]"), //todo: resolve vehicle name
+      topTrailer: Text(expense.cost.toStringAsFixed(2) + "€"),//todo: prefered currency
+      bottomTrailer: expense.datePaid == null ?
+        Text(_dateFormat(expense.datePaid), style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),) :
+        Text(_dateFormat(expense.dateToPay), style: TextStyle(color: Colors.green),),
+      onTap: null,
+      deleteCallback: null,
+      editCallback: null,
+    );
+  }
+}
 
 class MyGarageTile extends StatelessWidget{
 
   //final Vehicle vehicle;
   final Icon icon;
-  final String text;
-  final String subtext;
+  final Text text;
+  final Text subtext;
+  final Text topTrailer;
+  final Text bottomTrailer;
   final void Function() onTap;
   final void Function() deleteCallback;
   final void Function() editCallback;
-  MyGarageTile({this.text, this.subtext, this.icon, this.onTap, this.deleteCallback, this.editCallback});
+  MyGarageTile({
+    @required this.text,
+    @required this.subtext,
+    @required this.icon,
+    this.topTrailer,
+    this.bottomTrailer,
+    this.onTap,
+    this.deleteCallback,
+    this.editCallback,
+  });
 
   var _tapPosition;
   void _storePosition(TapDownDetails details) {
@@ -124,8 +159,8 @@ class MyGarageTile extends StatelessWidget{
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(text, style: TextStyle(fontWeight: FontWeight.bold,),),
-                Text(subtext),
+                text,
+                subtext
               ],
             ),
             leading: CircleAvatar(
@@ -133,25 +168,17 @@ class MyGarageTile extends StatelessWidget{
               backgroundColor: Colors.yellow[300],
               child: Container(margin: EdgeInsets.all(5.0),child: icon,),
             ),
+            trailing: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                topTrailer,
+                bottomTrailer,
+              ].where((widget) => widget != null).toList(),
+            ),
           ),
         ),
       ),
-
     );
   }
 }
-
-/*
-*   RelativeRect buttonMenuPosition(BuildContext c) {
-    final RenderBox bar = c.findRenderObject();
-    final RenderBox overlay = Overlay.of(c).context.findRenderObject();
-    final RelativeRect position = RelativeRect.fromRect(
-      Rect.fromPoints(
-        bar.localToGlobal(bar.size.center(Offset.zero), ancestor: overlay),
-        bar.localToGlobal(bar.size.center(Offset.zero), ancestor: overlay),
-      ),
-      Offset.zero & overlay.size,
-    );
-    return position;
-  }
-* */

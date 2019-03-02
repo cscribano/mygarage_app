@@ -66,7 +66,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
 
   DropdownFormField typeFormField(Vehicle newVehicle){
     return DropdownFormField(
-      iconProvider: (key) => VehicleIcons24(iconKey: key, color: Colors.black45),
+      iconProvider: (key) => Icons24(iconKey: key, color: Colors.black45,defaultkey: "OTHER_INSERT",),
       values: {
         "CAR" : "Car",
         "BIKE" :"Motorcycle",
@@ -83,7 +83,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
   TextFormField brandFormField(Vehicle newVehicle){
     return TextFormField(
       decoration: InputDecoration(
-        icon: InsertVehicleIcons24(iconKey: "MANUFACTURER", color: Colors.black45),
+        icon: Icons24(iconKey: "MANUFACTURER", color: Colors.black45),
         hintText: 'Enther the vehicle\'s manufacturer',
         //labelText: 'Name',
       ),
@@ -96,7 +96,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
   TextFormField modelFormField(Vehicle newVehicle) {
     return TextFormField(
       decoration: InputDecoration(
-        icon: InsertVehicleIcons24(iconKey: "OTHER", color: Colors.black45),
+        icon: Icons24(iconKey: "OTHER_INSERT", color: Colors.black45),
         hintText: 'Enther the vehicle\'s model',
         //labelText: 'Name',
       ),
@@ -109,7 +109,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
   TextFormField modelYearFormField(Vehicle newVehicle){
     return TextFormField(
       decoration: InputDecoration(
-        icon: InsertVehicleIcons24(iconKey: "DATEYEAR", color: Colors.black45),
+        icon: Icons24(iconKey: "DATEYEAR", color: Colors.black45),
         hintText: 'Enther the vehicle\'s model year',
         //labelText: 'Name',
       ),
@@ -136,7 +136,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
 /*FUEL_CAT = ["GAS", "DIESEL", "EV", "LPG", "METHANE", "HYBRID", "OTHER"]*/
   DropdownFormField fuelFormField(Vehicle newVehicle){
     return DropdownFormField(
-      icon: InsertVehicleIcons24(iconKey: "FUEL", color: Colors.black45),
+      icon: Icons24(iconKey: "FUEL", color: Colors.black45),
       values: {
         "GAS" : "Gasoline",
         "DIESEL" :"Diesel",
@@ -144,7 +144,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
         "LPG" : "Liquid Propane Gas",
         "METHANE" : "Methane",
         "HYBRID" : "Hybrid Vehicle",
-        "OTEHR" : "Other",
+        "OTHER" : "Other",
       },
       onSaved: (val) => newVehicle.fuel = val,
       initialValue: newVehicle.fuel,
@@ -154,7 +154,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
   TextFormField odoFormField(Vehicle newVehicle){
     return TextFormField(
       decoration: InputDecoration(
-        icon: InsertVehicleIcons24(iconKey: "MILES", color: Colors.black45),
+        icon: Icons24(iconKey: "MILES", color: Colors.black45),
         hintText: 'Enther the vehicle\'s current mileage',
         //labelText: 'Name',
       ),
@@ -174,7 +174,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
   TextFormField priceFormField(Vehicle newVehicle){
     return TextFormField(
       decoration: InputDecoration(
-        icon: InsertVehicleIcons24(iconKey: "PRICE", color: Colors.black45),
+        icon: Icons24(iconKey: "PRICE", color: Colors.black45),
         hintText: 'Enther the vehicle\'s buyng price',
         //labelText: 'Name',
       ),

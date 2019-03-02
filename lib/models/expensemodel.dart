@@ -25,7 +25,7 @@ class Expense extends BaseModel{
     String guid,
     this.vehicle ,
     this.expenseCategory,
-    this.expenseClass,
+    this.expenseClass, //["PAPER", "WORK"]
     this.details,
     this.datePaid,
     this.dateToPay,

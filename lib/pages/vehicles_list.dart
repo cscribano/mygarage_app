@@ -1,4 +1,4 @@
-import '../widgets/vehicle_tile.dart';
+import '../widgets/garage_tiles.dart';
 import 'package:mygarage/blocs/auth_bloc.dart';
 import '../blocs/vehicle_bloc.dart';
 import '../models/vehiclemodel.dart';

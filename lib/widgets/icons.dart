@@ -17,14 +17,20 @@ class IconProvider extends Icon{
 
   @override
   Widget build(BuildContext context) {
-      if(type2Pic.containsKey(iconKey.toUpperCase())){
-        return Image.asset(baseIconsPath+type2Pic[iconKey.toUpperCase()], color: color);
-      }
-      return Image.asset(baseIconsPath+type2Pic[defaultKey], color: color);
+    if(type2Pic.containsKey(iconKey.toUpperCase())){
+      return Image.asset(baseIconsPath+type2Pic[iconKey.toUpperCase()], color: color);
+    }
+    try{
+      var ret = Image.asset(baseIconsPath+type2Pic[defaultKey], color: color);
+      return ret;
+    }
+    on Exception {
+      return Icon(Icons.error);
+    }
   }
 }
 
-class VehicleIcons48 extends IconProvider{
+class Icons48 extends IconProvider{
 
   static final String _baseIconsPath = "assets/icons/";
 
@@ -35,14 +41,31 @@ class VehicleIcons48 extends IconProvider{
     "RV" : "icons8-camper-48.png",
     "AGRO" : "icons8-tractor-48.png",
     "BOAT" : "icons8-sailing-ship-48.png",
-    "OTHER" : "icons8-rocket-48.png",
+    "OTHER_VEHICLE" : "icons8-rocket-48.png",
+
+    "ENGINE"  : "icons8-engine-48.png",
+    "MAINT" : "icons8-engine-oil-48.png",
+    "TYRE" : "icons8-wheel-48.png",
+    "BODY" : "icons8-crashed-car-48.png",
+    "ELECTRIC" :"icons8-car-battery-48.png",
+    "GLASS" : "car_door.png",
+    "TUNING" : "icons8-turbocharger-48.png",
+    "OTHER_WORK" : "icons8-maintenance-48.png",
   };
 
   final String iconKey;
-  VehicleIcons48({@required this.iconKey}) : super(baseIconsPath: _baseIconsPath, type2Pic : _type2Pic, iconKey: iconKey, defaultKey : "OTHER");
+  final String defaultKey;
+  Icons48({
+    @required this.iconKey, this.defaultKey
+  }) : super(
+      baseIconsPath: _baseIconsPath,
+      type2Pic : _type2Pic,
+      iconKey: iconKey,
+      defaultKey : defaultKey?? "OTHER"
+  );
 }
 
-class VehicleIcons24 extends IconProvider {
+class Icons24 extends IconProvider {
   static final String _baseIconsPath = "assets/icons/small/";
 
   static final Map<String, String> _type2Pic = {
@@ -53,30 +76,36 @@ class VehicleIcons24 extends IconProvider {
     "AGRO": "icons8-tractor-24.png",
     "BOAT": "icons8-sailing-ship-24.png",
     "OTHER": "icons8-rocket-24.png",
-  };
 
-  final String iconKey;
-  final Color color;
-  VehicleIcons24(
-      {@required this.iconKey, this.color}
-  ) : super(baseIconsPath: _baseIconsPath, type2Pic : _type2Pic, iconKey: iconKey, defaultKey : "OTHER", color: color);
-}
-
-class InsertVehicleIcons24 extends IconProvider {
-  static final String _baseIconsPath = "assets/icons/small/";
-
-  static final Map<String, String> _type2Pic = {
     "MANUFACTURER": "icons8-factory-24.png",
     "DATEYEAR": "icons8-calendar-24.png",
     "FUEL": "icons8-gas-pump-24.png",
     "PRICE": "icons8-price-24.png",
     "MILES": "icons8-road-24.png",
-    "OTHER": "icons8-help-24.png",
+    "OTHER_INSERT": "icons8-help-24.png",
+
+    "ENGINE"  : "icons8-engine-24.png",
+    "MAINT" : "icons8-engine-oil-24.png",
+    "TYRE" : "icons8-wheel-24.png",
+    "BODY" : "icons8-crashed-car-24.png",
+    "ELECTRIC" :"icons8-car-battery-24.png",
+    "GLASS" : "icons8-this-way-up-24",
+    "TUNING" : "icons8-turbocharger-24.png",
+    "OTHER_WORK" : "icons8-support-24.png",
   };
 
   final String iconKey;
   final Color color;
-  InsertVehicleIcons24(
-      {@required this.iconKey, this.color}
-      ) : super(baseIconsPath: _baseIconsPath, type2Pic : _type2Pic, iconKey: iconKey, defaultKey : "OTHER", color: color);
+  final String defaultkey;
+  Icons24({
+    @required this.iconKey,
+    this.color,
+    this.defaultkey
+  }) : super(
+      baseIconsPath: _baseIconsPath,
+      type2Pic : _type2Pic,
+      iconKey: iconKey,
+      defaultKey : defaultkey?? "OTHER",
+      color: color
+  );
 }
