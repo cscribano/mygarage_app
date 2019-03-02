@@ -8,7 +8,8 @@ class DropdownFormField extends StatefulWidget{
   final FormFieldValidator validator;
   final IconProvider Function(String key) iconProvider;
   final Icon icon;
-  DropdownFormField({key, this.values, this.onSaved, this.validator, this.iconProvider, this.icon}) : super(key:key);
+  String initialValue;
+  DropdownFormField({key, this.values, this.onSaved, this.validator, this.iconProvider, this.icon, this.initialValue}) : super(key:key);
 
   @override
   State<StatefulWidget> createState() => _DropdownFormFieldState();
@@ -20,7 +21,7 @@ class _DropdownFormFieldState extends State<DropdownFormField>{
 
   @override
   void initState() {
-    _currentValue = widget.values.keys.first;
+    _currentValue = widget.initialValue == null ? widget.values.keys.first : widget.initialValue;
     super.initState();
   }
 

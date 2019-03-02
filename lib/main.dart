@@ -11,8 +11,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
+* Modificare insert form per modifica veicolo esistente (initial value...)
+* Expense/Payment Tile (generic tile?)
+* menu a tendina long press (elimina...)
 * Pagina dettagli veicolo
-* Pagina spese
+* Pagina principale (overview)
+* Pagina pagament/Interventi + aggiunta spesa/intervento
 * Pagina registrazione
 * pagina reset password
 * * ---- DONE -----
