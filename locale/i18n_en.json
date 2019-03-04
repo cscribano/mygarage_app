@@ -1,7 +1,7 @@
 {
   "main_title" : "Flutter Application",
 
-  "unknown_error_snack" : "An unknown error occourred",
+  "unknown_error_snack" : "An unknown error occurred",
   "ok_btn" : "OK",
   "login_btn" : "Login",
 
@@ -10,7 +10,7 @@
   "sync_ok_snack" : "All data synchronized!",
   "sync_btn_tootlip" : "Synchronize",
 
-  "home_title" : "Flutter SQLite",
+  "home_title" : "My Garage [BETA]",
 
   "login_title" : "Login",
   "login_fail_snack" : "Login failed, please retry.",
@@ -20,5 +20,70 @@
   "username_hint" : "My Username",
   "username_text" : "Username",
   "password_hint" : "Password",
-  "password_text" : "Enter your password"
+  "password_text" : "Enter your password",
+
+  "vehicle_snack_added" : "Vehicle successfully added!",
+  "vehicle_snack_fail" : "Something went wrong inserting the vehicle",
+  "vehicle_snack_unknown" : "An unknown error happened",
+
+  "drawer_user_anonymous" : "Anonymous",
+  "drawer_user_unlogged" : "You are currently not logged in",
+  "drawer_entry_overview" : "Overview",
+  "drawer_entry_vehicles" : "Vehicles",
+  "drawer_entry_repairs" : "Repairs",
+  "drawer_entries_payments" : "Expenses",
+  "drawer_entry_stats" : "Graphs",
+  "drawer_entry_help" : "Help",
+  "drawer_entry_login" : "Login",
+  "drawer_entry_logout" : "Logout",
+
+  "logout_alert_title" : "Logout",
+  "logout_alert_body" : "Are you sure to log out?",
+  "logout_alert_yes" : "Yes",
+  "logout_alert_no" : "No",
+
+  "tile_empty_text" : "[Missing data]",
+  "tile_empty_num" : "[NaN]",
+
+  "tile_menu_delete" : "Delete",
+  "tile_menu_Edit" : "Edit",
+
+  "delete_alert_title" : "Delete",
+  "delete_alert_body" : "Are you sure you want to delete this item?",
+  "delete_alert_yes" : "Yes",
+  "delete_alert_no" : "No",
+
+  "vehicle_type_car" : "Car",
+  "vehicle_type_bike" : "Motorcycle",
+  "vehicle_type_van" : "Van",
+  "vehicle_type_rv" :  "Recreational Vehicle",
+  "vehicle_type_agro" : "Agricultural Vehicle",
+  "vehicle_type_other" : "Other",
+
+  "vehicle_fuel_gas" : "Gasoline",
+  "vehicle_fuel_diesel" : "Diesel",
+  "vehicle_fuel_ev" : "Electric Vehicle",
+  "vehicle_fuel_lpg" : "Liquid Propane Gas",
+  "vehicle_fuel_methane" : "Methane",
+  "vehicle_fuel_hybrid" : "Hybrid Vehicle",
+  "vehicle_fuel_other" : "Other",
+
+  "vehicle_insert_title" : "Insert a new Vehicle",
+  "vehicle_edit_title" : "Edit this Vehicle",
+
+  "vehicle_insert_submit_btn" : "Submit",
+
+  "vehicle_insert_hint_manufacturer" : "Enter the vehicle's manufacturer",
+  "vehicle_insert_hint_model" : "Enter the vehicle's model",
+  "vehicle_insert_hint_modelyear" : "Enter the vehicle's model year",
+  "vehicle_insert_hint_mileage" : "Enter the vehicle's current mileage",
+  "vehicle_insert_hint_price" : "Enter the vehicle's buying price",
+
+  "vehicle_insert_invalid_date_integer" : "Date must be an integer value!",
+  "vehicle_insert_invalid_date_between" : "Date must be between 1800 and",
+  "vehicle_insert_invalid_date_required" : "This field is required",
+  "vehicle_insert_invalid_mileage_integer" : "Mileage must be an integer value",
+  "vehicle_insert_invalid_price_positive" : "The price must be a positive number",
+  "vehicle_insert_invalid_text_required" : "This field is required",
+  "vehicle_insert_invalid_text_specialchar" : "Special characters are not allowed"
 }

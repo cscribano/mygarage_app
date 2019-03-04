@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mygarage/blocs/auth_bloc.dart';
+import 'package:mygarage/translations.dart';
 import 'bloc_provider.dart';
 
 class DefaultDrawer extends StatefulWidget{
@@ -14,6 +15,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
 
   @override
   Widget build(BuildContext context) {
+    String _translation(String text) => Translations.of(context).text(text);
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
     authBloc.authState();
 
@@ -27,15 +29,15 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
               foregroundColor: Colors.red[800],
               child: Text('A', style: TextStyle(fontSize: 25),),
             ),
-            accountName: Text("Anonymus",style: TextStyle(fontSize: 20),),
-            accountEmail: Text("You are currently not logged in"),
+            accountName: Text(_translation('drawer_user_anonymous'),style: TextStyle(fontSize: 20),),
+            accountEmail: Text(_translation('drawer_user_unlogged')),
             margin: EdgeInsets.only(bottom: 5),
           ),
 
           //Overview
           ListTile(
             selected: widget.highlitedVoice == 1,
-            title: Text("Overview"),
+            title: Text(_translation('drawer_entry_overview')),
             leading: Icon(Icons.view_quilt,),
             onTap:null,
           ),
@@ -43,7 +45,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
           //Garage
           ListTile(
             selected: widget.highlitedVoice == 2,
-            title: Text("Vehicles"),
+            title: Text(_translation('drawer_entry_vehicles')),
             leading: Icon(Icons.directions_car),
             onTap:null,
           ),
@@ -51,7 +53,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
           //Garage
           ListTile(
             selected: widget.highlitedVoice == 3,
-            title: Text("Repairs"),
+            title: Text(_translation('drawer_entry_repairs')),
             leading: Icon(Icons.build),
             onTap:null,
           ),
@@ -59,7 +61,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
           //Payments
           ListTile(
             selected: widget.highlitedVoice == 4,
-            title: Text("Payments"),
+            title: Text(_translation('drawer_entries_payments')),
             leading: Icon(Icons.payment),
             onTap:null,
           ),
@@ -67,7 +69,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
           //Stats
           ListTile(
             selected: widget.highlitedVoice == 5,
-            title: Text("Graphs"),
+            title: Text(_translation('drawer_entry_stats')),
             leading: Icon(Icons.pie_chart),
             onTap:null,
           ),
@@ -77,7 +79,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
           //Stats
           ListTile(
             selected: widget.highlitedVoice == 6,
-            title: Text("Help"),
+            title: Text(_translation('drawer_entry_help')),
             leading: Icon(Icons.help),
             onTap:null,
           ),
@@ -103,7 +105,7 @@ class LogoutTile extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Logout"),
+      title: Text(Translations.of(context).text('drawer_entry_logout')),
       leading: Icon(Icons.exit_to_app),
       onTap: () => _logutDialog(context),
     );
@@ -117,18 +119,18 @@ class LogoutTile extends StatelessWidget{
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: Text("Logout"),
-          content: Text("Are you sure to log out?"),
+          title: Text(Translations.of(context).text('logout_alert_title')),
+          content: Text(Translations.of(context).text('logout_alert_body')),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             FlatButton(
-              child: Text("NO"),
+              child: Text(Translations.of(context).text('logout_alert_no')),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             FlatButton(
-              child: Text("YES"),
+              child: Text(Translations.of(context).text('logout_alert_yes')),
               onPressed: () {
                 authBloc.doLogout();
                 Navigator.of(context).pop();
@@ -145,7 +147,7 @@ class LoginTile extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Login"),
+      title: Text(Translations.of(context).text('drawer_entry_login')),
       leading: Icon(Icons.exit_to_app),
       onTap: () => Navigator.of(context).pushReplacementNamed("/Login"),
     );

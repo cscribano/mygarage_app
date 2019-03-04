@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mygarage/translations.dart';
 import 'dart:core';
 
 import '../widgets/dropdown_form_field.dart';
@@ -21,11 +22,12 @@ class _InsertVehicleState extends State<InsertVehicle>{
 
   @override
   Widget build(BuildContext context) {
+    String _translation(String text) => Translations.of(context).text(text);
     final Vehicle _newVehicle = widget.editVehicle == null ? Vehicle.create() : widget.editVehicle;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Insert Vehicle"),
+        title: Text(Translations.of(context).text('vehicle_insert_title')), //todo: different if we are editing
         actions: <Widget>[
           //SyncButton(),
         ],
@@ -52,7 +54,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
                 Padding(
                   padding: EdgeInsets.only(top: 10.0),
                   child: RaisedButton(
-                    child: const Text('Submit'),
+                    child: Text(Translations.of(context).text('vehicle_insert_submit_btn')),
                     onPressed: () => _submitForm(_newVehicle),
                   ),
                 ),
@@ -68,12 +70,12 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return DropdownFormField(
       iconProvider: (key) => Icons24(iconKey: key, color: Colors.black45,defaultkey: "OTHER_INSERT",),
       values: {
-        "CAR" : "Car",
-        "BIKE" :"Motorcycle",
-        "VAN" : "Van",
-        "RV" : "Recreational Vehicle",
-        "AGRO" : "Agricultural Vehicle",
-        "OTHER" : "Other",
+        "CAR" : Translations.of(context).text('vehicle_type_car'),
+        "BIKE" :Translations.of(context).text('vehicle_type_bike'),
+        "VAN" : Translations.of(context).text('vehicle_type_van'),
+        "RV" : Translations.of(context).text('vehicle_type_rv'),
+        "AGRO" : Translations.of(context).text('vehicle_type_agro'),
+        "OTHER" : Translations.of(context).text('vehicle_type_other'),
       },
       initialValue: newVehicle.type,
       onSaved: (val) => newVehicle.type = val,
@@ -84,7 +86,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "MANUFACTURER", color: Colors.black45),
-        hintText: 'Enther the vehicle\'s manufacturer',
+        hintText: Translations.of(context).text('vehicle_insert_hint_manufacturer'),
         //labelText: 'Name',
       ),
       validator:textValidator,
@@ -97,7 +99,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "OTHER_INSERT", color: Colors.black45),
-        hintText: 'Enther the vehicle\'s model',
+        hintText: Translations.of(context).text('vehicle_insert_hint_model'),
         //labelText: 'Name',
       ),
       validator:textValidator,
@@ -110,19 +112,19 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "DATEYEAR", color: Colors.black45),
-        hintText: 'Enther the vehicle\'s model year',
+        hintText: Translations.of(context).text('vehicle_insert_hint_model'),
         //labelText: 'Name',
       ),
       validator: (value){
         if(double.tryParse(value) != null){
           if(double.tryParse(value)%1 != 0){
-            return("Date must be an integer value!");
+            return(Translations.of(context).text('vehicle_insert_invalid_date_integer'));
           }
           if(int.tryParse(value) < 1800 || int.tryParse(value) > DateTime.now().year){
-            return("Date must be between 1800 and $DateTime.now().year");
+            return(Translations.of(context).text('vehicle_insert_invalid_date_between')+" $DateTime.now().year");
           }
           if (value.length == 0) {
-            return ('This field is required');
+            return (Translations.of(context).text('vehicle_insert_invalid_date_required'));
           }
         }
       },
@@ -138,13 +140,13 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return DropdownFormField(
       icon: Icons24(iconKey: "FUEL", color: Colors.black45),
       values: {
-        "GAS" : "Gasoline",
-        "DIESEL" :"Diesel",
-        "EV" : "Elettrict Vehicle",
-        "LPG" : "Liquid Propane Gas",
-        "METHANE" : "Methane",
-        "HYBRID" : "Hybrid Vehicle",
-        "OTHER" : "Other",
+        "GAS" : Translations.of(context).text('vehicle_fuel_gas'),
+        "DIESEL" :Translations.of(context).text('vehicle_fuel_diesel'),
+        "EV" : Translations.of(context).text('vehicle_fuel_ev'),
+        "LPG" : Translations.of(context).text('vehicle_fuel_lpg'),
+        "METHANE" : Translations.of(context).text('vehicle_fuel_methane'),
+        "HYBRID" : Translations.of(context).text('vehicle_fuel_hybrid'),
+        "OTHER" : Translations.of(context).text('vehicle_fuel_other'),
       },
       onSaved: (val) => newVehicle.fuel = val,
       initialValue: newVehicle.fuel,
@@ -155,14 +157,14 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "MILES", color: Colors.black45),
-        hintText: 'Enther the vehicle\'s current mileage',
+        hintText: Translations.of(context).text('vehicle_insert_hint_mileage'),
         //labelText: 'Name',
       ),
       onSaved: (val) => newVehicle.currentOdo = int.tryParse(val),
       validator: (val){
         if(double.tryParse(val) != null){
           if(double.parse(val)%1 != 0){
-            return("Mileage must be an integer value");
+            return(Translations.of(context).text('vehicle_insert_invalid_mileage_integer'));
           }
         }
       },
@@ -175,13 +177,13 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "PRICE", color: Colors.black45),
-        hintText: 'Enther the vehicle\'s buyng price',
+        hintText: Translations.of(context).text('vehicle_insert_hint_price'),
         //labelText: 'Name',
       ),
       onSaved: (val) => newVehicle.buyPrice = double.tryParse(val),
       validator: (val){
         if(double.tryParse(val) != null){
-          return double.parse(val) < 0 ? "The price must be a positive number" : null;
+          return double.parse(val) < 0 ? Translations.of(context).text('vehicle_insert_invalid_price_positive') : null;
         }
       },
       keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
@@ -191,10 +193,10 @@ class _InsertVehicleState extends State<InsertVehicle>{
 
    String textValidator(String value){
      if (value.length == 0) {
-       return ('This field is required');
+       return (Translations.of(context).text('vehicle_insert_invalid_text_required'));
      }
      if(!RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value)){ //todo:allow space but not space only
-       return ('Special characters are not allowed');
+       return (Translations.of(context).text('vehicle_insert_invalid_text_specialchar'));
      }
    }
 

@@ -1,3 +1,5 @@
+import 'package:mygarage/translations.dart';
+
 import '../models/vehiclemodel.dart';
 import '../models/expensemodel.dart';
 import '../widgets/bloc_provider.dart';
@@ -107,11 +109,11 @@ class MyGarageTile extends StatelessWidget{
       items: <PopupMenuEntry>[
         PopupMenuItem(
           value: () =>_showDeleteDialog(context),
-          child: Text("Delete"),
+          child: Text(Translations.of(context).text('tile_menu_delete')),
         ),
         PopupMenuItem(
           value: editCallback,
-          child: Text("Edit"),//this._index,
+          child: Text(Translations.of(context).text('tile_menu_Edit')),//this._index,
         )
       ],
       context: context,
@@ -123,15 +125,15 @@ class MyGarageTile extends StatelessWidget{
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Delete"),
-            content: Text("Are you sure you want to delete this item?"),
+            title: Text(Translations.of(context).text('delete_alert_title')),
+            content: Text(Translations.of(context).text('delete_alert_body')),
             actions: <Widget>[
               FlatButton(
-                child: Text("No"),
+                child: Text(Translations.of(context).text('delete_alert_no')),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               FlatButton(
-                child: Text("Yes"),
+                child: Text(Translations.of(context).text('delete_alert_yes')),
                 onPressed: (){
                   deleteCallback();
                   Navigator.of(context).pop();

@@ -30,14 +30,14 @@ class _VehiclesListState extends State<VehiclesList>{
     //addPostScaffold("prova", Colors.red);
     vehicleBloc.outInsert.listen((data){
         if(data == InsertState.SUCCESS){
-          addPostScaffold("Vehicle succesfully added!", Colors.green[800]);
+          addPostScaffold(Translations.of(context).text('vehicle_snack_added'), Colors.green[800]);
         }
         else{
-          addPostScaffold("Something went wrong inserting the vehicle", Colors.red[800]);
+          addPostScaffold(Translations.of(context).text('vehicle_snack_fail'), Colors.red[800]);
         }
         build(context);//trigger widget rebuild
     },
-      onError: (error) => addPostScaffold("An unknown error happened", Colors.red[800]),
+      onError: (error) => addPostScaffold(Translations.of(context).text('vehicle_snack_unknown'), Colors.red[800]),
     );
     super.initState();
   }
