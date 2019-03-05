@@ -9,11 +9,6 @@ import 'package:flutter/foundation.dart';
 
 class ExpenseBloc implements BlocBase{
 
-/*  List<String> EXPENSE_CLASS = ["PAPER", "WORK"];
-  List<String> WORK_CAT = ["ENGINE", "TRANSMISSION", "ROUTINE","TYRE", "BODY", "ELECTRIC", "GLASS", "OTHER"];
-  List<String> PAPER_CAT = ["TAX", "INSURANCE", "TICKET", "PARK", "ACCIDENT", "ACCESSORY", "OTHER"];
-  */
-
   StreamController<List<Expense>> _expenseController = StreamController<List<Expense>>.broadcast();
   Sink<List<Expense>> get _inExpense => _expenseController.sink;
   Stream<List<Expense>> get outExpense => _expenseController.stream;

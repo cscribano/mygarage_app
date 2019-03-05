@@ -1,16 +1,13 @@
 import '../translations.dart';
 import '../blocs/auth_bloc.dart';
+import '../widgets/bloc_provider.dart';
 
 import 'package:flutter/material.dart';
 
 
 class LoginForm extends StatefulWidget {
-  final AuthBloc authBloc;
 
-  LoginForm({
-    Key key,
-    @required this.authBloc,
-  }) : super(key: key);
+  LoginForm({Key key,}) : super(key: key);
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -18,34 +15,43 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm>{
 
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  AuthBloc get _authBloc => widget.authBloc;
+  String _username;
+  String _password;
 
   @override
   Widget build(BuildContext context) {
 
     var translation = Translations.of(context);
+    final _authBloc = BlocProvider.of<AuthBloc>(context);
+    final _formKey = GlobalKey<FormState>();
 
     return Form(
+      key: _formKey,
       child: ListView(
         children: <Widget>[
           //Username field
           TextFormField(
-              controller: usernameController,
+              //controller: usernameController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                   hintText: translation.text('username_hint'),
-                  labelText: translation.text('username_text'))),
+                  labelText: translation.text('username_text')
+              ),
+            validator: null,
+            onSaved: (val) => _username = val,
+          ),
 
           //text field
           TextFormField(
-              controller: passwordController,
+              //controller: passwordController,
               obscureText: true, // Use secure text for passwords.
               decoration: InputDecoration(
                   hintText: translation.text('password_hint'),
-                  labelText: translation.text('password_text'))),
+                  labelText: translation.text('password_text')
+              ),
+            validator: null,
+            onSaved: (val) => _password = val,
+          ),
 
           //Login Button
           Container(
@@ -55,7 +61,12 @@ class _LoginFormState extends State<LoginForm>{
                 translation.text('login_btn'),
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () => _authBloc.doLogin(usernameController.text, passwordController.text),//null,
+              onPressed: (){
+                if(_formKey.currentState.validate()){
+                  _formKey.currentState.save();
+                  _authBloc.doLogin(_username, _password);//null,
+                }
+              },
               color: Colors.red,
             ),
             margin: EdgeInsets.only(top: 20.0),
@@ -72,19 +83,19 @@ class _LoginFormState extends State<LoginForm>{
           //Dont' have an account....
           Container(
             padding: EdgeInsets.only(top: 5),
-            child:new Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 GestureDetector(
-                  child: new Text(translation.text('no_account_text'),
-                      style: new TextStyle(color: Color(0xFF2E3233))),
+                  child:  Text(translation.text('no_account_text'),
+                      style:  TextStyle(color: Color(0xFF2E3233))),
                   onTap: () {},
                 ),
                 GestureDetector(
                     onTap: (){},
-                    child: new Text(
+                    child:  Text(
                       translation.text('register_gesture'),
-                      style: new TextStyle(
+                      style:  TextStyle(
                           color: Color(0xFF84A2AF), fontWeight: FontWeight.bold),
                     ))
               ],
@@ -98,9 +109,6 @@ class _LoginFormState extends State<LoginForm>{
 
   @override
   void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
-    _authBloc.dispose();
     super.dispose();
   }
 }
@@ -114,11 +122,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>{
 
-  final AuthBloc _authBloc = AuthBloc();
+  final _authBloc = AuthBloc();
 
   @override
   Widget build(BuildContext context) {
-
     var translation = Translations.of(context);
 
     // TODO: implement build
@@ -147,9 +154,13 @@ class _LoginPageState extends State<LoginPage>{
                         WidgetsBinding.instance.addPostFrameCallback((_){
                           //Go to home if logged in
                           Navigator.of(context).canPop() ? Navigator.of(context).pop() : Navigator.of(context).pushReplacementNamed('/Home');
+                          return CircularProgressIndicator();
                         });
                       }
-                      //ERROR
+                      //LOGGED OUT
+                      else if(snapshot.data == AuthState.LOGGED_OUT) { //ERROR
+                        return BlocProvider(bloc: _authBloc, child: LoginForm(),);
+                      }
                       else if(snapshot.data == AuthState.ERROR){
                         WidgetsBinding.instance.addPostFrameCallback((_){
                           //display error message if ERROR
@@ -161,6 +172,7 @@ class _LoginPageState extends State<LoginPage>{
                             ),
                           );
                         });
+                        return BlocProvider(bloc: _authBloc, child: LoginForm(),);
                       }
                     }
                     //error is present in the stream
@@ -168,14 +180,12 @@ class _LoginPageState extends State<LoginPage>{
                       return Text(snapshot.error);
                     }
                     //Data is not present in the stream
-                    else{
+/*                    else{
                       _authBloc.authState();
-                      return CircularProgressIndicator();
-                    }
+                    }*/
+                    //None of the previous returned
+                    return CircularProgressIndicator();
                     //none of the previous returned
-                    return LoginForm(
-                      authBloc: _authBloc,
-                    );
                   },
                 ),
               ),
@@ -191,5 +201,4 @@ class _LoginPageState extends State<LoginPage>{
     _authBloc.dispose();
     super.dispose();
   }
-
 }

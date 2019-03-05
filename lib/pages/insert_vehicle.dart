@@ -19,15 +19,22 @@ class InsertVehicle extends StatefulWidget{
 class _InsertVehicleState extends State<InsertVehicle>{
 
   final _formKey = GlobalKey<FormState>();
+  Translations translation;
+
+  @override
+  void initState() {
+    translation = Translations.of(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    String _translation(String text) => Translations.of(context).text(text);
+    String _translation(String text) => translation.text(text);
     final Vehicle _newVehicle = widget.editVehicle == null ? Vehicle.create() : widget.editVehicle;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(Translations.of(context).text('vehicle_insert_title')), //todo: different if we are editing
+        title: Text(translation.text('vehicle_insert_title')), //todo: different if we are editing
         actions: <Widget>[
           //SyncButton(),
         ],
@@ -54,7 +61,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
                 Padding(
                   padding: EdgeInsets.only(top: 10.0),
                   child: RaisedButton(
-                    child: Text(Translations.of(context).text('vehicle_insert_submit_btn')),
+                    child: Text(translation.text('vehicle_insert_submit_btn')),
                     onPressed: () => _submitForm(_newVehicle),
                   ),
                 ),
@@ -70,12 +77,12 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return DropdownFormField(
       iconProvider: (key) => Icons24(iconKey: key, color: Colors.black45,defaultkey: "OTHER_INSERT",),
       values: {
-        "CAR" : Translations.of(context).text('vehicle_type_car'),
-        "BIKE" :Translations.of(context).text('vehicle_type_bike'),
-        "VAN" : Translations.of(context).text('vehicle_type_van'),
-        "RV" : Translations.of(context).text('vehicle_type_rv'),
-        "AGRO" : Translations.of(context).text('vehicle_type_agro'),
-        "OTHER" : Translations.of(context).text('vehicle_type_other'),
+        "CAR" : translation.text('vehicle_type_car'),
+        "BIKE" :translation.text('vehicle_type_bike'),
+        "VAN" : translation.text('vehicle_type_van'),
+        "RV" : translation.text('vehicle_type_rv'),
+        "AGRO" : translation.text('vehicle_type_agro'),
+        "OTHER" : translation.text('vehicle_type_other'),
       },
       initialValue: newVehicle.type,
       onSaved: (val) => newVehicle.type = val,
@@ -86,7 +93,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "MANUFACTURER", color: Colors.black45),
-        hintText: Translations.of(context).text('vehicle_insert_hint_manufacturer'),
+        hintText: translation.text('vehicle_insert_hint_manufacturer'),
         //labelText: 'Name',
       ),
       validator:textValidator,
@@ -99,7 +106,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "OTHER_INSERT", color: Colors.black45),
-        hintText: Translations.of(context).text('vehicle_insert_hint_model'),
+        hintText: translation.text('vehicle_insert_hint_model'),
         //labelText: 'Name',
       ),
       validator:textValidator,
@@ -112,19 +119,19 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "DATEYEAR", color: Colors.black45),
-        hintText: Translations.of(context).text('vehicle_insert_hint_model'),
+        hintText: translation.text('vehicle_insert_hint_model'),
         //labelText: 'Name',
       ),
       validator: (value){
         if(double.tryParse(value) != null){
           if(double.tryParse(value)%1 != 0){
-            return(Translations.of(context).text('vehicle_insert_invalid_date_integer'));
+            return(translation.text('vehicle_insert_invalid_date_integer'));
           }
           if(int.tryParse(value) < 1800 || int.tryParse(value) > DateTime.now().year){
-            return(Translations.of(context).text('vehicle_insert_invalid_date_between')+" $DateTime.now().year");
+            return(translation.text('vehicle_insert_invalid_date_between')+" $DateTime.now().year");
           }
           if (value.length == 0) {
-            return (Translations.of(context).text('vehicle_insert_invalid_date_required'));
+            return (translation.text('vehicle_insert_invalid_date_required'));
           }
         }
       },
@@ -140,13 +147,13 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return DropdownFormField(
       icon: Icons24(iconKey: "FUEL", color: Colors.black45),
       values: {
-        "GAS" : Translations.of(context).text('vehicle_fuel_gas'),
-        "DIESEL" :Translations.of(context).text('vehicle_fuel_diesel'),
-        "EV" : Translations.of(context).text('vehicle_fuel_ev'),
-        "LPG" : Translations.of(context).text('vehicle_fuel_lpg'),
-        "METHANE" : Translations.of(context).text('vehicle_fuel_methane'),
-        "HYBRID" : Translations.of(context).text('vehicle_fuel_hybrid'),
-        "OTHER" : Translations.of(context).text('vehicle_fuel_other'),
+        "GAS" : translation.text('vehicle_fuel_gas'),
+        "DIESEL" :translation.text('vehicle_fuel_diesel'),
+        "EV" : translation.text('vehicle_fuel_ev'),
+        "LPG" : translation.text('vehicle_fuel_lpg'),
+        "METHANE" : translation.text('vehicle_fuel_methane'),
+        "HYBRID" : translation.text('vehicle_fuel_hybrid'),
+        "OTHER" : translation.text('vehicle_fuel_other'),
       },
       onSaved: (val) => newVehicle.fuel = val,
       initialValue: newVehicle.fuel,
@@ -157,14 +164,14 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "MILES", color: Colors.black45),
-        hintText: Translations.of(context).text('vehicle_insert_hint_mileage'),
+        hintText: translation.text('vehicle_insert_hint_mileage'),
         //labelText: 'Name',
       ),
       onSaved: (val) => newVehicle.currentOdo = int.tryParse(val),
       validator: (val){
         if(double.tryParse(val) != null){
           if(double.parse(val)%1 != 0){
-            return(Translations.of(context).text('vehicle_insert_invalid_mileage_integer'));
+            return(translation.text('vehicle_insert_invalid_mileage_integer'));
           }
         }
       },
@@ -177,13 +184,13 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "PRICE", color: Colors.black45),
-        hintText: Translations.of(context).text('vehicle_insert_hint_price'),
+        hintText: translation.text('vehicle_insert_hint_price'),
         //labelText: 'Name',
       ),
       onSaved: (val) => newVehicle.buyPrice = double.tryParse(val),
       validator: (val){
         if(double.tryParse(val) != null){
-          return double.parse(val) < 0 ? Translations.of(context).text('vehicle_insert_invalid_price_positive') : null;
+          return double.parse(val) < 0 ? translation.text('vehicle_insert_invalid_price_positive') : null;
         }
       },
       keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
@@ -193,10 +200,10 @@ class _InsertVehicleState extends State<InsertVehicle>{
 
    String textValidator(String value){
      if (value.length == 0) {
-       return (Translations.of(context).text('vehicle_insert_invalid_text_required'));
+       return (translation.text('vehicle_insert_invalid_text_required'));
      }
      if(!RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value)){ //todo:allow space but not space only
-       return (Translations.of(context).text('vehicle_insert_invalid_text_specialchar'));
+       return (translation.text('vehicle_insert_invalid_text_specialchar'));
      }
    }
 

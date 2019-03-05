@@ -39,7 +39,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
             selected: widget.highlitedVoice == 1,
             title: Text(_translation('drawer_entry_overview')),
             leading: Icon(Icons.view_quilt,),
-            onTap:null,
+            onTap: () =>  widget.highlitedVoice != 1 ? Navigator.of(context).pushReplacementNamed('/Home') : Navigator.of(context).pop(),
           ),
 
           //Garage
@@ -47,7 +47,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
             selected: widget.highlitedVoice == 2,
             title: Text(_translation('drawer_entry_vehicles')),
             leading: Icon(Icons.directions_car),
-            onTap:null,
+            onTap: () =>  widget.highlitedVoice != 2 ? Navigator.of(context).pushReplacementNamed('/VehicleList') : Navigator.of(context).pop(),
           ),
 
           //Garage

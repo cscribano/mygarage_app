@@ -1,25 +1,28 @@
 import 'pages/login.dart';
 import 'pages/vehicles_list.dart';
 import 'pages/insert_vehicle.dart';
+import 'pages/Overview.dart';
 
 import 'widgets/bloc_provider.dart';
-import 'blocs/vehicle_bloc.dart';
 import 'translations.dart';
+import 'blocs/vehicle_bloc.dart';
+import 'blocs/auth_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-* Modificare insert form per modifica veicolo esistente (initial value...)
-* Expense/Payment Tile (generic tile?)
-* menu a tendina long press (elimina...)
+* Considerare di spostare inserisci/modifica veicolo su bloc, idem per validazione campi inserimento
 * Pagina dettagli veicolo
 * Pagina principale (overview)
 * Pagina pagament/Interventi + aggiunta spesa/intervento
 * Pagina registrazione
 * pagina reset password
 * * ---- DONE -----
+* * Modificare insert form per modifica veicolo esistente (initial value...)
+* Expense/Payment Tile (generic tile?)
+* menu a tendina long press (elimina...)
 * ** Campi veri modelli vehicle, expense
 * * Pagina Inserimento veicolo
 * Drawer (opzione Logout, cancella....) -> Forse usare bloc_provider non è la migliore delle ide...
@@ -70,9 +73,11 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/Login' : (context) => LoginPage(),
-          '/Home' : (context) => VehiclesList(),
+          '/Home' : (context) => Overview(),
+          '/VehicleList' : (context) => VehiclesList(),
           '/InsertVehicle' : (context) => InsertVehicle(),
         } ,
+        //home: LoginPage(),
         home: LoginPage(),
       ),
     );

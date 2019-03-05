@@ -15,15 +15,6 @@ String _capitalize(String s) => s != "" ? s[0].toUpperCase() + s.substring(1) : 
 String _dateFormat(DateTime d){
   return d.day.toString() + "/" + d.month.toString() + "/" + d.year.toString();
 }
-
-void _pushbuilder ({BuildContext context, Widget widget}){
-    Navigator.of(context).push(
-      MaterialPageRoute(
-          builder: (context) => widget,
-      ),
-    );
-}
-
 class VehicleTile extends StatelessWidget{
 
   final Vehicle vehicle;
@@ -37,14 +28,17 @@ class VehicleTile extends StatelessWidget{
       text: Text(_capitalize(vehicle.brand) + " " +_capitalize(vehicle.model), style: TextStyle(fontWeight: FontWeight.bold,),),
       subtext: Text("Altre informazioni...",),
       icon: Icons48(iconKey: vehicle.type,defaultKey: "OTHER_VEHICLE",),
-      onTap: () => _pushbuilder(
-        context: context,
-        widget: BlocProvider(bloc: ExpenseBloc(vehicle: vehicle.guid), child: VehicleExpenses(),),
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => BlocProvider(bloc: ExpenseBloc(vehicle: vehicle.guid), child: VehicleExpenses(),),
+        ),
       ),
       deleteCallback: () => vehicleBloc.deleteVehicle(vehicle.guid),
-      editCallback: () => _pushbuilder(
-        context: context,
-        widget: InsertVehicle(editVehicle: vehicle,),
+      editCallback: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          //builder: (context) => BlocProvider(bloc: VehicleBloc.edit(upsertVehicle: vehicle), child: InsertVehicle(),),
+          builder: (context) => InsertVehicle(editVehicle: vehicle,)
+        ),
       ),
     );
   }
