@@ -25,8 +25,8 @@ class AuthBloc implements BlocBase {
       print(ret);
       _inSink.add(AuthState.LOGGED_IN);
     }
-    catch(error){
-      print(error.toString());
+    on Exception catch(error){
+      print("Auth BLoC: "+error.toString());
       _inSink.add(AuthState.LOGGED_OUT);
     }
   }

@@ -7,6 +7,7 @@ import '../pages/expenses_list.dart';
 import '../blocs/vehicle_bloc.dart';
 import '../blocs/expense_bloc.dart';
 import '../pages/insert_vehicle.dart';
+import '../pages/vehicle_details.dart';
 import 'icons.dart';
 
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class VehicleTile extends StatelessWidget{
       icon: Icons48(iconKey: vehicle.type,defaultKey: "OTHER_VEHICLE",),
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => BlocProvider(bloc: ExpenseBloc(vehicle: vehicle.guid), child: VehicleExpenses(),),
+          builder: (context) => VehicleDetails(vehicle: vehicle,),//BlocProvider(bloc: ExpenseBloc(vehicle: vehicle.guid), child: VehicleExpenses(),),
         ),
       ),
       deleteCallback: () => vehicleBloc.deleteVehicle(vehicle.guid),

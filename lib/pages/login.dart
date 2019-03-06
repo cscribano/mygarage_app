@@ -122,10 +122,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>{
 
-  final _authBloc = AuthBloc();
 
   @override
   Widget build(BuildContext context) {
+    final _authBloc = BlocProvider.of<AuthBloc>(context);
     var translation = Translations.of(context);
 
     // TODO: implement build
@@ -184,6 +184,7 @@ class _LoginPageState extends State<LoginPage>{
                       _authBloc.authState();
                     }*/
                     //None of the previous returned
+                    _authBloc.authState();
                     return CircularProgressIndicator();
                     //none of the previous returned
                   },
@@ -198,7 +199,7 @@ class _LoginPageState extends State<LoginPage>{
 
   @override
   void dispose() {
-    _authBloc.dispose();
+    //_authBloc.dispose();
     super.dispose();
   }
 }

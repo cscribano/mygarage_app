@@ -2,10 +2,16 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mygarage/translations.dart';
 import 'basemodel.dart';
+
+import 'package:flutter/material.dart';
 
 List<String> VEHICLE_CAT = ["CAR", "BIKE", "VAN", "RV", "AGRO", "BOAT","OTHER"];
 List<String> FUEL_CAT = ["GAS", "DIESEL", "EV", "LPG", "METHANE", "OTHER"];
+
+Map<String, String> VehicleToString (BuildContext context) => Map.fromIterable(VEHICLE_CAT, key: (v) => v, value: (v) => Translations.of(context).text('vehicle_type_'+v),);
+Map<String, String> FuelToString(BuildContext context) => Map.fromIterable(FUEL_CAT, key: (v) => v, value: (v) => Translations.of(context).text('vehicle_fuel_'+v),);
 
 class Vehicle extends BaseModel{
   String type;

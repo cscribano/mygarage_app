@@ -75,7 +75,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
   DropdownFormField typeFormField(Vehicle newVehicle){
     return DropdownFormField(
       iconProvider: (key) => Icons24(iconKey: key, color: Colors.black45,defaultkey: "OTHER_INSERT",),
-      values: Map.fromIterable(VEHICLE_CAT, key: (v) => v, value: (v) => translation.text('vehicle_type_'+v),),
+      values: VehicleToString(context),
       initialValue: newVehicle.type,
       onSaved: (val) => newVehicle.type = val,
     );
@@ -138,7 +138,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
   DropdownFormField fuelFormField(Vehicle newVehicle){
     return DropdownFormField(
       icon: Icons24(iconKey: "FUEL", color: Colors.black45),
-      values: Map.fromIterable(FUEL_CAT, key: (v) => v, value: (v) => translation.text('vehicle_fuel_'+v),),
+      values: FuelToString(context),
       onSaved: (val) => newVehicle.fuel = val,
       initialValue: newVehicle.fuel,
     );

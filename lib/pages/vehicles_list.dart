@@ -1,12 +1,13 @@
-import '../widgets/garage_tiles.dart';
-import 'package:mygarage/blocs/auth_bloc.dart';
+import '../blocs/auth_bloc.dart';
 import '../blocs/vehicle_bloc.dart';
 import '../models/vehiclemodel.dart';
-import '../widgets/bloc_provider.dart';
 import '../translations.dart';
 
+import '../widgets/garage_tiles.dart';
+import '../widgets/bloc_provider.dart';
 import '../widgets/sync_widgets.dart';
 import '../widgets/default_drawer.dart';
+import '../widgets/empty_placeholder.dart';
 
 import 'package:flutter/material.dart';
 
@@ -63,6 +64,13 @@ class _VehiclesListState extends State<VehiclesList>{
               else if (!snapshot.hasData){
                 vehicleBloc.getVehicles();
                 return CircularProgressIndicator();
+              }
+              else if(snapshot.hasData && snapshot.data.length == 0){
+                return EmptyPlaceHolder(
+                  image:Image.asset('assets/icons/big/icons8-traffic-jam-filled-96.png', color: Colors.black45,),
+                  fontSize: 20,
+                  text: "Ad a New Expense",
+                );
               }
               return ListView.builder(
                 itemCount: snapshot.data.length,

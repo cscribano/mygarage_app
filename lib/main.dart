@@ -72,13 +72,13 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.red,
         ),
         routes: {
-          '/Login' : (context) => LoginPage(),
+          '/Login' : (context) => BlocProvider(child: LoginPage(), bloc: AuthBloc()),
           '/Home' : (context) => Overview(),
           '/VehicleList' : (context) => VehiclesList(),
           '/InsertVehicle' : (context) => InsertVehicle(),
         } ,
         //home: LoginPage(),
-        home: LoginPage(),
+        home: BlocProvider(child: LoginPage(), bloc: AuthBloc()),
       ),
     );
   }

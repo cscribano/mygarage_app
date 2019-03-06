@@ -2,7 +2,7 @@ import '../widgets/bloc_provider.dart';
 import '../blocs/expense_bloc.dart';
 import '../models/expensemodel.dart';
 import '../widgets/garage_tiles.dart';
-
+import '../widgets/empty_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class VehicleExpenses extends StatefulWidget{
@@ -38,7 +38,11 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
                 return CircularProgressIndicator();
               }
               else if(snapshot.hasData && snapshot.data.length == 0){
-                return Text("No expenses here!");
+                return EmptyPlaceHolder(
+                  image:Image.asset('assets/icons/big/icons8-maintenance-96.png', color: Colors.black45,),
+                  fontSize: 20,
+                  text: "Ad a New Expense",
+                );
               }
               return ListView.builder(
                 itemCount: snapshot.data.length,
