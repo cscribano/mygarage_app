@@ -4,6 +4,9 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'basemodel.dart';
 
+List<String> VEHICLE_CAT = ["CAR", "BIKE", "VAN", "RV", "AGRO", "BOAT","OTHER"];
+List<String> FUEL_CAT = ["GAS", "DIESEL", "EV", "LPG", "METHANE", "OTHER"];
+
 class Vehicle extends BaseModel{
   String type;
   String brand;

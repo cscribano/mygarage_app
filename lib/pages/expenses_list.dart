@@ -37,6 +37,9 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
                 expenseBloc.getExpenses();
                 return CircularProgressIndicator();
               }
+              else if(snapshot.hasData && snapshot.data.length == 0){
+                return Text("No expenses here!");
+              }
               return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {

@@ -23,13 +23,12 @@ class _InsertVehicleState extends State<InsertVehicle>{
 
   @override
   void initState() {
-    translation = Translations.of(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String _translation(String text) => translation.text(text);
+    translation = Translations.of(context);
     final Vehicle _newVehicle = widget.editVehicle == null ? Vehicle.create() : widget.editVehicle;
 
     return Scaffold(
@@ -76,14 +75,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
   DropdownFormField typeFormField(Vehicle newVehicle){
     return DropdownFormField(
       iconProvider: (key) => Icons24(iconKey: key, color: Colors.black45,defaultkey: "OTHER_INSERT",),
-      values: {
-        "CAR" : translation.text('vehicle_type_car'),
-        "BIKE" :translation.text('vehicle_type_bike'),
-        "VAN" : translation.text('vehicle_type_van'),
-        "RV" : translation.text('vehicle_type_rv'),
-        "AGRO" : translation.text('vehicle_type_agro'),
-        "OTHER" : translation.text('vehicle_type_other'),
-      },
+      values: Map.fromIterable(VEHICLE_CAT, key: (v) => v, value: (v) => translation.text('vehicle_type_'+v),),
       initialValue: newVehicle.type,
       onSaved: (val) => newVehicle.type = val,
     );
@@ -146,15 +138,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
   DropdownFormField fuelFormField(Vehicle newVehicle){
     return DropdownFormField(
       icon: Icons24(iconKey: "FUEL", color: Colors.black45),
-      values: {
-        "GAS" : translation.text('vehicle_fuel_gas'),
-        "DIESEL" :translation.text('vehicle_fuel_diesel'),
-        "EV" : translation.text('vehicle_fuel_ev'),
-        "LPG" : translation.text('vehicle_fuel_lpg'),
-        "METHANE" : translation.text('vehicle_fuel_methane'),
-        "HYBRID" : translation.text('vehicle_fuel_hybrid'),
-        "OTHER" : translation.text('vehicle_fuel_other'),
-      },
+      values: Map.fromIterable(FUEL_CAT, key: (v) => v, value: (v) => translation.text('vehicle_fuel_'+v),),
       onSaved: (val) => newVehicle.fuel = val,
       initialValue: newVehicle.fuel,
     );

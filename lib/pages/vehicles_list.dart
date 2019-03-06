@@ -8,8 +8,6 @@ import '../translations.dart';
 import '../widgets/sync_widgets.dart';
 import '../widgets/default_drawer.dart';
 
-import 'insert_vehicle.dart';
-
 import 'package:flutter/material.dart';
 
 class VehiclesList extends StatefulWidget {
