@@ -1,10 +1,11 @@
-import '../widgets/bloc_provider.dart';
-import '../widgets/sync_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:mygarage/translations.dart';
+
 import '../blocs/expense_bloc.dart';
 import '../models/vehiclemodel.dart';
 import '../pages/expenses_list.dart';
-import 'package:flutter/material.dart';
-import 'package:mygarage/translations.dart';
+import '../widgets/bloc_provider.dart';
+import '../widgets/sync_widgets.dart';
 
 class VehicleDetails extends StatefulWidget{
   final Vehicle vehicle;
@@ -27,25 +28,27 @@ class _VehicleDetailsState extends State<VehicleDetails>{
           SyncButton(),
         ],
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            VehicleDetailsBox(vehicle: widget.vehicle,),
-            Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: RaisedButton(
-                child: Text("Show All Expenses"),
-                color: Colors.red,
-                textColor: Colors.white,
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => BlocProvider(bloc: ExpenseBloc(vehicle: widget.vehicle.guid), child: VehicleExpenses(),),
+      body: SingleChildScrollView(
+          child: Center(
+              child: Column(
+                children: <Widget>[
+                  VehicleDetailsBox(vehicle: widget.vehicle,),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: RaisedButton(
+                      child: Text("Show All Expenses"),
+                      color: Colors.red,
+                      textColor: Colors.white,
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(bloc: ExpenseBloc(vehicle: widget.vehicle.guid), child: VehicleExpenses(),),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ],
-        )
+                ],
+              )
+          ),
       ),
       //drawer: BlocProvider(bloc: AuthBloc(), child: DefaultDrawer(highlitedVoice: 1,),),
     );
