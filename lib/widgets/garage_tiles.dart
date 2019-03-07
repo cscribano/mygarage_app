@@ -53,7 +53,7 @@ class ExpenseTile extends StatelessWidget{
   Widget build(BuildContext context) {
     return MyGarageTile(
       text: Text(_capitalize(expense.details)),
-      icon: Icons48(iconKey: expense.expenseCategory,defaultKey: "OTHER_VEHICLE",),
+      icon: Icons48(iconKey: expense.expenseCategory,defaultKey: "OTHER",),
       subtext: Text("[Vehicle name here]"), //todo: resolve vehicle name
       topTrailer: Text(expense.cost.toStringAsFixed(2) + "€"),//todo: prefered currency
       bottomTrailer: expense.datePaid == null ?

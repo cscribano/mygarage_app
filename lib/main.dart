@@ -2,11 +2,16 @@ import 'pages/login.dart';
 import 'pages/vehicles_list.dart';
 import 'pages/insert_vehicle.dart';
 import 'pages/Overview.dart';
+import 'pages/expenses_list.dart';
 
 import 'widgets/bloc_provider.dart';
-import 'translations.dart';
+import 'models/expensemodel.dart';
+
 import 'blocs/vehicle_bloc.dart';
 import 'blocs/auth_bloc.dart';
+import 'blocs/expense_bloc.dart';
+
+import 'translations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -76,7 +81,9 @@ class MyApp extends StatelessWidget {
           '/Home' : (context) => Overview(),
           '/VehicleList' : (context) => VehiclesList(),
           '/InsertVehicle' : (context) => InsertVehicle(),
-        } ,
+          '/Repais' : (context) => BlocProvider(child: VehicleExpenses(drawerEntry: 3,), bloc: ExpenseBloc(expenseType: ExpenseEnum.WORK),),
+          '/Papers' : (context) => BlocProvider(child: VehicleExpenses(drawerEntry: 4,), bloc: ExpenseBloc(expenseType: ExpenseEnum.PAPER),)
+      } ,
         //home: LoginPage(),
         home: BlocProvider(child: LoginPage(), bloc: AuthBloc()),
       ),

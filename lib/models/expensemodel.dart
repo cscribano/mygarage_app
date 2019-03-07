@@ -5,14 +5,34 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'basemodel.dart';
 
+import 'package:mygarage/translations.dart';
+import 'package:flutter/material.dart';
+
 String DateFormat(DateTime date){
   return (date.year.toString()+"-"+date.month.toString()+"-"+date.day.toString());
 }
 
+enum ExpenseEnum {PAPER, WORK, ANY}
+
+List<String> EXPENSE_TYPE = ["PAPER", "WORK"];
+List<String> WORK_CAT = ["ENGINE", "MAINT","TYRE", "BODY", "ELECTRIC", "GLASS", "TUNING","OTHER"];
+List<String> PAPER_CAT = ["TAX", "INSURANCE", "TICKET", "PARK", "ACCIDENT", "ACCESSORY", "OTHER"];
+List<String> EXPENSE_CAT = []..addAll(WORK_CAT)..addAll(PAPER_CAT)..toSet().toList(); //remove duplicates (?)
+
+Map<String, String> ExpenseTypeToString (BuildContext context) =>  Map.fromIterable(
+  EXPENSE_TYPE, key: (v) => v,
+  value: (v) => Translations.of(context).text('expense_type_'+v)
+);
+
+Map<String, String> ExpenseCategoryToString (BuildContext context) =>  Map.fromIterable(
+    EXPENSE_TYPE, key: (v) => v,
+    value: (v) => Translations.of(context).text('expense_category_'+v)
+);
+
 class Expense extends BaseModel{
 
   String vehicle;
-  String expenseClass;
+  String expenseType;
   String expenseCategory;
   String details;
   DateTime datePaid;
@@ -25,7 +45,7 @@ class Expense extends BaseModel{
     String guid,
     this.vehicle ,
     this.expenseCategory,
-    this.expenseClass, //["PAPER", "WORK"]
+    this.expenseType, //["PAPER", "WORK"]
     this.details,
     this.datePaid,
     this.dateToPay,
@@ -36,7 +56,7 @@ class Expense extends BaseModel{
 
   Expense.create({
     this.vehicle,
-    this.expenseClass,
+    this.expenseType,
     this.expenseCategory,
     this.details,
     this.datePaid,
@@ -64,7 +84,7 @@ class Expense extends BaseModel{
     var ret = Expense(
         guid: json["guid"],
         vehicle: json["vehicle"],
-        expenseClass: json["expense_class"],
+        expenseType: json["expense_type"],
         expenseCategory: json["expense_category"],
         details: json["details"],
         datePaid: DateTime.parse(json["date_paid"]),
@@ -81,7 +101,7 @@ class Expense extends BaseModel{
   Map<String, dynamic> toJson({@required int dirty}) => {
     "guid": guid,
     "vehicle" : vehicle,
-    "expense_class" : expenseClass,
+    "expense_type" : expenseType,
     "expense_category": expenseCategory,
     "details": details,
     "date_paid": datePaid.toIso8601String(),
@@ -95,7 +115,7 @@ class Expense extends BaseModel{
   Map<String, dynamic> toJson_API({@required int rev}) => {
     "guid": guid,
     "vehicle" : vehicle,
-    "expense_class" : expenseClass,
+    "expense_type" : expenseType, //warning changed class to type
     "expense_category": expenseCategory,
     "details": details,
     "date_paid": DateFormat(datePaid),

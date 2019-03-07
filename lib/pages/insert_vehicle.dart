@@ -74,7 +74,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
 
   DropdownFormField typeFormField(Vehicle newVehicle){
     return DropdownFormField(
-      iconProvider: (key) => Icons24(iconKey: key, color: Colors.black45,defaultkey: "OTHER_INSERT",),
+      iconProvider: (key) => Icons24(iconKey: key, color: Colors.black45,defaultkey: "OTHER_VEHICLE",),
       values: VehicleToString(context),
       initialValue: newVehicle.type,
       onSaved: (val) => newVehicle.type = val,

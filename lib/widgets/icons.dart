@@ -35,6 +35,7 @@ class Icons48 extends IconProvider{
   static final String _baseIconsPath = "assets/icons/";
 
   static final Map<String, String> _type2Pic = {
+    //Vehicle
     "CAR" : "icons8-fiat-500-48.png",
     "BIKE" : "icons8-motorcycle-48.png",
     "VAN" : "icons8-van-48.png",
@@ -43,6 +44,7 @@ class Icons48 extends IconProvider{
     "BOAT" : "icons8-sailing-ship-48.png",
     "OTHER_VEHICLE" : "icons8-rocket-48.png",
 
+    //Work
     "ENGINE"  : "icons8-engine-48.png",
     "MAINT" : "icons8-engine-oil-48.png",
     "TYRE" : "icons8-wheel-48.png",
@@ -51,6 +53,18 @@ class Icons48 extends IconProvider{
     "GLASS" : "car_door.png",
     "TUNING" : "icons8-turbocharger-48.png",
     "OTHER_WORK" : "icons8-maintenance-48.png",
+
+    //Papers
+    //List<String> PAPER_CAT = ["TAX", "INSURANCE", "TICKET", "PARK", "ACCIDENT", "ACCESSORY", "OTHER"];
+    "TAX" : "icons8-tax-48.png",
+    "INSURANCE" : "icons8-car-insurance-48.png",
+    "TICKET" : "icons8-no-entry-48.png",
+    "PARK" : "icons8-paid-parking-48.png",
+    "ACCIDENT" : "icons8-crashed-car-48.png",
+    "ACCESSORY" : "icons8-tesla-model-x-48.png",
+    "OTHER_PAPER" : "icons8-bill-48.png",
+
+    "OTHER_ANY" : "icons8-help-48.png"
   };
 
   final String iconKey;
@@ -75,7 +89,7 @@ class Icons24 extends IconProvider {
     "RV": "icons8-camper-24.png",
     "AGRO": "icons8-tractor-24.png",
     "BOAT": "icons8-sailing-ship-24.png",
-    "OTHER": "icons8-rocket-24.png",
+    "OTHER_VEHICLE": "icons8-rocket-24.png",
 
     "MANUFACTURER": "icons8-factory-24.png",
     "DATEYEAR": "icons8-calendar-24.png",

@@ -41,7 +41,7 @@ class _VehicleDetailsState extends State<VehicleDetails>{
                       textColor: Colors.white,
                       onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => BlocProvider(bloc: ExpenseBloc(vehicle: widget.vehicle.guid), child: VehicleExpenses(),),
+                          builder: (context) => BlocProvider(bloc: ExpenseBloc(vehicle: widget.vehicle), child: VehicleExpenses(),),
                         ),
                       ),
                     ),

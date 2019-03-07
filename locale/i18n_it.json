@@ -86,5 +86,17 @@
   "vehicle_insert_invalid_mileage_integer" : "Mileage must be an integer value",
   "vehicle_insert_invalid_price_positive" : "The price must be a positive number",
   "vehicle_insert_invalid_text_required" : "This field is required",
-  "vehicle_insert_invalid_text_specialchar" : "Special characters are not allowed"
+  "vehicle_insert_invalid_text_specialchar" : "Special characters are not allowed",
+
+  "expense_type_PAPER" : "Payments",
+  "expense_type_WORK" : "Repairs and Maintenance",
+  
+  "expense_category_ENGINE" : "Engine",
+  "expense_category_MAINT" : "Maintenance",
+  "expense_category_TYRE" : "Tyres",
+  "expense_category_BODY" : "Body Work",
+  "expense_category_ELECTRIC" : "Electric Work",
+  "expense_category_GLASS" : "Glass",
+  "expense_category_TUNING" : "Tuning",
+  "expense_category_OTHER" : "Other"
 }

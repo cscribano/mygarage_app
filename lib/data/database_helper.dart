@@ -20,7 +20,7 @@ const String create_vehicle_table = """CREATE TABLE Vehicle (
 const String create_expense_table = """CREATE TABLE Expense (
     guid TEXT PRIMARY KEY,
     vehicle TEXT,
-    expense_class TEXT,
+    expense_type TEXT,
     expense_category TEXT,
     details TEXT,
     date_paid TEXT,

@@ -13,6 +13,12 @@ class DefaultDrawer extends StatefulWidget{
 
 class _DefaultDrawerState extends State<DefaultDrawer>{
 
+  void pushIfCan({@required BuildContext context, @required int curent, @required String route}){
+    Navigator.of(context).pop();
+    if(widget.highlitedVoice != curent )
+      Navigator.of(context).pushReplacementNamed(route);
+  }
+
   @override
   Widget build(BuildContext context) {
     String _translation(String text) => Translations.of(context).text(text);
@@ -39,7 +45,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
             selected: widget.highlitedVoice == 1,
             title: Text(_translation('drawer_entry_overview')),
             leading: Icon(Icons.view_quilt,),
-            onTap: () =>  widget.highlitedVoice != 1 ? Navigator.of(context).pushReplacementNamed('/Home') : Navigator.of(context).pop(),
+            onTap: () =>  this.pushIfCan(context: context, curent: 1, route: '/Home')
           ),
 
           //Garage
@@ -47,7 +53,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
             selected: widget.highlitedVoice == 2,
             title: Text(_translation('drawer_entry_vehicles')),
             leading: Icon(Icons.directions_car),
-            onTap: () =>  widget.highlitedVoice != 2 ? Navigator.of(context).pushReplacementNamed('/VehicleList') : Navigator.of(context).pop(),
+            onTap: () =>  this.pushIfCan(context: context, curent: 2, route: '/VehicleList')
           ),
 
           //Garage
@@ -55,7 +61,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
             selected: widget.highlitedVoice == 3,
             title: Text(_translation('drawer_entry_repairs')),
             leading: Icon(Icons.build),
-            onTap:null,
+            onTap: () =>  this.pushIfCan(context: context, curent: 3, route: '/Repais')
           ),
 
           //Payments
@@ -63,7 +69,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
             selected: widget.highlitedVoice == 4,
             title: Text(_translation('drawer_entries_payments')),
             leading: Icon(Icons.payment),
-            onTap:null,
+              onTap: () =>  this.pushIfCan(context: context, curent: 4, route: '/Papers')
           ),
 
           //Stats

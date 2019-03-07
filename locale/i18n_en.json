@@ -61,13 +61,13 @@
   "vehicle_type_BOAT" : "Boat",
   "vehicle_type_OTHER" : "Other",
 
-  "vehicle_fuel_gas" : "Gasoline",
-  "vehicle_fuel_diesel" : "Diesel",
-  "vehicle_fuel_ev" : "Electric Vehicle",
-  "vehicle_fuel_lpg" : "Liquid Propane Gas",
-  "vehicle_fuel_methane" : "Methane",
-  "vehicle_fuel_hybrid" : "Hybrid Vehicle",
-  "vehicle_fuel_other" : "Other",
+  "vehicle_fuel_GAS" : "Gasoline",
+  "vehicle_fuel_DIESEL" : "Diesel",
+  "vehicle_fuel_EV" : "Electric Vehicle",
+  "vehicle_fuel_LPG" : "Liquid Propane Gas",
+  "vehicle_fuel_METHANE" : "Methane",
+  "vehicle_fuel_HYBRID" : "Hybrid Vehicle",
+  "vehicle_fuel_OTHER" : "Other",
 
   "vehicle_insert_title" : "Insert a new Vehicle",
   "vehicle_edit_title" : "Edit this Vehicle",
@@ -86,5 +86,17 @@
   "vehicle_insert_invalid_mileage_integer" : "Mileage must be an integer value",
   "vehicle_insert_invalid_price_positive" : "The price must be a positive number",
   "vehicle_insert_invalid_text_required" : "This field is required",
-  "vehicle_insert_invalid_text_specialchar" : "Special characters are not allowed"
+  "vehicle_insert_invalid_text_specialchar" : "Special characters are not allowed",
+
+  "expense_type_PAPER" : "Payments",
+  "expense_type_WORK" : "Repairs and Maintenance",
+
+  "expense_category_ENGINE" : "Engine",
+  "expense_category_MAINT" : "Maintenance",
+  "expense_category_TYRE" : "Tyres",
+  "expense_category_BODY" : "Body Work",
+  "expense_category_ELECTRIC" : "Electric Work",
+  "expense_category_GLASS" : "Glass",
+  "expense_category_TUNING" : "Tuning",
+  "expense_category_OTHER" : "Other"
 }
