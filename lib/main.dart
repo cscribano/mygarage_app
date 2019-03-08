@@ -18,13 +18,20 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-* Considerare di spostare inserisci/modifica veicolo su bloc, idem per validazione campi inserimento
-* Pagina dettagli veicolo
-* Pagina principale (overview)
-* Pagina pagament/Interventi + aggiunta spesa/intervento
+* Limitare lunghezza campi di testo veicolo
+* impostare               overflow: TextOverflow.ellipsis, dove serve (Text)
+* IMPORTANTE Errori database non vengono testati da BLOCs! (e quindi la pagina carica all'infinito)
+* Dividerere spese per priorità scadute -- da pagare (in ordine) -- pagate
+* Aggiungere filtraggio spese per data, tipologia... (Non ordinamento, filtraggio)
+* Menu a tendina scelta visualizzazione spese per veicolo
+* aggiunta spesa/intervento
 * Pagina registrazione
 * pagina reset password
 * * ---- DONE -----
+* * Pagina pagament/Interventi +
+* * Pagina principale (overview) (mockup)
+* * Pagina dettagli veicolo
+* * Considerare di spostare inserisci/modifica veicolo su bloc, idem per validazione campi inserimento (va bene come è )
 * * Modificare insert form per modifica veicolo esistente (initial value...)
 * Expense/Payment Tile (generic tile?)
 * menu a tendina long press (elimina...)
@@ -60,33 +67,36 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      bloc: VehicleBloc(),
-      child: MaterialApp(
-        localizationsDelegates: [
-          const TranslationsDelegate(),
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: [
-          const Locale('en', 'US'), // English
-          const Locale('it', 'IT'), // Italiano
-        ],
-        title:'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-        ),
-        routes: {
-          '/Login' : (context) => BlocProvider(child: LoginPage(), bloc: AuthBloc()),
-          '/Home' : (context) => Overview(),
-          '/VehicleList' : (context) => VehiclesList(),
-          '/InsertVehicle' : (context) => InsertVehicle(),
-          '/Repais' : (context) => BlocProvider(child: VehicleExpenses(drawerEntry: 3,), bloc: ExpenseBloc(expenseType: ExpenseEnum.WORK),),
-          '/Papers' : (context) => BlocProvider(child: VehicleExpenses(drawerEntry: 4,), bloc: ExpenseBloc(expenseType: ExpenseEnum.PAPER),)
-      } ,
-        //home: LoginPage(),
-        home: BlocProvider(child: LoginPage(), bloc: AuthBloc()),
+    return MaterialApp(
+      localizationsDelegates: [
+        const TranslationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'), // English
+        const Locale('it', 'IT'), // Italiano
+      ],
+      title:'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
       ),
+      routes: {
+        '/Login' : (context) => BlocProvider(child: LoginPage(), bloc: AuthBloc()),
+        '/Home' : (context) =>  BlocProvider(child: Overview(), bloc: VehicleBloc(),),
+        '/VehicleList' : (context) => BlocProvider(child: VehiclesList(), bloc: VehicleBloc(),),
+        '/InsertVehicle' : (context) => InsertVehicle(),
+        '/Repais' : (context) => BlocProvider(
+          child: VehicleExpenses(drawerEntry: 3,),
+          bloc: ExpenseBloc(expenseType: ExpenseEnum.WORK),
+        ),
+        '/Papers' : (context) => BlocProvider(
+          child: VehicleExpenses(drawerEntry: 4,),
+          bloc: ExpenseBloc(expenseType: ExpenseEnum.PAPER),
+        )
+      } ,
+      //home: LoginPage(),
+      home: BlocProvider(child: LoginPage(), bloc: AuthBloc()),
     );
   }
 }

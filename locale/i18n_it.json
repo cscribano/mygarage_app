@@ -90,7 +90,8 @@
 
   "expense_type_PAPER" : "Payments",
   "expense_type_WORK" : "Repairs and Maintenance",
-  
+  "expense_type_ANY" : "Any",
+
   "expense_category_ENGINE" : "Engine",
   "expense_category_MAINT" : "Maintenance",
   "expense_category_TYRE" : "Tyres",

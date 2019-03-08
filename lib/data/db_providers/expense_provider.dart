@@ -23,17 +23,9 @@ class ExpenseProvider extends GenericProvider<Expense> {
 
     //Return expenses of one type or any type
     if(type != null){
-      switch (type){
-        case ExpenseEnum.WORK:
-          baseWhere += " AND expense_type = ?";
-          baseArgs.add(EXPENSE_TYPE[1]);
-          break;
-        case ExpenseEnum.PAPER:
-          baseWhere += " AND expense_type = ?";
-          baseArgs.add(EXPENSE_TYPE[0]);
-          break;
-        case ExpenseEnum.ANY:
-          break;
+      if(type != ExpenseEnum.ANY){
+        baseWhere += " AND expense_type = ?";
+        baseArgs.add(eeToString(type));
       }
     }
     var res = await db.query("Expense",  where: baseWhere, whereArgs: baseArgs).timeout(const Duration(seconds: 2));

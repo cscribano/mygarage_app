@@ -20,7 +20,9 @@ class _OverviewState extends State<Overview>{
       appBar: AppBar(
         title: Text(Translations.of(context).text('home_title')),
         actions: <Widget>[
-          SyncButton(),
+          SyncButton(
+            //thenCallback: ...,
+          ),
         ],
       ),
       body: Center(

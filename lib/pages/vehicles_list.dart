@@ -51,7 +51,9 @@ class _VehiclesListState extends State<VehiclesList>{
       appBar: AppBar(
           title: Text(Translations.of(context).text('home_title')),
         actions: <Widget>[
-          SyncButton(),
+          SyncButton(
+            thenCallback: () => vehicleBloc.getVehicles(),
+          ),
         ],
       ),
       body: Center(
@@ -86,7 +88,9 @@ class _VehiclesListState extends State<VehiclesList>{
         child: Icon(Icons.add),
           onPressed: () => Navigator.pushNamed(context, '/InsertVehicle'),
       ),
-      drawer: BlocProvider(bloc: AuthBloc(), child: DefaultDrawer(highlitedVoice: 2,),),
+      //drawer: BlocProvider(bloc: AuthBloc(), child: DefaultDrawer(highlitedVoice: 2,),),
+      drawer: Navigator.of(context).canPop() ? null : BlocProvider(child: DefaultDrawer(highlitedVoice: 2,), bloc: AuthBloc()),
+
     );
   }
 

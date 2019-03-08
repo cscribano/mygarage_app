@@ -26,8 +26,15 @@ class VehicleTile extends StatelessWidget{
     final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
 
     return MyGarageTile(
-      text: Text(_capitalize(vehicle.brand) + " " +_capitalize(vehicle.model), style: TextStyle(fontWeight: FontWeight.bold,),),
-      subtext: Text("Altre informazioni...",),
+      text: Text(
+        _capitalize(vehicle.brand) + " " +_capitalize(vehicle.model),
+        style: TextStyle(fontWeight: FontWeight.bold,),
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtext: Text(
+        "Altre informazioni...",
+        overflow: TextOverflow.ellipsis,
+      ),
       icon: Icons48(iconKey: vehicle.type,defaultKey: "OTHER_VEHICLE",),
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(

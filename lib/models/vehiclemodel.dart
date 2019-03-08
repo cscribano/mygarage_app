@@ -97,7 +97,7 @@ class Vehicle extends BaseModel{
     "fuel": fuel,
     "current_odo": currentOdo != null ? currentOdo.toString() : null,
     "buy_price": buyPrice != null ? buyPrice.toString() : null,
-    "model_year": modelYear != null ? buyPrice.toString() : null,
+    "model_year": modelYear != null ? modelYear.toString() : null,
     "rev_sync": rev.toString(),
     "is_deleted": isDeleted.toString(),
   };

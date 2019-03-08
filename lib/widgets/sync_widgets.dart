@@ -12,9 +12,12 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
   Synchronizer syncronizer;
   bool _lock = true;
 
-  SyncButton(){
+  final void Function() thenCallback;
+
+  SyncButton({this.thenCallback}){
     syncronizer = Synchronizer(delegate: this);
   }
+
 
   @override
   void onError(){
@@ -65,12 +68,13 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
       ),
     );
     _lock = false;
+    //Then....
+    thenCallback();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
     _cxt = context;
 
     return IconButton(
@@ -87,7 +91,6 @@ class SyncButton extends StatelessWidget implements SyncDelegate{
           _lock = true;
         }
         //Navigator.pop(context);
-        vehicleBloc.getVehicles();
       },
     );
   }

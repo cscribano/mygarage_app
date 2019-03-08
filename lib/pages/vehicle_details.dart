@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mygarage/translations.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../blocs/expense_bloc.dart';
 import '../models/vehiclemodel.dart';
+import '../models/expensemodel.dart';
 import '../pages/expenses_list.dart';
 import '../widgets/bloc_provider.dart';
 import '../widgets/sync_widgets.dart';
@@ -17,6 +19,8 @@ class VehicleDetails extends StatefulWidget{
 
 class _VehicleDetailsState extends State<VehicleDetails>{
 
+  ExpenseEnum _expenseDetailsType = ExpenseEnum.ANY;
+
   @override
   Widget build(BuildContext context) {
     Translations translation = Translations.of(context);
@@ -24,24 +28,48 @@ class _VehicleDetailsState extends State<VehicleDetails>{
     return Scaffold(
       appBar: AppBar(
         title: Text(Translations.of(context).text('home_title')),
-        actions: <Widget>[
+/*        actions: <Widget>[
           SyncButton(),
-        ],
+        ],*/
       ),
       body: SingleChildScrollView(
           child: Center(
               child: Column(
                 children: <Widget>[
                   VehicleDetailsBox(vehicle: widget.vehicle,),
+                  Text("Expenses type:", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),),
+                  /*Dropdown Expense type choice*/
                   Padding(
-                    padding: EdgeInsets.only(top: 10.0),
+                    padding: EdgeInsets.only(top:10.0),
+                    child:  DropdownButton<ExpenseEnum>(
+                      items: ExpenseTypeToString(context).keys.map((ExpenseEnum value) {
+                        return  DropdownMenuItem<ExpenseEnum>(
+                          value: value,
+                          child:  Text(ExpenseTypeToString(context)[value]),
+                        );
+                      }).toList(),
+                      isDense: true,
+                      onChanged: (Value) {
+                        setState(() {
+                          _expenseDetailsType = Value;
+                        });
+                      },
+                      value: _expenseDetailsType,
+                    ),
+                  ),
+                  /*Submit button, navigate to expenses page*/
+                  Padding(
+                    padding: EdgeInsets.only(top: 15.0),
                     child: RaisedButton(
-                      child: Text("Show All Expenses"),
+                      child: Text("Show Vehicle's Expenses"),
                       color: Colors.red,
                       textColor: Colors.white,
                       onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => BlocProvider(bloc: ExpenseBloc(vehicle: widget.vehicle), child: VehicleExpenses(),),
+                          builder: (context) => BlocProvider(
+                            bloc: ExpenseBloc(vehicle: widget.vehicle, expenseType: _expenseDetailsType),
+                            child: VehicleExpenses(),
+                          ),
                         ),
                       ),
                     ),
@@ -73,16 +101,24 @@ class VehicleDetailsBox extends StatelessWidget{
           Container(
             // padding: EdgeInsets.all(5),
             margin: EdgeInsets.all(5),
-            child: Text(_capitalize(vehicle.brand)+' '+_capitalize(vehicle.model), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            child: Text(
+              _capitalize(vehicle.brand)+' '+_capitalize(vehicle.model),
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
           Divider(color: Colors.black45,),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              DetailsBoxText(heading: "Type of vehicle",text: VehicleToString(context)[vehicle.type],),
+              Expanded(
+                child:DetailsBoxText(heading: "Type of vehicle",text: VehicleToString(context)[vehicle.type],),
+              ),
               //MyVerticalDivider(),
-              DetailsBoxText(heading: "Type of Fuel",text: FuelToString(context)[vehicle.fuel],),
+              Expanded(
+                child: DetailsBoxText(heading: "Type of Fuel",text: FuelToString(context)[vehicle.fuel],),
+              ),
             ],
           ),
           Divider(color: Colors.black45,),
@@ -92,7 +128,7 @@ class VehicleDetailsBox extends StatelessWidget{
             children: <Widget>[
               DetailsBoxText(heading: "Model Year",text: vehicle.modelYear != null ? vehicle.modelYear.toString() : '-',),
               //MyVerticalDivider(),
-              DetailsBoxText(heading: "Buying Price",text: vehicle.buyPrice != null ? vehicle.buyPrice.toString() : '-'),
+              DetailsBoxText(heading: "Buying Price",text: vehicle.buyPrice != null ? vehicle.buyPrice.toStringAsFixed(2) : '-'),
             ],
           ),
           Divider(color: Colors.black45,),
@@ -112,7 +148,7 @@ class VehicleDetailsBox extends StatelessWidget{
 }
 
 class DetailsBoxText extends StatelessWidget{
-  //TOdo: use autosizetext
+
   final String heading;
   final String text;
 
@@ -128,7 +164,12 @@ class DetailsBoxText extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(heading, style: TextStyle(fontWeight: FontWeight.w400),),
-          Text(text, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),)
+          //Text(text, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),)
+          AutoSizeText(
+            text,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            maxLines: 1,
+          )
         ],
       ),
     );

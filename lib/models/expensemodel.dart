@@ -12,20 +12,22 @@ String DateFormat(DateTime date){
   return (date.year.toString()+"-"+date.month.toString()+"-"+date.day.toString());
 }
 
+String eeToString(ExpenseEnum e) => e.toString().split('.').last;
+
 enum ExpenseEnum {PAPER, WORK, ANY}
 
-List<String> EXPENSE_TYPE = ["PAPER", "WORK"];
 List<String> WORK_CAT = ["ENGINE", "MAINT","TYRE", "BODY", "ELECTRIC", "GLASS", "TUNING","OTHER"];
 List<String> PAPER_CAT = ["TAX", "INSURANCE", "TICKET", "PARK", "ACCIDENT", "ACCESSORY", "OTHER"];
 List<String> EXPENSE_CAT = []..addAll(WORK_CAT)..addAll(PAPER_CAT)..toSet().toList(); //remove duplicates (?)
 
-Map<String, String> ExpenseTypeToString (BuildContext context) =>  Map.fromIterable(
-  EXPENSE_TYPE, key: (v) => v,
-  value: (v) => Translations.of(context).text('expense_type_'+v)
+Map<ExpenseEnum, String> ExpenseTypeToString (BuildContext context) =>  Map.fromIterable(
+  ExpenseEnum.values,
+  key: (v) => v,
+  value: (v) => Translations.of(context).text('expense_type_'+eeToString(v))
 );
 
 Map<String, String> ExpenseCategoryToString (BuildContext context) =>  Map.fromIterable(
-    EXPENSE_TYPE, key: (v) => v,
+    ExpenseEnum.values, key: (v) => v,
     value: (v) => Translations.of(context).text('expense_category_'+v)
 );
 

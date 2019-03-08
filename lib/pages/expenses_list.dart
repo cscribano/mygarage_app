@@ -1,3 +1,5 @@
+import 'package:mygarage/widgets/sync_widgets.dart';
+
 import '../blocs/expense_bloc.dart';
 import '../blocs/auth_bloc.dart';
 import '../models/expensemodel.dart';
@@ -27,7 +29,12 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("PROVA")//Text("Spese Veicolo"),
+        title: Text("PROVA"),//Text("Spese Veicolo"),
+        actions: <Widget>[
+          SyncButton(
+            thenCallback: () => expenseBloc.getExpenses(),
+          ),
+        ],
       ),
       body: Center(
         child: StreamBuilder(
@@ -59,9 +66,45 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: null,//expenseBloc.addRandom,
+        onPressed: (){
+          /*Expenses must be added to a vehicle, if no vehicle have been selected (seeing all expenses)
+          an alert is prompted to allow the user to select a Vehicle from VehicleList,
+          after tapping the chosen vehicle the InsertExpense page is Shown*/
+          if(expenseBloc.vehicle != null){
+            print("Inserimento spesa vecolo");
+          }
+          else{
+            _noVehicleAlert(context);
+          }
+        },
       ),
       drawer: Navigator.of(context).canPop() ? null : BlocProvider(child: DefaultDrawer(highlitedVoice: widget.drawerEntry?? 3,), bloc: AuthBloc()),
+    );
+  }
+
+  void _noVehicleAlert(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: Text("Select a Vehicle"),
+          content: Text("No vehicle have been selected, press continue to select a vehicle"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            FlatButton(
+              child: Text("Back"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Continue"),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+      },
     );
   }
 }
