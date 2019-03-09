@@ -33,6 +33,8 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
   Widget build(BuildContext context) {
 
     final ExpenseBloc expenseBloc = BlocProvider.of<ExpenseBloc>(context);
+    var expenseTypeToString = ExpenseTypeToString(context);
+    expenseTypeToString.remove(ExpenseEnum.ANY);
 
     return Scaffold(
       appBar: AppBar(
@@ -77,20 +79,35 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
         icon: Icon(Icons.add),
         /*If Expense type is 'ANY' the FAB will be Expanded to allow the user to choice che kind of
         * expense (Repair, Paper...) to be added*/
+
+        /*VERY,VERY,VERY important!
+        * ANY can be selected ONLY from VehicleDetails, mso if we have ANY we MUST have expenseBloc.Vehicle != null,
+        * so we won't bother with dialogIfNoVehicle
+        * IF in the future we want to add an ANY expense entry in DefaultDrawer that won't pass any vehicle to ExpenseBloc
+        * this will be A MAJOR PAIN IN THE ASS*/
+
         onPressed: expenseBloc.expenseType == ExpenseEnum.ANY ? null : () => dialogIfNoVehicle(context),
-        children: <FloatingActionButton>[
-          FloatingActionButton(
+
+        /*Very fancy sgamo to avoid add manually new FABs every time we add a Expense Type (probably never Imho)*/
+        children: expenseTypeToString.keys.map((e){
+          return FloatingActionButton(
             /*This hero tag is MANDATORY to avoid getting crazy Exceptions!*/
-            heroTag: "btn1",
-            child: Icon(Icons.build),
-            onPressed: null,
-          ),
-          FloatingActionButton(
-            heroTag: "btn2",
-            child: Icon(Icons.payment),
-            onPressed: null,
-          )
-        ],
+            heroTag:eeToString(e),
+            child: Icons24(iconKey: eeToString(e), color: Colors.white,),
+            tooltip: expenseTypeToString[e],
+            onPressed: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      child: InsertExpense(),
+                      bloc: ExpenseBloc(vehicle: expenseBloc.vehicle, expenseType: e),
+                    )
+                ),
+              );
+            },
+          );
+        }).toList(),
+
       ),
       drawer: Navigator.of(context).canPop() ? null : BlocProvider(child: DefaultDrawer(highlitedVoice: widget.drawerEntry?? 3,), bloc: AuthBloc()),
     );
@@ -100,8 +117,9 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
     final ExpenseBloc expenseBloc = BlocProvider.of<ExpenseBloc>(context);
 
     /*Expenses must be added to a vehicle, if no vehicle have been selected (seeing all expenses)
-          an alert is prompted to allow the user to select a Vehicle from VehicleList,
-          after tapping the chosen vehicle the InsertExpense page is Shown*/
+      an alert is prompted to allow the user to select a Vehicle from VehicleList,
+      after tapping the chosen vehicle the InsertExpense page is Shown
+    */
     if(expenseBloc.vehicle != null){
       Navigator.of(context).push(
         MaterialPageRoute(

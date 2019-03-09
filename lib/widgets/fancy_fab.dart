@@ -10,7 +10,7 @@ class FancyFab extends StatefulWidget {
   FancyFab({
     this.onPressed,
     this.tooltip,
-    this.icon = const Icon(Icons.list),
+    this.icon,// = const Icon(Icons.list),
     this.buttonColor,
     this.children,
   });
@@ -22,6 +22,7 @@ class FancyFab extends StatefulWidget {
 class _FancyFabState extends State<FancyFab>
     with SingleTickerProviderStateMixin {
   bool isOpened = false;
+  bool isVisible = false;
   AnimationController _animationController;
   Animation<Color> _buttonColor;
   Animation<double> _animateIcon;
@@ -40,7 +41,7 @@ class _FancyFabState extends State<FancyFab>
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
     _buttonColor = widget.buttonColor?? ColorTween(
       //begin: Colors.blue,
-      begin: Colors.blue,
+      begin: Colors.red,
       end: Colors.red,
     ).animate(CurvedAnimation(
       parent: _animationController,
@@ -77,8 +78,15 @@ class _FancyFabState extends State<FancyFab>
           .whenComplete(() => setState(() {
         isOpened = !isOpened;
       }),);
+      setState(() {
+        isVisible = !isVisible;
+
+      });
     } else {
-      _animationController.reverse();
+      _animationController.reverse()
+          .whenComplete(() => setState(() {
+        isVisible = !isVisible;
+      }),);
       setState(() {
         isOpened = !isOpened;
       });
@@ -96,10 +104,10 @@ class _FancyFabState extends State<FancyFab>
             /*If widget has onPressed the execute the function, otherwise expand the widget*/
             onPressed:widget.onPressed != null ? widget.onPressed : animate,
             tooltip: widget.tooltip,//'Toggle',
-            child: AnimatedIcon(
+            child: widget.icon,/*AnimatedIcon(
               icon: AnimatedIcons.menu_close,
               progress: _animateIcon,
-            ),
+            ),*/
           )
         ],
       ),
@@ -108,7 +116,7 @@ class _FancyFabState extends State<FancyFab>
 
   @override
   Widget build(BuildContext context) {
-    int test = widget.children.length;
+    int position = widget.children.length;
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: List<Widget>.from(
@@ -116,31 +124,36 @@ class _FancyFabState extends State<FancyFab>
             return Transform(
                 transform: Matrix4.translationValues(
                   0.0,
-                  _translateButton.value * test--,
+                  _translateButton.value * position--,
                   0.0,
                 ),
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    //crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        child:  isOpened ? Chip(
-                          label: Text(
-                            "prova",
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Colors.white30, fontWeight: FontWeight.bold),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          child:  isOpened ? Chip(
+                            backgroundColor: Colors.red,
+                            label: Text(
+                              fab.tooltip,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                          ) : null,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: AnimatedOpacity(
+                            opacity: isVisible ? 1 : 0,
+                            duration: Duration(milliseconds: 0),
+                            child: fab,
                           ),
-                        ) : null,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: fab,
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                )
             );
           }).toList()
       )..add(toggle())

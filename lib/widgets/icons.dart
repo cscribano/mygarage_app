@@ -83,6 +83,9 @@ class Icons24 extends IconProvider {
   static final String _baseIconsPath = "assets/icons/small/";
 
   static final Map<String, String> _type2Pic = {
+    "WORK" : "icons8-support-24.png",
+    "PAPER" : "icons8-credit-card-24.png",
+
     "CAR": "icons8-car-24.png",
     "BIKE": "icons8-motorcycle-24.png",
     "VAN": "icons8-van-24.png",
