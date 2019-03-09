@@ -22,11 +22,6 @@ class _InsertVehicleState extends State<InsertVehicle>{
   Translations translation;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     translation = Translations.of(context);
     final Vehicle _newVehicle = widget.editVehicle == null ? Vehicle.create() : widget.editVehicle;

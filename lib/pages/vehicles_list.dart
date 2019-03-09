@@ -1,5 +1,6 @@
 import '../blocs/auth_bloc.dart';
 import '../blocs/vehicle_bloc.dart';
+import '../blocs/expense_bloc.dart';
 import '../models/vehiclemodel.dart';
 import '../translations.dart';
 
@@ -8,6 +9,11 @@ import '../widgets/bloc_provider.dart';
 import '../widgets/sync_widgets.dart';
 import '../widgets/default_drawer.dart';
 import '../widgets/empty_placeholder.dart';
+import '../widgets/icons.dart';
+
+import 'insert_expense.dart';
+import 'vehicle_details.dart';
+import 'insert_vehicle.dart';
 
 import 'package:flutter/material.dart';
 
@@ -98,4 +104,55 @@ class _VehiclesListState extends State<VehiclesList>{
     WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(text), backgroundColor: color,)));
   }
 
+}
+
+
+class VehicleTile extends StatelessWidget{
+
+  final Vehicle vehicle;
+  VehicleTile({Key key, this.vehicle}) : super(key:key);
+
+  @override
+  Widget build(BuildContext context) {
+    final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
+
+
+    return MyGarageTile(
+      text: Text(
+        capitalize(vehicle.brand) + " " +capitalize(vehicle.model),
+        style: TextStyle(fontWeight: FontWeight.bold,),
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtext: Text(
+        "Altre informazioni...",
+        overflow: TextOverflow.ellipsis,
+      ),
+      icon: Icons48(iconKey: vehicle.type,defaultKey: "OTHER_VEHICLE",),
+      //todo: push VehicleDetails if in normal opeation, push InsertExpense if user is selecting a widget for expense Insertion
+      //probably better if onTap is defined by VehicleList
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (context){
+              //this kinda suck
+              if(vehicleBloc.function == BlocFunction.LIST){
+                return VehicleDetails(vehicle: vehicle,);
+              }
+              else{
+                //BlocFunction.INSERT_EXPENSE
+                /*InsertExpense needs an Expense bloc with vehicle != null, in case no vehicle is provided to ExpenseList
+              * we encapsulate the InsertExpense widget in a BlobProvider equiped with a Vehicle selected by tapping on this tile*/
+                return BlocProvider(child: InsertExpense(), bloc: ExpenseBloc(vehicle: vehicle),);
+              }
+            }
+        ),
+      ),
+      deleteCallback: () => vehicleBloc.deleteVehicle(vehicle.guid),
+      editCallback: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          //builder: (context) => BlocProvider(bloc: VehicleBloc.edit(upsertVehicle: vehicle), child: InsertVehicle(),),
+            builder: (context) => InsertVehicle(editVehicle: vehicle,)
+        ),
+      ),
+    );
+  }
 }

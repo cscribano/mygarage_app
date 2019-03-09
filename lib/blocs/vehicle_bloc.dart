@@ -5,8 +5,8 @@ import '../data/db_providers/vehicle_provider.dart';
 import 'dart:async';
 import 'dart:math';
 
-//todo: return class/function/string
 enum InsertState{SUCCESS, FAIL}
+enum BlocFunction{LIST, INSERT_EXPENSE}
 
 class VehicleBloc implements BlocBase{
 
@@ -19,10 +19,14 @@ class VehicleBloc implements BlocBase{
   Stream<InsertState> get outInsert => _insertController.stream;
 
   final VehicleProvider _db = VehicleProvider();
-  //final RestData _api = RestData();
+  BlocFunction _function = BlocFunction.LIST;
+  BlocFunction get function => _function;
 
-  VehicleBloc(){
+  VehicleBloc({BlocFunction function}){
     getVehicles();
+    if(function != null){
+      _function = function;
+    }
   }
 
   void getVehicles() async{
@@ -35,6 +39,17 @@ class VehicleBloc implements BlocBase{
       .catchError((_) => _inInsert.add(InsertState.FAIL));
     getVehicles();
   }
+
+  /*  Stream<InsertState> insertController(Vehicle newVehicle) async*{
+    try{
+      await _db.upsert(newVehicle);
+      yield InsertState.SUCCESS;
+    }
+    on Exception catch(e){
+      yield InsertState.FAIL;
+    }
+    getVehicles();
+  }*/
 
   void deleteVehicle(String guid) async{
     await _db.markAsDeleted(guid);

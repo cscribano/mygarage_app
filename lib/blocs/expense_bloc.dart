@@ -32,6 +32,11 @@ class ExpenseBloc implements BlocBase{
     }
   }
 
+  void markAsDeleted(Expense e) async {
+    var ret = _db.markAsDeleted(e.guid);
+    getExpenses();
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose

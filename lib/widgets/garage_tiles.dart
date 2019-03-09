@@ -1,77 +1,12 @@
 import 'package:mygarage/translations.dart';
 
-import '../models/vehiclemodel.dart';
-import '../models/expensemodel.dart';
-import '../widgets/bloc_provider.dart';
-import '../pages/expenses_list.dart';
-import '../blocs/vehicle_bloc.dart';
-import '../blocs/expense_bloc.dart';
-import '../pages/insert_vehicle.dart';
-import '../pages/vehicle_details.dart';
-import 'icons.dart';
-
 import 'package:flutter/material.dart';
 
-String _capitalize(String s) => s != "" ? s[0].toUpperCase() + s.substring(1) : "[Missing text]"; //Unsafe in string is empty
-String _dateFormat(DateTime d){
+String capitalize(String s) => s != "" ? s[0].toUpperCase() + s.substring(1) : "[Missing text]"; //Unsafe in string is empty
+String dateFormat(DateTime d){
   return d.day.toString() + "/" + d.month.toString() + "/" + d.year.toString();
 }
-class VehicleTile extends StatelessWidget{
 
-  final Vehicle vehicle;
-  VehicleTile({Key key, this.vehicle}) : super(key:key);
-
-  @override
-  Widget build(BuildContext context) {
-    final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
-
-    return MyGarageTile(
-      text: Text(
-        _capitalize(vehicle.brand) + " " +_capitalize(vehicle.model),
-        style: TextStyle(fontWeight: FontWeight.bold,),
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtext: Text(
-        "Altre informazioni...",
-        overflow: TextOverflow.ellipsis,
-      ),
-      icon: Icons48(iconKey: vehicle.type,defaultKey: "OTHER_VEHICLE",),
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => VehicleDetails(vehicle: vehicle,),//BlocProvider(bloc: ExpenseBloc(vehicle: vehicle.guid), child: VehicleExpenses(),),
-        ),
-      ),
-      deleteCallback: () => vehicleBloc.deleteVehicle(vehicle.guid),
-      editCallback: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          //builder: (context) => BlocProvider(bloc: VehicleBloc.edit(upsertVehicle: vehicle), child: InsertVehicle(),),
-          builder: (context) => InsertVehicle(editVehicle: vehicle,)
-        ),
-      ),
-    );
-  }
-}
-
-class ExpenseTile extends StatelessWidget{
-  final Expense expense;
-  ExpenseTile({Key key, this.expense}) : super(key:key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MyGarageTile(
-      text: Text(_capitalize(expense.details)),
-      icon: Icons48(iconKey: expense.expenseCategory,defaultKey: "OTHER",),
-      subtext: Text("[Vehicle name here]"), //todo: resolve vehicle name
-      topTrailer: Text(expense.cost.toStringAsFixed(2) + "€"),//todo: prefered currency
-      bottomTrailer: expense.datePaid == null ?
-        Text(_dateFormat(expense.datePaid), style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),) :
-        Text(_dateFormat(expense.dateToPay), style: TextStyle(color: Colors.green),),
-      onTap: null,
-      deleteCallback: null,
-      editCallback: null,
-    );
-  }
-}
 
 class MyGarageTile extends StatelessWidget{
 

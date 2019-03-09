@@ -33,4 +33,11 @@ class ExpenseProvider extends GenericProvider<Expense> {
     List<Expense> list = res.isNotEmpty ? res.map((c) => Expense.fromJson(c)).toList() : [];
     return list;
   }
+
+  markAsDeleted(String guid) async{
+    final db = await database;
+    var ret = await db.update("Expense", {'is_deleted': '1', 'is_dirty' : '1'}, where: 'guid = ?', whereArgs: [guid]);
+    return ret;
+  }
+
 }
