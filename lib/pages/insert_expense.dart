@@ -39,16 +39,18 @@ class _InsertExpenseState extends State<InsertExpense>{
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
-          child: Container(
-            height: 500,
-            margin: EdgeInsets.all(10.0),
-            padding: EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(_expenseBloc.vehicle.guid),
-                /*typeFormField(_newVehicle),
+          child: Center(
+            child: Container(
+              height: 500,
+              margin: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(_expenseBloc.expenseType.toString()),
+                  /*typeFormField(_newVehicle),
                 brandFormField(_newVehicle),
                 modelFormField(_newVehicle),
                 modelYearFormField(_newVehicle),
@@ -57,14 +59,15 @@ class _InsertExpenseState extends State<InsertExpense>{
                 priceFormField(_newVehicle),
                 */
 
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: RaisedButton(
-                    child: Text(translation.text('vehicle_insert_submit_btn')),
-                    onPressed: null,//() => _submitForm(_newVehicle),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: RaisedButton(
+                      child: Text(translation.text('vehicle_insert_submit_btn')),
+                      onPressed: null,//() => _submitForm(_newVehicle),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -22,7 +22,7 @@ class FancyFab extends StatefulWidget {
 class _FancyFabState extends State<FancyFab>
     with SingleTickerProviderStateMixin {
   bool isOpened = false;
-  bool isVisible = false;
+  bool isVisible = true;
   AnimationController _animationController;
   Animation<Color> _buttonColor;
   Animation<double> _animateIcon;
@@ -74,22 +74,16 @@ class _FancyFabState extends State<FancyFab>
   /*Extremely sketchy but at least works*/
   animate() {
     if (!isOpened) {
-      _animationController.forward()
-          .whenComplete(() => setState(() {
-        isOpened = !isOpened;
-      }),);
+      _animationController.forward();
       setState(() {
-        isVisible = !isVisible;
-
+        isOpened = !isOpened;
       });
+
     } else {
       _animationController.reverse()
           .whenComplete(() => setState(() {
-        isVisible = !isVisible;
-      }),);
-      setState(() {
-        isOpened = !isOpened;
-      });
+    isOpened = !isOpened;
+    }),);
     }
 
   }
@@ -146,8 +140,8 @@ class _FancyFabState extends State<FancyFab>
                         Padding(
                           padding: const EdgeInsets.only(left: 10.0),
                           child: AnimatedOpacity(
-                            opacity: isVisible ? 1 : 0,
-                            duration: Duration(milliseconds: 0),
+                            opacity: isOpened ? 1 : 0,
+                            duration: Duration(milliseconds: 500),//!isOpened ? Duration(milliseconds: 500) : Duration(microseconds: 0),
                             child: fab,
                           ),
                         )

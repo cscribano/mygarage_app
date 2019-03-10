@@ -130,27 +130,30 @@ class VehicleTile extends StatelessWidget{
       icon: Icons48(iconKey: vehicle.type,defaultKey: "OTHER_VEHICLE",),
       //todo: push VehicleDetails if in normal opeation, push InsertExpense if user is selecting a widget for expense Insertion
       //probably better if onTap is defined by VehicleList
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(
-            builder: (context){
-              //this kinda suck
-              if(vehicleBloc.function == BlocFunction.LIST){
-                return VehicleDetails(vehicle: vehicle,);
-              }
-              else{
-                //BlocFunction.INSERT_EXPENSE
-                /*InsertExpense needs an Expense bloc with vehicle != null, in case no vehicle is provided to ExpenseList
-              * we encapsulate the InsertExpense widget in a BlobProvider equiped with a Vehicle selected by tapping on this tile*/
-                return BlocProvider(child: InsertExpense(), bloc: ExpenseBloc(vehicle: vehicle),);
-              }
-            }
-        ),
-      ),
+      //BlocFunction.INSERT_EXPENSE
+      /*InsertExpense needs an Expense bloc with vehicle != null, in case no vehicle is provided to ExpenseList
+              * we return the selected vehicle to the calling page (ExpenseList) and then
+              * encapsulate the InsertExpense widget in a BlobProvider equiped with a Vehicle selected by tapping on this tile*/
+      //return BlocProvider(child: InsertExpense(), bloc: ExpenseBloc(vehicle: vehicle),);
+
+      onTap: () {
+        if(vehicleBloc.function == BlocFunction.LIST){
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => VehicleDetails(vehicle: vehicle,),
+            ),
+          );
+        }
+        else{ //Insert Expense
+          Navigator.pop(context, vehicle);
+        }
+      },
+
       deleteCallback: () => vehicleBloc.deleteVehicle(vehicle.guid),
       editCallback: () => Navigator.of(context).push(
         MaterialPageRoute(
           //builder: (context) => BlocProvider(bloc: VehicleBloc.edit(upsertVehicle: vehicle), child: InsertVehicle(),),
-            builder: (context) => InsertVehicle(editVehicle: vehicle,)
+            builder: (context) => BlocProvider(child: InsertVehicle(editVehicle: vehicle,), bloc: vehicleBloc,)
         ),
       ),
     );

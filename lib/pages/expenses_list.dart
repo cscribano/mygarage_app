@@ -4,6 +4,7 @@ import '../blocs/auth_bloc.dart';
 import '../blocs/vehicle_bloc.dart';
 
 import '../models/expensemodel.dart';
+import '../models/vehiclemodel.dart';
 
 import '../widgets/bloc_provider.dart';
 import '../widgets/garage_tiles.dart';
@@ -133,6 +134,7 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
   }
 
   void _noVehicleAlert(BuildContext context){
+    final ExpenseBloc expenseBloc = BlocProvider.of<ExpenseBloc>(context);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -150,10 +152,21 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
             ),
             FlatButton(
               child: Text("Continue"),
-              onPressed: (){
-                Navigator.of(context).pushReplacement(
+              onPressed: () async {
+                /*Get The vehicle from VehicleList page*/
+                final Vehicle vehicle = await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => BlocProvider(child: VehiclesList(),bloc: VehicleBloc(function: BlocFunction.INSERT_EXPENSE),),
+                  ),
+                );
+                /*Push InsertExpense
+                * note: this causes flicketing*/
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                        child: InsertExpense(),
+                        bloc: ExpenseBloc(vehicle: vehicle, expenseType: expenseBloc.expenseType),
+                    ),
                   ),
                 );
               }
@@ -186,7 +199,10 @@ class ExpenseTile extends StatelessWidget{
       editCallback: () => Navigator.of(context).push(
         MaterialPageRoute(
             /*Todo: pass a ExpenseBloc here, if no vehicle is available (seeing all expenses) then resolve the vehicle for that expense*/
-            builder: (context) => InsertExpense(editExpense: expense,)
+            builder: (context) => BlocProvider(
+              child: InsertExpense(editExpense: expense,),
+              bloc: ExpenseBloc(expenseType: ExpenseTypeToEnum[expense.expenseType]),
+            )
         ),
       ),
     );

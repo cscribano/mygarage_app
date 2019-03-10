@@ -18,16 +18,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-* Limitare lunghezza campi di testo veicolo
-* impostare               overflow: TextOverflow.ellipsis, dove serve (Text)
+* Mettere in ExpenseBloc Vehicle non come guid ma come Model
+* * aggiunta spesa/intervento
 * IMPORTANTE Errori database non vengono testati da BLOCs! (e quindi la pagina carica all'infinito)
 * Dividerere spese per priorità scadute -- da pagare (in ordine) -- pagate
 * Aggiungere filtraggio spese per data, tipologia... (Non ordinamento, filtraggio)
-* Menu a tendina scelta visualizzazione spese per veicolo
-* aggiunta spesa/intervento
 * Pagina registrazione
 * pagina reset password
 * * ---- DONE -----
+* * impostare               overflow: TextOverflow.ellipsis, dove serve (Text)
+* Menu a tendina scelta visualizzazione spese per veicolo
+* * Limitare lunghezza campi di testo veicolo
 * * Pagina pagament/Interventi +
 * * Pagina principale (overview) (mockup)
 * * Pagina dettagli veicolo
@@ -85,7 +86,7 @@ class MyApp extends StatelessWidget {
         '/Login' : (context) => BlocProvider(child: LoginPage(), bloc: AuthBloc()),
         '/Home' : (context) =>  BlocProvider(child: Overview(), bloc: VehicleBloc(),),
         '/VehicleList' : (context) => BlocProvider(child: VehiclesList(), bloc: VehicleBloc(),),
-        '/InsertVehicle' : (context) => InsertVehicle(),
+        '/InsertVehicle' : (context) => BlocProvider(child: InsertVehicle(), bloc: VehicleBloc(),),
         '/Repais' : (context) => BlocProvider(
           child: VehicleExpenses(drawerEntry: 3,),
           bloc: ExpenseBloc(expenseType: ExpenseEnum.WORK),

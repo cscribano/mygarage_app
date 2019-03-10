@@ -26,6 +26,12 @@ Map<ExpenseEnum, String> ExpenseTypeToString (BuildContext context) =>  Map.from
   value: (v) => Translations.of(context).text('expense_type_'+eeToString(v))
 );
 
+Map<String,ExpenseEnum> ExpenseTypeToEnum = Map.fromIterable(
+  ExpenseEnum.values,
+  key: (v) => eeToString(v),
+  value: (v) => v,
+);
+
 Map<String, String> ExpenseCategoryToString (BuildContext context) =>  Map.fromIterable(
     ExpenseEnum.values, key: (v) => v,
     value: (v) => Translations.of(context).text('expense_category_'+v)
