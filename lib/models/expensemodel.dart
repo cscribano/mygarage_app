@@ -32,10 +32,11 @@ Map<String,ExpenseEnum> ExpenseTypeToEnum = Map.fromIterable(
   value: (v) => v,
 );
 
-Map<String, String> ExpenseCategoryToString (BuildContext context) =>  Map.fromIterable(
-    ExpenseEnum.values, key: (v) => v,
-    value: (v) => Translations.of(context).text('expense_category_'+v)
-);
+Map<ExpenseEnum, List<String>> ExpenseTypeToCategories = {
+  ExpenseEnum.ANY : EXPENSE_CAT,
+  ExpenseEnum.PAPER : PAPER_CAT,
+  ExpenseEnum.WORK : WORK_CAT,
+};
 
 class Expense extends BaseModel{
 

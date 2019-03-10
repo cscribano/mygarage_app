@@ -37,7 +37,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
         child: Form(
           key: _formKey,
           child: Container(
-            height: 500,
+            //height: 500,
             margin: EdgeInsets.all(10.0),
             padding: EdgeInsets.all(10.0),
             child: Column(
@@ -72,6 +72,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
       iconProvider: (key) => Icons24(iconKey: key, color: Colors.black45,defaultkey: "OTHER_VEHICLE",),
       values: VehicleToString(context),
       initialValue: newVehicle.type,
+      labelText: translation.text("vehicle_insert_label_type"),
       onSaved: (val) => newVehicle.type = val,
     );
   }
@@ -81,6 +82,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
       decoration: InputDecoration(
         icon: Icons24(iconKey: "MANUFACTURER", color: Colors.black45),
         hintText: translation.text('vehicle_insert_hint_manufacturer'),
+        labelText: translation.text("vehicle_insert_label_manufacturer"),
         //labelText: 'Name',
       ),
       validator:textValidator,
@@ -94,7 +96,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
       decoration: InputDecoration(
         icon: Icons24(iconKey: "OTHER_INSERT", color: Colors.black45),
         hintText: translation.text('vehicle_insert_hint_model'),
-        //labelText: 'Name',
+        labelText: translation.text("vehicle_insert_label_model"),
       ),
       validator:textValidator,
       initialValue: newVehicle.model,
@@ -106,8 +108,8 @@ class _InsertVehicleState extends State<InsertVehicle>{
     return TextFormField(
       decoration: InputDecoration(
         icon: Icons24(iconKey: "DATEYEAR", color: Colors.black45),
-        hintText: translation.text('vehicle_insert_hint_model'),
-        //labelText: 'Name',
+        hintText: translation.text('vehicle_insert_hint_modelyear'),
+        labelText: translation.text("vehicle_insert_label_modelyear"),
       ),
       validator: (value){
         if(double.tryParse(value) != null){
@@ -136,6 +138,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
       values: FuelToString(context),
       onSaved: (val) => newVehicle.fuel = val,
       initialValue: newVehicle.fuel,
+      labelText: translation.text("vehicle_insert_label_fuel"),
     );
   }
 
@@ -144,6 +147,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
       decoration: InputDecoration(
         icon: Icons24(iconKey: "MILES", color: Colors.black45),
         hintText: translation.text('vehicle_insert_hint_mileage'),
+        labelText: translation.text("vehicle_insert_label_mileage"),
         //labelText: 'Name',
       ),
       onSaved: (val) => newVehicle.currentOdo = int.tryParse(val),
@@ -164,6 +168,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
       decoration: InputDecoration(
         icon: Icons24(iconKey: "PRICE", color: Colors.black45),
         hintText: translation.text('vehicle_insert_hint_price'),
+        labelText: translation.text("vehicle_insert_label_price"),
         //labelText: 'Name',
       ),
       onSaved: (val) => newVehicle.buyPrice = double.tryParse(val),

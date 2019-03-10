@@ -18,6 +18,8 @@ import 'vehicles_list.dart';
 import 'insert_expense.dart';
 
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
 
 class VehicleExpenses extends StatefulWidget{
   final int drawerEntry;
@@ -34,12 +36,14 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
   Widget build(BuildContext context) {
 
     final ExpenseBloc expenseBloc = BlocProvider.of<ExpenseBloc>(context);
-    var expenseTypeToString = ExpenseTypeToString(context);
+    final expenseTypeToString = ExpenseTypeToString(context);
+    final String _pageTitle = expenseTypeToString[expenseBloc.expenseType];
+
     expenseTypeToString.remove(ExpenseEnum.ANY);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("PROVA"),//Text("Spese Veicolo"),
+        title: AutoSizeText(_pageTitle, maxLines: 1,),//Text(_pageTitle),//Text("Spese Veicolo"),
         actions: <Widget>[
           SyncButton(
             thenCallback: () => expenseBloc.getExpenses(),
