@@ -107,5 +107,12 @@
   "expense_category_ELECTRIC" : "Electric Work",
   "expense_category_GLASS" : "Glass",
   "expense_category_TUNING" : "Tuning",
-  "expense_category_OTHER" : "Other"
+  "expense_category_OTHER" : "Other",
+
+  "expense_category_TAX" : "Tax",
+  "expense_category_INSURANCE" : "Insurance",
+  "expense_category_TICKET" : "Fine",
+  "expense_category_PARK" : "Park",
+  "expense_category_ACCIDENT" : "Accident Refund",
+  "expense_category_ACCESSORY" : "Accessories"
 }

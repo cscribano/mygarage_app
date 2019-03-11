@@ -16,9 +16,22 @@ String eeToString(ExpenseEnum e) => e.toString().split('.').last;
 
 enum ExpenseEnum {PAPER, WORK, ANY}
 
-List<String> WORK_CAT = ["ENGINE", "MAINT","TYRE", "BODY", "ELECTRIC", "GLASS", "TUNING","OTHER"];
+/*List<String> WORK_CAT = ["ENGINE", "MAINT","TYRE", "BODY", "ELECTRIC", "GLASS", "TUNING","OTHER"];
 List<String> PAPER_CAT = ["TAX", "INSURANCE", "TICKET", "PARK", "ACCIDENT", "ACCESSORY", "OTHER"];
-List<String> EXPENSE_CAT = []..addAll(WORK_CAT)..addAll(PAPER_CAT)..toSet().toList(); //remove duplicates (?)
+List<String> EXPENSE_CAT = []..addAll(WORK_CAT)..addAll(PAPER_CAT)..toSet().toList(); //remove duplicates (?)*/
+
+Map<ExpenseEnum, List<String>> ExpenseCategories = {
+  ExpenseEnum.WORK : ["ENGINE", "MAINT","TYRE", "BODY", "ELECTRIC", "GLASS", "TUNING","OTHER"],
+  ExpenseEnum.PAPER : ["TAX", "INSURANCE", "TICKET", "PARK", "ACCIDENT", "ACCESSORY", "OTHER"],
+};
+
+Map<String,String> ExpenseCategoryToString(BuildContext context, ExpenseEnum type){
+  return Map.fromIterable(
+    ExpenseCategories[type],
+    key: (v) => v,
+    value: (v) => Translations.of(context).text('expense_category_'+v),
+  );
+}
 
 Map<ExpenseEnum, String> ExpenseTypeToString (BuildContext context) =>  Map.fromIterable(
   ExpenseEnum.values,
@@ -32,11 +45,6 @@ Map<String,ExpenseEnum> ExpenseTypeToEnum = Map.fromIterable(
   value: (v) => v,
 );
 
-Map<ExpenseEnum, List<String>> ExpenseTypeToCategories = {
-  ExpenseEnum.ANY : EXPENSE_CAT,
-  ExpenseEnum.PAPER : PAPER_CAT,
-  ExpenseEnum.WORK : WORK_CAT,
-};
 
 class Expense extends BaseModel{
 
@@ -65,7 +73,8 @@ class Expense extends BaseModel{
 
   Expense.create({
     this.vehicle,
-    this.expenseType,
+    //this.expenseType,
+    ExpenseEnum expenseType,
     this.expenseCategory,
     this.details,
     this.datePaid,
@@ -76,6 +85,7 @@ class Expense extends BaseModel{
       var bytes = utf8.encode(Random.secure().nextDouble().toString()); // data being hashed
       var digest = sha1.convert(bytes).toString();
       this.guid = digest;
+      this.expenseType = eeToString(expenseType);
       this.isDeleted = 0;
   }
 
@@ -96,8 +106,8 @@ class Expense extends BaseModel{
         expenseType: json["expense_type"],
         expenseCategory: json["expense_category"],
         details: json["details"],
-        datePaid: DateTime.parse(json["date_paid"]),
-        dateToPay: DateTime.parse(json["date_to_pay"]),
+        datePaid: json["date_paid"] != null ? DateTime.tryParse(json["date_paid"]) : null,
+        dateToPay: json["date_to_pay"] != null ? DateTime.tryParse(json["date_to_pay"]) : null,
         cost: json["cost"],
         paid: json["paid"],
         isDeleted: insIsDelete
@@ -113,8 +123,8 @@ class Expense extends BaseModel{
     "expense_type" : expenseType,
     "expense_category": expenseCategory,
     "details": details,
-    "date_paid": datePaid.toIso8601String(),
-    "date_to_pay": dateToPay.toIso8601String(),
+    "date_paid": datePaid != null? datePaid.toIso8601String() : null,
+    "date_to_pay": dateToPay != null ? dateToPay.toIso8601String() : null,
     "cost": cost,
     "paid": paid,
     "is_dirty": dirty,

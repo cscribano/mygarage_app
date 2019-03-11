@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import '../widgets/dropdown_form_field.dart';
 import '../widgets/icons.dart';
 import '../widgets/bloc_provider.dart';
+import '../widgets/datepicker_form_field.dart';
 import '../blocs/expense_bloc.dart';
 import '../models/expensemodel.dart';
 import '../models/vehiclemodel.dart';
@@ -10,10 +11,6 @@ import '../models/vehiclemodel.dart';
 import 'package:flutter/material.dart';
 import 'package:mygarage/translations.dart';
 import 'dart:core';
-
-String formDateFormat(DateTime d){
-  return d.year.toString() + "-" + d.month.toString() + "-" + d.day.toString();
-}
 
 class InsertExpense extends StatefulWidget{
   final Expense editExpense;
@@ -28,15 +25,16 @@ class _InsertExpenseState extends State<InsertExpense>{
 
   final _formKey = GlobalKey<FormState>();
   Translations translation;
+  bool isPaid = false;
 
   @override
   Widget build(BuildContext context) {
-    final translation = Translations.of(context);
-    final Expense _newExpense = widget.editExpense== null ? Expense.create() : widget.editExpense;
+    translation = Translations.of(context);
     final ExpenseBloc  _expenseBloc = BlocProvider.of<ExpenseBloc>(context);
-    final expenseType = ExpenseTypeToString(context)[_expenseBloc.expenseType];
+    final expenseTypeString = ExpenseTypeToString(context)[_expenseBloc.expenseType];
+    final Expense _newExpense = widget.editExpense== null ? Expense.create(vehicle: _expenseBloc.vehicle.guid, expenseType: _expenseBloc.expenseType) : widget.editExpense;
 
-    final String _pageTitle = (widget.editExpense== null ? "Insert " : "Edit ") + expenseType;
+    final String _pageTitle = (widget.editExpense== null ? "Insert " : "Edit ") + expenseTypeString;
 
     return Scaffold(
 
@@ -49,32 +47,43 @@ class _InsertExpenseState extends State<InsertExpense>{
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
-          child: Center(
-            child: Container(
-              //height: 500,
-              margin: EdgeInsets.all(10.0),
-              padding: EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  //Text(_expenseBloc.expenseType.toString()),
-                  typeFormField(_newExpense),
-                  detailsFormField(_newExpense),
-                  dateToPayFormField(context, _newExpense),
-                  datePayFormField(context, _newExpense),
-                  priceFormField(_newExpense),
-
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: RaisedButton(
-                      child: Text(translation.text('vehicle_insert_submit_btn')),
-                      onPressed: null,//() => _submitForm(_newVehicle),
-                    ),
+          child: Container(
+            //height: 500,
+            margin: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                categoryFormField(_newExpense, _expenseBloc.expenseType),
+                detailsFormField(_newExpense),
+                dateToPayFormField(_newExpense),
+                Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Expanded(
+                        child: datePayFormField(context, _newExpense),
+                      ),
+                      Checkbox(
+                        value: isPaid,
+                        onChanged: (value) => setState(() {
+                          isPaid = value;
+                        }),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                  alignment: Alignment.center,
+                ),
+                priceFormField(_newExpense),
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0),
+                  child: RaisedButton(
+                    child: Text(translation.text('vehicle_insert_submit_btn')),
+                    onPressed: () => _submitForm(_newExpense),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -82,12 +91,12 @@ class _InsertExpenseState extends State<InsertExpense>{
     );
   }
 
-  DropdownFormField typeFormField(Expense newExpense){
+  DropdownFormField categoryFormField(Expense newExpense, ExpenseEnum expenseType){
     return DropdownFormField(
-      iconProvider: (key) => Icons24(iconKey: key, color: Colors.black45,defaultkey: "OTHER_WORK",),
-      values: VehicleToString(context),
-      initialValue: newExpense.expenseType,
-      onSaved: (val) => newExpense.expenseType = val,
+      iconProvider: (key) => Icons24(iconKey: key, color: Colors.black45,defaultkey: "OTHER_"+eeToString(expenseType),),
+      values: ExpenseCategoryToString(context, expenseType),
+      initialValue: newExpense.expenseCategory,
+      onSaved: (val) => newExpense.expenseCategory = val,
     );
   }
 
@@ -96,7 +105,7 @@ class _InsertExpenseState extends State<InsertExpense>{
       decoration: InputDecoration(
         icon: Icons24(iconKey: "OTHER_INSERT", color: Colors.black45),
         hintText: "Insert expense description", //translation.text('vehicle_insert_hint_manufacturer'),
-        labelText: 'Name',
+        labelText: 'Description',
       ),
       validator:textValidator,
       initialValue: newExpense.details,
@@ -104,65 +113,23 @@ class _InsertExpenseState extends State<InsertExpense>{
     );
   }
 
-  FormField dateToPayFormField(BuildContext context, Expense newExpense){
-    DateTime pickedDate = DateTime.now();
-
-    return  FormField<DateTime>(
-      initialValue: pickedDate,
-      builder: (FormFieldState<DateTime> state) {
-        return InputDecorator(
-          decoration: InputDecoration(
-            labelText: "Date to pay until",
-            icon: Icon(Icons.calendar_today),
-            errorText: state.hasError ? state.errorText : null,
-          ),
-          child:  GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () async {
-              DateTime newDate = await selectDate(context);
-              pickedDate = newDate;
-              state.didChange(newDate);
-            },
-            child: Container(
-              child: Text(formDateFormat(state.value)),
-            ),
-          ),
-        );
-      },
-      //validator: null,
-      validator:null,// widget.validator,
-      onSaved: null,//widget.onSaved,
+  DatePickerForm dateToPayFormField(Expense newExpense){
+    return DatePickerForm(
+      labelText: "To pay until",
+      icon: Icon(Icons.calendar_today),
+      validator: null,
+      onSaved: (val) => newExpense.dateToPay = val,
     );
   }
 
-  FormField datePayFormField(BuildContext context, Expense newExpense){
-    DateTime pickedDate = DateTime.now();
-
-    return  FormField<DateTime>(
-      initialValue: pickedDate,
-      builder: (FormFieldState<DateTime> state) {
-        return InputDecorator(
-          decoration: InputDecoration(
-            labelText: "Date Payid on",
-            icon: Icon(Icons.calendar_today),
-            errorText: state.hasError ? state.errorText : null,
-          ),
-          child:  GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () async {
-              DateTime newDate = await selectDate(context);
-              pickedDate = newDate;
-              state.didChange(newDate);
-            },
-            child: Container(
-              child: Text(formDateFormat(state.value)),
-            ),
-          ),
-        );
-      },
-      //validator: null,
-      validator:null,// widget.validator,
-      onSaved: null,//widget.onSaved,
+  DatePickerForm datePayFormField(BuildContext context, Expense newExpense){
+    return DatePickerForm(
+      labelText: "Paid on",
+      icon: Icon(Icons.calendar_today),
+      validator: null,
+      enabled: this.isPaid,
+      disabledText: "Not Paid yet",
+      onSaved: (val) => isPaid ? newExpense.datePaid = val : newExpense.datePaid = null,
     );
   }
 
@@ -185,14 +152,6 @@ class _InsertExpenseState extends State<InsertExpense>{
     );
   }
 
-  Future<DateTime> selectDate(BuildContext context){
-    return showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2018),
-      lastDate: DateTime(2030),
-    );
-  }
 
   String textValidator(String value){
     if (value.length == 0) {
@@ -203,6 +162,18 @@ class _InsertExpenseState extends State<InsertExpense>{
     }
     if(!RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value)){ //todo:allow space but not space only
       return (translation.text('vehicle_insert_invalid_text_specialchar'));
+    }
+  }
+
+  void _submitForm(Expense newExpense){
+    final FormState form = _formKey.currentState;
+    final ExpenseBloc  expenseBloc = BlocProvider.of<ExpenseBloc>(context);
+
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      expenseBloc.addExpense(newExpense);
+      print("Inserimento");
+      Navigator.of(context).pop();
     }
   }
 }

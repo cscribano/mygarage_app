@@ -80,6 +80,14 @@
   "vehicle_insert_hint_mileage" : "Enter the vehicle's current mileage",
   "vehicle_insert_hint_price" : "Enter the vehicle's buying price",
 
+  "vehicle_insert_label_type" : "Type",
+  "vehicle_insert_label_manufacturer" : "Manufacturer",
+  "vehicle_insert_label_model" : "Model",
+  "vehicle_insert_label_modelyear" : "Model Year",
+  "vehicle_insert_label_fuel" : "Fuel",
+  "vehicle_insert_label_mileage" : "Mileage",
+  "vehicle_insert_label_price" : "Price",
+
   "vehicle_insert_invalid_date_integer" : "Date must be an integer value!",
   "vehicle_insert_invalid_date_between" : "Date must be between 1800 and",
   "vehicle_insert_invalid_date_required" : "This field is required",
@@ -90,6 +98,7 @@
 
   "expense_type_PAPER" : "Payments",
   "expense_type_WORK" : "Repairs and Maintenance",
+  "expense_type_ANY" : "Any",
 
   "expense_category_ENGINE" : "Engine",
   "expense_category_MAINT" : "Maintenance",
@@ -98,5 +107,12 @@
   "expense_category_ELECTRIC" : "Electric Work",
   "expense_category_GLASS" : "Glass",
   "expense_category_TUNING" : "Tuning",
-  "expense_category_OTHER" : "Other"
+  "expense_category_OTHER" : "Other",
+
+  "expense_category_TAX" : "Tax",
+  "expense_category_INSURANCE" : "Insurance",
+  "expense_category_TICKET" : "Fine",
+  "expense_category_PARK" : "Park",
+  "expense_category_ACCIDENT" : "Accident Refund",
+  "expense_category_ACCESSORY" : "Accessories"
 }

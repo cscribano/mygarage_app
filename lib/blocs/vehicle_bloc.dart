@@ -40,17 +40,6 @@ class VehicleBloc implements BlocBase{
     getVehicles();
   }
 
-  /*  Stream<InsertState> insertController(Vehicle newVehicle) async*{
-    try{
-      await _db.upsert(newVehicle);
-      yield InsertState.SUCCESS;
-    }
-    on Exception catch(e){
-      yield InsertState.FAIL;
-    }
-    getVehicles();
-  }*/
-
   void deleteVehicle(String guid) async{
     await _db.markAsDeleted(guid);
     getVehicles();

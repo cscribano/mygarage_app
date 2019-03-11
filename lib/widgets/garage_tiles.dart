@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 String capitalize(String s) => s != "" ? s[0].toUpperCase() + s.substring(1) : "[Missing text]"; //Unsafe in string is empty
 String dateFormat(DateTime d){
-  return d.day.toString() + "/" + d.month.toString() + "/" + d.year.toString();
+  return d != null ? d.day.toString() + "/" + d.month.toString() + "/" + d.year.toString() : "";
 }
 
 

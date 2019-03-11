@@ -109,6 +109,14 @@ class Icons24 extends IconProvider {
     "GLASS" : "icons8-this-way-up-24",
     "TUNING" : "icons8-turbocharger-24.png",
     "OTHER_WORK" : "icons8-support-24.png",
+
+    "TAX" : "icons8-bill-24.png",
+    "INSURANCE" : "icons8-car-insurance-24.png",
+    "TICKET" : "icons8-no-entry-24.png",
+    "PARK" : "icons8-paid-parking-24.png",
+    "ACCIDENT" : "icons8-crashed-car-24.png",
+    "ACCESSORY" : "icons8-tesla-model-x-24.png",
+    "OTHER_PAPER" : "icons8-bill-24.png",
   };
 
   final String iconKey;

@@ -37,6 +37,10 @@ class ExpenseBloc implements BlocBase{
     getExpenses();
   }
 
+  void addExpense(Expense newExpense) async {
+    await _db.upsert(newExpense);
+    getExpenses();
+  }
   @override
   void dispose() {
     // TODO: implement dispose
