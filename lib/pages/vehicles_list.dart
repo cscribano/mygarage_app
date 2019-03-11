@@ -31,7 +31,7 @@ class _VehiclesListState extends State<VehiclesList>{
 
   @override
   void initState() {
-    final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
+/*    final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
     //addPostScaffold("prova", Colors.red);
     vehicleBloc.outInsert.listen((data){
         if(data == InsertState.SUCCESS){
@@ -43,7 +43,7 @@ class _VehiclesListState extends State<VehiclesList>{
         build(context);//trigger widget rebuild
     },
       onError: (error) => addPostScaffold(Translations.of(context).text('vehicle_snack_unknown'), Colors.red[800]),
-    );
+    );*/
     super.initState();
   }
 
@@ -92,7 +92,10 @@ class _VehiclesListState extends State<VehiclesList>{
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-          onPressed: () => Navigator.pushNamed(context, '/InsertVehicle'),
+          onPressed: () async {
+            await Navigator.pushNamed(context, '/InsertVehicle')
+                .then((val) => vehicleBloc.getVehicles());
+          }
       ),
       //drawer: BlocProvider(bloc: AuthBloc(), child: DefaultDrawer(highlitedVoice: 2,),),
       drawer: Navigator.of(context).canPop() ? null : BlocProvider(child: DefaultDrawer(highlitedVoice: 2,), bloc: AuthBloc()),
@@ -152,8 +155,7 @@ class VehicleTile extends StatelessWidget{
       deleteCallback: () => vehicleBloc.deleteVehicle(vehicle.guid),
       editCallback: () => Navigator.of(context).push(
         MaterialPageRoute(
-          //builder: (context) => BlocProvider(bloc: VehicleBloc.edit(upsertVehicle: vehicle), child: InsertVehicle(),),
-            builder: (context) => BlocProvider(child: InsertVehicle(editVehicle: vehicle,), bloc: vehicleBloc,)
+          builder: (context) => BlocProvider(bloc: VehicleBloc(), child: InsertVehicle(editVehicle: vehicle,),),
         ),
       ),
     );

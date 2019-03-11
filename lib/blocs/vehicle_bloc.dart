@@ -14,10 +14,6 @@ class VehicleBloc implements BlocBase{
   Sink<List<Vehicle>> get _inVehicle => _vehicleController.sink;
   Stream<List<Vehicle>> get outVehicle => _vehicleController.stream;
 
-  StreamController<InsertState> _insertController = StreamController<InsertState>.broadcast();
-  Sink<InsertState> get _inInsert => _insertController.sink;
-  Stream<InsertState> get outInsert => _insertController.stream;
-
   final VehicleProvider _db = VehicleProvider();
   BlocFunction _function = BlocFunction.LIST;
   BlocFunction get function => _function;
@@ -34,10 +30,8 @@ class VehicleBloc implements BlocBase{
   }
 
   void addVehicle(Vehicle newVehicle) async {
-    await _db.upsert(newVehicle)
-      .then((_) => _inInsert.add(InsertState.SUCCESS))
-      .catchError((_) => _inInsert.add(InsertState.FAIL));
-    getVehicles();
+    await _db.upsert(newVehicle);
+    //getVehicles();
   }
 
   void deleteVehicle(String guid) async{

@@ -95,6 +95,7 @@ class Vehicle extends BaseModel{
     "current_odo": currentOdo,
     "buy_price": buyPrice,
     "model_year": modelYear,
+    "is_dirty": dirty,
     "is_deleted": isDeleted
   };
 

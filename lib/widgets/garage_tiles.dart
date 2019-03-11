@@ -54,7 +54,7 @@ class MyGarageTile extends StatelessWidget{
         )
       ],
       context: context,
-    ).then((value) => value());
+    ).then((value) => value != null ? value() : null);
   }
 
   void _showDeleteDialog(BuildContext context){
