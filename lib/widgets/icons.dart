@@ -30,6 +30,33 @@ class IconProvider extends Icon{
   }
 }
 
+class Icons100 extends IconProvider{
+
+  static final String _baseIconsPath = "assets/icons/big/";
+
+  static final Map<String, String> _type2Pic = {
+    "VEHICLE" : "icons8-traffic-jam-filled-96.png",
+    "WORK" : "icons8-maintenance-96.png",
+    "PAPER" : "icons8-credit-card-96.png",
+    "OTHER" : "icons8-help-48.png"
+  };
+
+  final String iconKey;
+  final Color color;
+  final String defaultkey;
+  Icons100({
+    @required this.iconKey,
+    this.color,
+    this.defaultkey
+  }) : super(
+      baseIconsPath: _baseIconsPath,
+      type2Pic : _type2Pic,
+      iconKey: iconKey,
+      defaultKey : defaultkey?? "OTHER",
+      color: color
+  );
+}
+
 class Icons48 extends IconProvider{
 
   static final String _baseIconsPath = "assets/icons/";

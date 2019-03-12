@@ -1,7 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class EmptyPlaceHolder extends StatelessWidget{
-  final Image image;
+  final Icon image;
   final String text;
   final double fontSize;
 
@@ -10,6 +11,7 @@ class EmptyPlaceHolder extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
+      //color: Colors.blue,
       margin: EdgeInsets.only(top:150),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -19,7 +21,12 @@ class EmptyPlaceHolder extends StatelessWidget{
           Padding(
             padding: EdgeInsets.only(bottom: 20),
           ),
-          Text('Add a New Expense', style: TextStyle(color: Colors.black45, fontSize: fontSize),),
+          //Text('Add a New Expense', style: TextStyle(color: Colors.black45, fontSize: fontSize),),
+          AutoSizeText(
+            text,
+            style: TextStyle(color: Colors.black45, fontSize: fontSize),
+            maxLines: 1,
+          ),
         ],
       ),
     );

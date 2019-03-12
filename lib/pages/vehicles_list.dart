@@ -24,15 +24,17 @@ class VehiclesList extends StatefulWidget {
 
 class _VehiclesListState extends State<VehiclesList>{
 
+  Translations translation;
+
   @override
   Widget build(BuildContext context) {
-
+    translation = Translations.of(context);
     final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
 
     return Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-          title: Text(Translations.of(context).text('home_title')),
+          title: Text(Translations.of(context).text('vehicles_list_title')),
         actions: <Widget>[
           SyncButton(
             thenCallback: () => vehicleBloc.getVehicles(),
@@ -53,9 +55,9 @@ class _VehiclesListState extends State<VehiclesList>{
                 else if(snapshot.hasData && snapshot.data.length == 0){
                   return EmptyPlaceHolder(
                     //Todo: make this expense type aware (e.g different text/icons for different expenses types)
-                    image:Image.asset('assets/icons/big/icons8-maintenance-96.png', color: Colors.black45,),
-                    fontSize: 20,
-                    text: "Ad a New Expense",
+                      image:Icons100(iconKey: 'VEHICLE', color: Colors.black45,),
+                      fontSize: 20,
+                      text: translation.text("empty_VEHICLE")
                   );
                 }
                 return ListView.builder(

@@ -1,5 +1,5 @@
 {
-  "main_title" : "Flutter Application",
+  "main_title" : "MyGarageBeta",
 
   "unknown_error_snack" : "An unknown error occurred",
   "ok_btn" : "OK",
@@ -53,6 +53,9 @@
   "delete_alert_yes" : "Yes",
   "delete_alert_no" : "No",
 
+  "vehicles_list_title" : "My Vehicles",
+  "empty_VEHICLE" : "Insert a New Vehicle",
+
   "vehicle_type_CAR" : "Car",
   "vehicle_type_BIKE" : "Motorcycle",
   "vehicle_type_VAN" : "Van",
@@ -99,6 +102,10 @@
   "expense_type_PAPER" : "Payments",
   "expense_type_WORK" : "Repairs and Maintenance",
   "expense_type_ANY" : "Any",
+
+  "empty_expense_type_PAPER" : "Add a New Payment",
+  "empty_expense_type_WORK" : "Add a New Repair",
+  "empty_expense_type_ANY" : "Add a New Expense",
 
   "expense_category_ENGINE" : "Engine",
   "expense_category_MAINT" : "Maintenance",

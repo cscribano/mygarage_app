@@ -18,14 +18,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-* Mettere in ExpenseBloc Vehicle non come guid ma come Model
-* * aggiunta spesa/intervento
+* Fixare testo data pagamento in ExpenseTile
 * IMPORTANTE Errori database non vengono testati da BLOCs! (e quindi la pagina carica all'infinito)
-* Dividerere spese per priorità scadute -- da pagare (in ordine) -- pagate
-* Aggiungere filtraggio spese per data, tipologia... (Non ordinamento, filtraggio)
 * Pagina registrazione
 * pagina reset password
 * * ---- DONE -----
+* * * aggiunta spesa/intervento
 * * impostare               overflow: TextOverflow.ellipsis, dove serve (Text)
 * Menu a tendina scelta visualizzazione spese per veicolo
 * * Limitare lunghezza campi di testo veicolo

@@ -1,4 +1,6 @@
 
+import 'package:mygarage/translations.dart';
+
 import '../blocs/expense_bloc.dart';
 import '../blocs/auth_bloc.dart';
 import '../blocs/vehicle_bloc.dart';
@@ -32,8 +34,11 @@ class VehicleExpenses extends StatefulWidget{
 //EXPENSE_TYPE = ["PAPER", "WORK"]
 class _VehicleExpensesState extends State<VehicleExpenses>{
 
+  Translations translation;
+
   @override
   Widget build(BuildContext context) {
+    translation = Translations.of(context);
 
     final ExpenseBloc expenseBloc = BlocProvider.of<ExpenseBloc>(context);
     final expenseTypeToString = ExpenseTypeToString(context);
@@ -64,9 +69,9 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
               else if(snapshot.hasData && snapshot.data.length == 0){
                 return EmptyPlaceHolder(
                   //Todo: make this expense type aware (e.g different text/icons for different expenses types)
-                  image:Image.asset('assets/icons/big/icons8-maintenance-96.png', color: Colors.black45,),
+                  image:Icons100(iconKey: eeToString(expenseBloc.expenseType),color: Colors.black45,),
                   fontSize: 20,
-                  text: "Ad a New Expense",
+                  text: translation.text("empty_expense_type_${eeToString(expenseBloc.expenseType)}")
                 );
               }
               return ListView.builder(
@@ -203,8 +208,8 @@ class ExpenseTile extends StatelessWidget{
       subtext: Text("[Vehicle name here]"), //todo: resolve vehicle name
       topTrailer: Text(expense.cost.toStringAsFixed(2) + "€"),//todo: prefered currency
       bottomTrailer: expense.datePaid == null ?
-      Text(dateFormat(expense.datePaid), style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),) :
-      Text(dateFormat(expense.dateToPay), style: TextStyle(color: Colors.green),),
+        Text(dateFormat(expense.dateToPay), style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),) :
+        Text(dateFormat(expense.datePaid), style: TextStyle(color: Colors.green),),
       onTap: null,
       deleteCallback: () => expenseBloc.markAsDeleted(expense),
       editCallback: () => Navigator.of(context).push(
