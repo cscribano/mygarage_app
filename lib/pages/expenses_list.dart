@@ -1,5 +1,6 @@
 
 import 'package:mygarage/translations.dart';
+import 'package:mygarage/widgets/expense_details.dart';
 
 import '../blocs/expense_bloc.dart';
 import '../blocs/auth_bloc.dart';
@@ -210,7 +211,12 @@ class ExpenseTile extends StatelessWidget{
       bottomTrailer: expense.datePaid == null ?
         Text(dateFormat(expense.dateToPay), style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),) :
         Text(dateFormat(expense.datePaid), style: TextStyle(color: Colors.green),),
-      onTap: null,
+
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ExpenseDetails(expense: expense,),
+        ),
+      ),
       deleteCallback: () => expenseBloc.markAsDeleted(expense),
       editCallback: () => Navigator.of(context).push(
         MaterialPageRoute(

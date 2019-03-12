@@ -1,3 +1,6 @@
+import 'package:mygarage/widgets/empty_placeholder.dart';
+import 'package:mygarage/widgets/icons.dart';
+
 import '../widgets/bloc_provider.dart';
 import '../widgets/default_drawer.dart';
 import '../widgets/sync_widgets.dart';
@@ -28,7 +31,11 @@ class _OverviewState extends State<Overview>{
         ],
       ),
       body: Center(
-        child: Text("Welcome to MyGarage"),
+        child: EmptyPlaceHolder(
+          image: Icons100(iconKey: "LOGO", scale: 1,),
+          text: Translations.of(context).text('home_placeholder'),
+          fontSize: 20,
+        ),
       ),
       drawer:DefaultDrawer(highlitedVoice: 1,),
     );

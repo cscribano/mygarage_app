@@ -1,3 +1,5 @@
+import 'package:mygarage/widgets/icons.dart';
+
 import '../translations.dart';
 import '../blocs/auth_bloc.dart';
 import '../widgets/bloc_provider.dart';
@@ -160,7 +162,8 @@ class _LoginPageState extends State<LoginPage>{
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              FlutterLogo(size: 64.0,colors: Colors.brown,),
+              //FlutterLogo(size: 64.0,colors: Colors.brown,),
+              Icons100(iconKey: "LOGO", scale: 0.9,),
               Flexible(
                 child: StreamBuilder<AuthState>(
                   stream: _authBloc.outStream,
@@ -178,7 +181,7 @@ class _LoginPageState extends State<LoginPage>{
                       }
                       //LOGGED OUT
                       else if(snapshot.data == AuthState.LOGGED_OUT) { //ERROR
-                        //return LoginForm();
+                        return _loginForm;
                       }
                       else if(snapshot.data == AuthState.ERROR){
                         WidgetsBinding.instance.addPostFrameCallback((_){
@@ -191,8 +194,8 @@ class _LoginPageState extends State<LoginPage>{
                             ),
                           );
                         });
+                        return _loginForm;
                       }
-                      return _loginForm;
                     }
                     //error is present in the stream
                     else if(snapshot.hasError){

@@ -1,3 +1,5 @@
+import 'package:mygarage/pages/help_page.dart';
+
 import 'pages/login.dart';
 import 'pages/vehicles_list.dart';
 import 'pages/insert_vehicle.dart';
@@ -18,11 +20,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-* Fixare testo data pagamento in ExpenseTile
+* Aggiungta Expense Detail
+* Fixare valore iniziare pulsantino "not paid yet" qunado si modifica una spesa
 * IMPORTANTE Errori database non vengono testati da BLOCs! (e quindi la pagina carica all'infinito)
 * Pagina registrazione
 * pagina reset password
 * * ---- DONE -----
+* * Fixare testo data pagamento in ExpenseTile
 * * * aggiunta spesa/intervento
 * * impostare               overflow: TextOverflow.ellipsis, dove serve (Text)
 * Menu a tendina scelta visualizzazione spese per veicolo
@@ -96,7 +100,8 @@ class MyApp extends StatelessWidget {
               '/Papers' : (context) => BlocProvider(
                 child: VehicleExpenses(drawerEntry: 4,),
                 bloc: ExpenseBloc(expenseType: ExpenseEnum.PAPER, tag: "Main Pa"),
-              )
+              ),
+              '/Help' : (context) => Help(),
             } ,
             //home: LoginPage(),
             home: LoginPage(),

@@ -11,6 +11,7 @@
   "sync_btn_tootlip" : "Synchronize",
 
   "home_title" : "My Garage [BETA]",
+  "home_placeholder" : "Welkome to MyGarage",
 
   "login_title" : "Login",
   "login_fail_snack" : "Login failed, please retry.",
@@ -121,5 +122,8 @@
   "expense_category_TICKET" : "Fine",
   "expense_category_PARK" : "Park",
   "expense_category_ACCIDENT" : "Accident Refund",
-  "expense_category_ACCESSORY" : "Accessories"
+  "expense_category_ACCESSORY" : "Accessories",
+
+  "help_title" : "Help"
+
 }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mygarage/translations.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:mygarage/widgets/details_box_text.dart';
 
 import '../blocs/expense_bloc.dart';
 import '../models/vehiclemodel.dart';
 import '../models/expensemodel.dart';
 import '../pages/expenses_list.dart';
 import '../widgets/bloc_provider.dart';
-import '../widgets/sync_widgets.dart';
 
 class VehicleDetails extends StatefulWidget{
   final Vehicle vehicle;
@@ -145,46 +144,4 @@ class VehicleDetailsBox extends StatelessWidget{
       ),
     );
   }
-}
-
-class DetailsBoxText extends StatelessWidget{
-
-  final String heading;
-  final String text;
-
-  DetailsBoxText({this.heading, this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // padding: EdgeInsets.all(5),
-      margin: EdgeInsets.all(2),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(heading, style: TextStyle(fontWeight: FontWeight.w400),),
-          //Text(text, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),)
-          AutoSizeText(
-            text,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-            maxLines: 1,
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class MyVerticalDivider extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      height: 30.0,
-      width: 0.5,
-      color: Colors.black45,
-      margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-    );
-  }
-
 }

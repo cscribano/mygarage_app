@@ -6,12 +6,14 @@ class IconProvider extends Icon{
   final Map<String, String> type2Pic;
   final String defaultKey;
   final Color color;
+  final double scale;
 
   IconProvider({Key key,
     @required this.baseIconsPath,
     @required this.iconKey,
     @required this.type2Pic,
     @required this.defaultKey,
+    this.scale,
     this.color
   }) : super(null);// : super(key:key);
 
@@ -21,7 +23,7 @@ class IconProvider extends Icon{
       return Image.asset(baseIconsPath+type2Pic[iconKey.toUpperCase()], color: color);
     }
     try{
-      var ret = Image.asset(baseIconsPath+type2Pic[defaultKey], color: color);
+      var ret = Image.asset(baseIconsPath+type2Pic[defaultKey], color: color, scale: this.scale,);
       return ret;
     }
     on Exception {
@@ -35,6 +37,9 @@ class Icons100 extends IconProvider{
   static final String _baseIconsPath = "assets/icons/big/";
 
   static final Map<String, String> _type2Pic = {
+    "LOGO" : "icons8-garage-96.png",
+    "HELP" : "icons8-hal-9000-96.png",
+    "GARAGE" : "icons8-garage-filled-100.png",
     "VEHICLE" : "icons8-traffic-jam-filled-96.png",
     "WORK" : "icons8-maintenance-96.png",
     "PAPER" : "icons8-credit-card-96.png",
@@ -44,16 +49,19 @@ class Icons100 extends IconProvider{
   final String iconKey;
   final Color color;
   final String defaultkey;
+  final double scale;
   Icons100({
     @required this.iconKey,
     this.color,
-    this.defaultkey
+    this.defaultkey,
+    this.scale,
   }) : super(
       baseIconsPath: _baseIconsPath,
       type2Pic : _type2Pic,
       iconKey: iconKey,
       defaultKey : defaultkey?? "OTHER",
-      color: color
+      color: color,
+      scale: scale,
   );
 }
 

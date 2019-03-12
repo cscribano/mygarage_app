@@ -87,7 +87,7 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
             selected: widget.highlitedVoice == 6,
             title: Text(_translation('drawer_entry_help')),
             leading: Icon(Icons.help),
-            onTap:null,
+            onTap:() => this.pushIfCan(context: context, curent: 6, route: '/Help'),
           ),
 
           //Login/Logout

@@ -11,6 +11,7 @@
   "sync_btn_tootlip" : "Sincronizza",
 
   "home_title" : "My Garage [BETA]",
+  "home_placeholder" : "Benvenuto in MyGarage",
 
   "login_title" : "Login",
   "login_fail_snack" : "Login fallito, riprova",
@@ -19,8 +20,8 @@
   "register_gesture" : "Registrazione",
   "username_hint" : "Il mio Username",
   "username_text" : "Username",
-  "password_hint" : "Password",
-  "password_text" : "La mia Password",
+  "password_hint" : "La mia Password",
+  "password_text" : "Password",
 
   "vehicle_snack_added" : "Veicolo aggiunto!",
   "vehicle_snack_fail" : "Ops! Qualcosa è andato storto",
@@ -121,5 +122,7 @@
   "expense_category_TICKET" : "Multa",
   "expense_category_PARK" : "Parcheggio",
   "expense_category_ACCIDENT" : "Rimborso Sinistro",
-  "expense_category_ACCESSORY" : "Accesori"
+  "expense_category_ACCESSORY" : "Accesori",
+
+  "help_title" : "Aiuto"
 }
