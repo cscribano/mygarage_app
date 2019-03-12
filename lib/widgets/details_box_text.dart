@@ -5,8 +5,9 @@ class DetailsBoxText extends StatelessWidget{
 
   final String heading;
   final String text;
+  final maxLines;
 
-  DetailsBoxText({this.heading, this.text});
+  DetailsBoxText({this.heading, this.text, this.maxLines});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,9 @@ class DetailsBoxText extends StatelessWidget{
           //Text(text, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),)
           AutoSizeText(
             text,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-            maxLines: 1,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500,),
+            maxLines: maxLines?? 1,
+            textAlign: TextAlign.center,
           )
         ],
       ),

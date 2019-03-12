@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mygarage/translations.dart';
 import 'package:mygarage/widgets/details_box_text.dart';
 import 'package:mygarage/widgets/garage_tiles.dart';
-
-import '../blocs/expense_bloc.dart';
-import '../models/vehiclemodel.dart';
 import '../models/expensemodel.dart';
+
+/*import '../blocs/expense_bloc.dart';
+import '../models/vehiclemodel.dart';
 import '../pages/expenses_list.dart';
 import '../widgets/bloc_provider.dart';
+*/
 
 class ExpenseDetails extends StatefulWidget{
   final Expense expense;
@@ -74,11 +75,11 @@ class ExpenseDetailsBox extends StatelessWidget{
           ),
           Divider(color: Colors.black45,),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Expanded(
-                child:DetailsBoxText(heading: "Type of Expense",text: expenseTypeToString[expenseTypeEnum],),
+                child:DetailsBoxText(heading: "Type of Expense",text: expenseTypeToString[expenseTypeEnum],maxLines: 2,),
               ),
               //MyVerticalDivider(),
               Expanded(

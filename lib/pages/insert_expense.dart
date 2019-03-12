@@ -34,6 +34,8 @@ class _InsertExpenseState extends State<InsertExpense>{
     final expenseTypeString = ExpenseTypeToString(context)[_expenseBloc.expenseType];
     final Expense _newExpense = widget.editExpense== null ? Expense.create(vehicle: _expenseBloc.vehicle.guid, expenseType: _expenseBloc.expenseType) : widget.editExpense;
 
+    isPaid = _newExpense.datePaid != null;
+
     final String _pageTitle = (widget.editExpense== null ? "Insert " : "Edit ") + expenseTypeString;
 
     return Scaffold(
@@ -117,6 +119,7 @@ class _InsertExpenseState extends State<InsertExpense>{
     return DatePickerForm(
       labelText: "To pay until",
       icon: Icon(Icons.calendar_today),
+      initialValue: newExpense.dateToPay,
       validator: null,
       onSaved: (val) => newExpense.dateToPay = val,
     );
@@ -128,6 +131,7 @@ class _InsertExpenseState extends State<InsertExpense>{
       icon: Icon(Icons.calendar_today),
       validator: null,
       enabled: this.isPaid,
+      initialValue: newExpense.datePaid,
       disabledText: "Not Paid yet",
       onSaved: (val) => isPaid ? newExpense.datePaid = val : newExpense.datePaid = null,
     );

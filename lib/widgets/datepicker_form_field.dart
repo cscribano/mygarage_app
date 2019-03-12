@@ -11,9 +11,10 @@ class DatePickerForm extends StatefulWidget{
   final bool enabled;
   final String disabledText;
   final String Function(DateTime) validator;
+  final DateTime initialValue;
   final void Function(DateTime) onSaved;
 
-  DatePickerForm({Key key, this.labelText, this.icon, this.validator, this.enabled : true, this.disabledText, this.onSaved}) : super(key : key);
+  DatePickerForm({Key key, this.labelText, this.icon, this.validator, this.initialValue, this.enabled : true, this.disabledText, this.onSaved}) : super(key : key);
 
   @override
   State<StatefulWidget> createState() => _DatePicketFormState();
@@ -24,7 +25,7 @@ class _DatePicketFormState extends State<DatePickerForm>{
 
   @override
   Widget build(BuildContext context) {
-    DateTime pickedDate = DateTime.now();
+    DateTime pickedDate = widget.initialValue?? DateTime.now();
 
     return  FormField<DateTime>(
       initialValue: pickedDate,

@@ -38,7 +38,7 @@ class Icons100 extends IconProvider{
 
   static final Map<String, String> _type2Pic = {
     "LOGO" : "icons8-garage-96.png",
-    "HELP" : "icons8-hal-9000-96.png",
+    "HELP" : "icons8-europe-96.png",
     "GARAGE" : "icons8-garage-filled-100.png",
     "VEHICLE" : "icons8-traffic-jam-filled-96.png",
     "WORK" : "icons8-maintenance-96.png",
