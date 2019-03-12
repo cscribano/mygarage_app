@@ -119,7 +119,6 @@ class VehicleTile extends StatelessWidget{
           );
         }
         else{ //Insert Expense
-          print("Popp'n nonsense");
           Navigator.pop(context, vehicle);
         }
       },

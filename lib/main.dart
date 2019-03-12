@@ -68,7 +68,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print("Rebuilding this whole s!t");
     return BlocProvider(
       bloc: AuthBloc(),
       child: BlocProvider(

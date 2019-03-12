@@ -172,7 +172,6 @@ class _InsertExpenseState extends State<InsertExpense>{
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       expenseBloc.addExpense(newExpense);
-      print("Inserimento");
       Navigator.of(context).pop();
     }
   }

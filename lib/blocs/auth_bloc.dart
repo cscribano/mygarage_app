@@ -16,19 +16,15 @@ class AuthBloc implements BlocBase {
   UserRepository _repo = UserRepository();
 
   AuthBloc(){
-    print("Enterning BLOC constructor");
     //authState();
   }
 
   authState() async {
-    print("Calling authstate");
     try {
       var ret = await _repo.getToken();
-      print(ret);
       _inSink.add(AuthState.LOGGED_IN);
     }
     on Exception catch(error){
-      print("Auth BLoC: "+error.toString());
       _inSink.add(AuthState.LOGGED_OUT);
     }
   }
@@ -36,12 +32,10 @@ class AuthBloc implements BlocBase {
   doLogin(String username, String password) async {
     try {
       var token = await _repo.authenticate(username, password);
-      print(token);
       _repo.persistToken(token);
       authState();
     }
     catch(error){
-      print("Errore login: " + error.toString());
       _inSink.add(AuthState.ERROR);
     }
   }
@@ -54,7 +48,6 @@ class AuthBloc implements BlocBase {
 
   @override
   void dispose() async {
-    print("Stream disposing");
     // TODO: implement dispose
     await _authStream.stream.drain();
     _authStream.close();

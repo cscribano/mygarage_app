@@ -17,13 +17,19 @@ class _LoginFormState extends State<LoginForm>{
 
   String _username;
   String _password;
+  AuthBloc _authBloc;// = BlocProvider.of<AuthBloc>(context);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _authBloc = BlocProvider.of<AuthBloc>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print("Triggering Form build");
 
     var translation = Translations.of(context);
-    final _authBloc = BlocProvider.of<AuthBloc>(context);
     final _formKey = GlobalKey<FormState>();
 
     return Form(
@@ -123,17 +129,21 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>{
 
+  AuthBloc _authBloc;// = BlocProvider.of<AuthBloc>(context);
+  Widget _loginForm;
+
   @override
   void initState() {
-    print("Init state");
     // TODO: implement initState
-    BlocProvider.of<AuthBloc>(context).authState();
+    _loginForm = LoginForm();
+    _authBloc = BlocProvider.of<AuthBloc>(context);
+    _authBloc.authState();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Triggering Login build");
+
     final _authBloc = BlocProvider.of<AuthBloc>(context);
     var translation = Translations.of(context);
 
@@ -168,8 +178,7 @@ class _LoginPageState extends State<LoginPage>{
                       }
                       //LOGGED OUT
                       else if(snapshot.data == AuthState.LOGGED_OUT) { //ERROR
-                        print("Logged out");
-                        return LoginForm();
+                        //return LoginForm();
                       }
                       else if(snapshot.data == AuthState.ERROR){
                         WidgetsBinding.instance.addPostFrameCallback((_){
@@ -182,20 +191,14 @@ class _LoginPageState extends State<LoginPage>{
                             ),
                           );
                         });
-                        print("returning");
-                        return LoginForm();
                       }
+                      return _loginForm;
                     }
                     //error is present in the stream
                     else if(snapshot.hasError){
                       return Text(snapshot.error);
                     }
-                    //Data is not present in the stream
-/*                    else{
-                      _authBloc.authState();
-                    }*/
                     //None of the previous returned
-                    print("Returning CPI");
                     return CircularProgressIndicator();
                     //none of the previous returned
                   },
