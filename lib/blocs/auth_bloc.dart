@@ -16,10 +16,12 @@ class AuthBloc implements BlocBase {
   UserRepository _repo = UserRepository();
 
   AuthBloc(){
-    authState();
+    print("Enterning BLOC constructor");
+    //authState();
   }
 
   authState() async {
+    print("Calling authstate");
     try {
       var ret = await _repo.getToken();
       print(ret);
@@ -52,6 +54,7 @@ class AuthBloc implements BlocBase {
 
   @override
   void dispose() async {
+    print("Stream disposing");
     // TODO: implement dispose
     await _authStream.stream.drain();
     _authStream.close();

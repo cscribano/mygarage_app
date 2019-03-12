@@ -114,7 +114,7 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
         }).toList(),
 
       ),
-      drawer: Navigator.of(context).canPop() ? null : BlocProvider(child: DefaultDrawer(highlitedVoice: widget.drawerEntry?? 3,), bloc: AuthBloc()),
+      drawer: Navigator.of(context).canPop() ? null : DefaultDrawer(highlitedVoice: widget.drawerEntry?? 2,),
     );
   }
 
@@ -165,14 +165,21 @@ class _VehicleExpensesState extends State<VehicleExpenses>{
                 );
                 /*Push InsertExpense
                 * note: this causes flicketing*/
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => BlocProvider(
-                        child: InsertExpense(),
-                        bloc: ExpenseBloc(vehicle: vehicle, expenseType: expenseBloc.expenseType),
+                if(vehicle != null) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          BlocProvider(
+                            child: InsertExpense(),
+                            bloc: ExpenseBloc(vehicle: vehicle,
+                                expenseType: expenseBloc.expenseType),
+                          ),
                     ),
-                  ),
-                );
+                  );
+                }
+                else{
+                  Navigator.of(context).pop();
+                }
               }
             ),
           ],

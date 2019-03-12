@@ -68,36 +68,43 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: [
-        const TranslationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en', 'US'), // English
-        const Locale('it', 'IT'), // Italiano
-      ],
-      title:'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      routes: {
-        '/Login' : (context) => BlocProvider(child: LoginPage(), bloc: AuthBloc()),
-        '/Home' : (context) =>  BlocProvider(child: Overview(), bloc: VehicleBloc(),),
-        '/VehicleList' : (context) => BlocProvider(child: VehiclesList(), bloc: VehicleBloc(),),
-        '/InsertVehicle' : (context) => BlocProvider(child: InsertVehicle(), bloc: VehicleBloc(),),
-        '/Repais' : (context) => BlocProvider(
-          child: VehicleExpenses(drawerEntry: 3,),
-          bloc: ExpenseBloc(expenseType: ExpenseEnum.WORK),
-        ),
-        '/Papers' : (context) => BlocProvider(
-          child: VehicleExpenses(drawerEntry: 4,),
-          bloc: ExpenseBloc(expenseType: ExpenseEnum.PAPER),
-        )
-      } ,
-      //home: LoginPage(),
-      home: BlocProvider(child: LoginPage(), bloc: AuthBloc()),
+    print("Rebuilding this whole s!t");
+    return BlocProvider(
+      bloc: AuthBloc(),
+      child: BlocProvider(
+          bloc: VehicleBloc(tag: "Main VB"),
+          child: MaterialApp(
+            localizationsDelegates: [
+              const TranslationsDelegate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: [
+              const Locale('en', 'US'), // English
+              const Locale('it', 'IT'), // Italiano
+            ],
+            title:'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.red,
+            ),
+            routes: {
+              '/Login' : (context) => LoginPage(),
+              '/Home' : (context) =>  Overview(),
+              '/VehicleList' : (context) => VehiclesList(),
+              '/InsertVehicle' : (context) => InsertVehicle(),
+              '/Repais' : (context) => BlocProvider(
+                child: VehicleExpenses(drawerEntry: 3,),
+                bloc: ExpenseBloc(expenseType: ExpenseEnum.WORK, tag: "Main Re"),
+              ),
+              '/Papers' : (context) => BlocProvider(
+                child: VehicleExpenses(drawerEntry: 4,),
+                bloc: ExpenseBloc(expenseType: ExpenseEnum.PAPER, tag: "Main Pa"),
+              )
+            } ,
+            //home: LoginPage(),
+            home: LoginPage(),
+          ),
+      )
     );
   }
 }

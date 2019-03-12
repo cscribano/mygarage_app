@@ -20,6 +20,7 @@ class _LoginFormState extends State<LoginForm>{
 
   @override
   Widget build(BuildContext context) {
+    print("Triggering Form build");
 
     var translation = Translations.of(context);
     final _authBloc = BlocProvider.of<AuthBloc>(context);
@@ -122,9 +123,17 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>{
 
+  @override
+  void initState() {
+    print("Init state");
+    // TODO: implement initState
+    BlocProvider.of<AuthBloc>(context).authState();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("Triggering Login build");
     final _authBloc = BlocProvider.of<AuthBloc>(context);
     var translation = Translations.of(context);
 
@@ -159,7 +168,8 @@ class _LoginPageState extends State<LoginPage>{
                       }
                       //LOGGED OUT
                       else if(snapshot.data == AuthState.LOGGED_OUT) { //ERROR
-                        return BlocProvider(bloc: _authBloc, child: LoginForm(),);
+                        print("Logged out");
+                        return LoginForm();
                       }
                       else if(snapshot.data == AuthState.ERROR){
                         WidgetsBinding.instance.addPostFrameCallback((_){
@@ -172,7 +182,8 @@ class _LoginPageState extends State<LoginPage>{
                             ),
                           );
                         });
-                        return BlocProvider(bloc: _authBloc, child: LoginForm(),);
+                        print("returning");
+                        return LoginForm();
                       }
                     }
                     //error is present in the stream
@@ -184,7 +195,7 @@ class _LoginPageState extends State<LoginPage>{
                       _authBloc.authState();
                     }*/
                     //None of the previous returned
-                    _authBloc.authState();
+                    print("Returning CPI");
                     return CircularProgressIndicator();
                     //none of the previous returned
                   },

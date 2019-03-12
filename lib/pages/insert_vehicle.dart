@@ -24,6 +24,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
   @override
   Widget build(BuildContext context) {
     translation = Translations.of(context);
+    final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
     final Vehicle _newVehicle = widget.editVehicle == null ? Vehicle.create() : widget.editVehicle;
 
     return Scaffold(
@@ -193,7 +194,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
 
   void _submitForm(Vehicle newVehicle){
     final FormState form = _formKey.currentState;
-    final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(_formKey.currentContext);
+    final VehicleBloc vehicleBloc = BlocProvider.of<VehicleBloc>(context);
 
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();

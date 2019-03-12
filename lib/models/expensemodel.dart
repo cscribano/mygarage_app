@@ -9,7 +9,7 @@ import 'package:mygarage/translations.dart';
 import 'package:flutter/material.dart';
 
 String DateFormat(DateTime date){
-  return (date.year.toString()+"-"+date.month.toString()+"-"+date.day.toString());
+  return date != null ? (date.year.toString()+"-"+date.month.toString()+"-"+date.day.toString()) : null;
 }
 
 String eeToString(ExpenseEnum e) => e.toString().split('.').last;
@@ -140,7 +140,7 @@ class Expense extends BaseModel{
     "date_paid": DateFormat(datePaid),
     "date_to_pay": DateFormat(dateToPay),
     "cost": cost.toString(),
-    "paid": paid.toString(),
+    "paid": paid != null ? paid.toString() : null,
     "rev_sync": rev.toString(),
     "is_deleted": isDeleted.toString()
   };

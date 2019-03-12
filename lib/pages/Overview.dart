@@ -17,7 +17,6 @@ class _OverviewState extends State<Overview>{
 
   @override
   Widget build(BuildContext context) {
-    final VehicleBloc _vehicleBloc = BlocProvider.of<VehicleBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -29,9 +28,9 @@ class _OverviewState extends State<Overview>{
         ],
       ),
       body: Center(
-        child: Text("Overview page....${_vehicleBloc.function.toString()}"),
+        child: Text("Welcome to MyGarage"),
       ),
-      drawer: BlocProvider(bloc: AuthBloc(), child: DefaultDrawer(highlitedVoice: 1,),),
+      drawer:DefaultDrawer(highlitedVoice: 1,),
     );
   }
 

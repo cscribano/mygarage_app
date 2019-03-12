@@ -15,25 +15,30 @@ class ExpenseBloc implements BlocBase{
   final ExpenseProvider _db = ExpenseProvider();
 
   final Vehicle vehicle;
+  final String tag;
   ExpenseEnum expenseType = ExpenseEnum.ANY;
 
-  ExpenseBloc({this.vehicle, this.expenseType}){
+  ExpenseBloc({this.vehicle, this.expenseType, this.tag}){
+    print("Constructor $tag");
     getExpenses();
   }
 
   void getExpenses() async{
+    print("GetExpenses $tag");
     if(vehicle != null){
       //Get all expenses (paper, work) for vehicle
-      _inExpense.add(await _db.getAllExpenses(vehicle:this.vehicle.guid, type: expenseType));
+      var expenses = await _db.getAllExpenses(vehicle:this.vehicle.guid, type: expenseType);
+      _inExpense.add(expenses);
     }
     else{
       //get all expenses for any vehicle
-      _inExpense.add(await _db.getAllExpenses(type: expenseType));
+      var expenses = await _db.getAllExpenses(type: expenseType);
+      _inExpense.add(expenses);
     }
   }
 
   void markAsDeleted(Expense e) async {
-    var ret = _db.markAsDeleted(e.guid);
+    await _db.markAsDeleted(e.guid);
     getExpenses();
   }
 
@@ -44,6 +49,7 @@ class ExpenseBloc implements BlocBase{
   @override
   void dispose() {
     // TODO: implement dispose
+    //await _expenseController.stream.drain();
     _expenseController.close();
   }
 
