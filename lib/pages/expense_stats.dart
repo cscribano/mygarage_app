@@ -46,11 +46,13 @@ class _ExpenseStatsState extends State<ExpenseStats>{
                 return CircularProgressIndicator();
               }
               else if(snapshot.hasData && snapshot.data.length == 0){
-                return EmptyPlaceHolder(
-                  //Todo: make this expense type aware (e.g different text/icons for different expenses types)
-                    image:Icons100(iconKey: eeToString(expenseBloc.expenseType),color: Colors.black45,),
-                    fontSize: 20,
-                    text: translation.text("empty_expense_type_${eeToString(expenseBloc.expenseType)}")
+                return Center(
+                  child: EmptyPlaceHolder(
+                    //Todo: make this expense type aware (e.g different text/icons for different expenses types)
+                      image:Icons100(iconKey: "CHART",color: Colors.black45,),
+                      fontSize: 20,
+                      text: "Non sono ancora presenti dati"
+                  ),
                 );
               }
               return Container(
