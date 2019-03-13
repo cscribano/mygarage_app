@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:mygarage/blocs/expense_bloc.dart';
 import 'package:mygarage/models/expensemodel.dart';
 import 'package:mygarage/widgets/empty_placeholder.dart';
@@ -31,35 +32,55 @@ class _ExpenseStatsState extends State<ExpenseStats>{
     //final Future<List<int>> yearsList = ExpenseProvider().getToPayYears();
     return Scaffold(
       appBar: AppBar(
-        title: Text(Translations.of(context).text('home_title')),
+        title: Text("Statistiche"),
       ),
-      body:  StreamBuilder(
-          stream: expenseBloc.outExpense,//bloc.allVehicles,
-          builder: (context, AsyncSnapshot<List<Expense>> snapshot){
-            if(snapshot.hasError){
-              return Text(snapshot.error.toString());
-            }
-            else if (!snapshot.hasData){
-              expenseBloc.getExpenses();
-              return CircularProgressIndicator();
-            }
-            else if(snapshot.hasData && snapshot.data.length == 0){
-              return EmptyPlaceHolder(
-                //Todo: make this expense type aware (e.g different text/icons for different expenses types)
-                  image:Icons100(iconKey: eeToString(expenseBloc.expenseType),color: Colors.black45,),
-                  fontSize: 20,
-                  text: translation.text("empty_expense_type_${eeToString(expenseBloc.expenseType)}")
+      body:  SingleChildScrollView(
+        child: StreamBuilder(
+            stream: expenseBloc.outExpense,//bloc.allVehicles,
+            builder: (context, AsyncSnapshot<List<Expense>> snapshot){
+              if(snapshot.hasError){
+                return Text(snapshot.error.toString());
+              }
+              else if (!snapshot.hasData){
+                expenseBloc.getExpenses();
+                return CircularProgressIndicator();
+              }
+              else if(snapshot.hasData && snapshot.data.length == 0){
+                return EmptyPlaceHolder(
+                  //Todo: make this expense type aware (e.g different text/icons for different expenses types)
+                    image:Icons100(iconKey: eeToString(expenseBloc.expenseType),color: Colors.black45,),
+                    fontSize: 20,
+                    text: translation.text("empty_expense_type_${eeToString(expenseBloc.expenseType)}")
+                );
+              }
+              return Container(
+                margin: EdgeInsets.only(top: 20),
+                alignment: Alignment.center,
+                child: Column(
+                  children: <Widget>[
+                    AutoSizeText(
+                      "Totale Spese da pagare Per Anno",
+                      //minFontSize: 20,
+                      maxLines: 2,
+                      style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      width: 400.0,
+                      height: 400.0,
+                      child: Container(
+                        margin: EdgeInsets.all(35),
+                        child: SimpleBarChart(
+                          _createChartsData(snapshot.data),
+                          // Disable animations for image tests.
+                          animate: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
-            return Container(
-                margin: EdgeInsets.all(50),
-                child: SimpleBarChart(
-                  _createChartsData(snapshot.data),
-                  // Disable animations for image tests.
-                  animate: false,
-                ),
-            );
-          }
+        ),
       ),
       drawer:DefaultDrawer(highlitedVoice: 5,),
     );
@@ -78,7 +99,6 @@ class _ExpenseStatsState extends State<ExpenseStats>{
       )
     ];
   }
-
 }
 
 class SimpleBarChart extends StatelessWidget {
