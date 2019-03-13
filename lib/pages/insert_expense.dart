@@ -25,7 +25,13 @@ class _InsertExpenseState extends State<InsertExpense>{
 
   final _formKey = GlobalKey<FormState>();
   Translations translation;
-  bool isPaid = false;
+  bool isPaid;
+
+  @override
+  void initState() {
+    isPaid = widget.editExpense != null ? (widget.editExpense.datePaid != null) : false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +39,6 @@ class _InsertExpenseState extends State<InsertExpense>{
     final ExpenseBloc  _expenseBloc = BlocProvider.of<ExpenseBloc>(context);
     final expenseTypeString = ExpenseTypeToString(context)[_expenseBloc.expenseType];
     final Expense _newExpense = widget.editExpense== null ? Expense.create(vehicle: _expenseBloc.vehicle.guid, expenseType: _expenseBloc.expenseType) : widget.editExpense;
-
-    isPaid = _newExpense.datePaid != null;
 
     final String _pageTitle = (widget.editExpense== null ? "Insert " : "Edit ") + expenseTypeString;
 

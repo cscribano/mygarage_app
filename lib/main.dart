@@ -21,12 +21,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /*
 * TODO:
-* Aggiungta Expense Detail
-* Fixare valore iniziare pulsantino "not paid yet" qunado si modifica una spesa
 * IMPORTANTE Errori database non vengono testati da BLOCs! (e quindi la pagina carica all'infinito)
 * Pagina registrazione
 * pagina reset password
 * * ---- DONE -----
+* * Aggiungta Expense Detail
+* Fixare valore iniziare pulsantino "not paid yet" qunado si modifica una spesa
 * * Fixare testo data pagamento in ExpenseTile
 * * * aggiunta spesa/intervento
 * * impostare               overflow: TextOverflow.ellipsis, dove serve (Text)
