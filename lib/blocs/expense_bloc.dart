@@ -46,6 +46,12 @@ class ExpenseBloc implements BlocBase{
     await _db.upsert(newExpense);
     getExpenses();
   }
+
+  Future<List<int>> expenseYears() async { /*A piece of crap*/
+    List<int> ret = await _db.getToPayYears();
+    return ret;
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose

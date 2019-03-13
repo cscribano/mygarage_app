@@ -40,4 +40,30 @@ class ExpenseProvider extends GenericProvider<Expense> {
     return ret;
   }
 
+  Future<List<int>>getToPayYears() async {
+    /*Ritorna la lista degli anni per cui esistono delle spese da pagare*/
+    final db = await database;
+    var res = await db.query("Expense").timeout(const Duration(seconds: 2));
+    List<int> list = res.isNotEmpty ? res.map((c) => c['date_to_pay'] != null ? DateTime.tryParse(c["date_to_pay"]).year : 0).toSet().toList() : [];
+    return list;
+  }
+
+/*  getPaidByYear(int year) async {
+    /*Per l'anno specificato ritorna l'ammontare da pagare*/
+    final db = await database;
+    var res = await db.rawQuery("SELECT * FROM Expenses WHERE date_to_pay LIKE ${year.toString()}%");
+    List<int> list = res.isNotEmpty ? res.map((c) => Expense.fromJson(c)).toList() : [];
+  }*/
+  
+  /*Ritorniamo per ogni anno l'ammontare da pagare*/
+  Future<Map<int,int>> getPaidByYears() async {
+    final db = await database;
+    var res = await db.query("Expense", columns: ['date_to_pay', 'cost']);
+    var ret = Map.fromIterable(
+      res,
+      key: (v) => DateTime.tryParse(v['date_to_pay']).year,
+      value: (v) => int.tryParse(v['cost'])
+    );
+  }
+
 }

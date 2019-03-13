@@ -1,3 +1,4 @@
+import 'package:mygarage/pages/expense_stats.dart';
 import 'package:mygarage/pages/help_page.dart';
 
 import 'pages/login.dart';
@@ -102,6 +103,7 @@ class MyApp extends StatelessWidget {
                 bloc: ExpenseBloc(expenseType: ExpenseEnum.PAPER, tag: "Main Pa"),
               ),
               '/Help' : (context) => Help(),
+              '/Graphs' : (context) => BlocProvider(bloc: ExpenseBloc(), child: ExpenseStats(),),
             } ,
             //home: LoginPage(),
             home: LoginPage(),

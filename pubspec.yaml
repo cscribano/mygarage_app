@@ -26,7 +26,7 @@ dependencies:
   crypto: any
   shared_preferences: ^0.5.1+1
   auto_size_text: ^1.0.0
-
+  charts_flutter: ^0.6.0
 
   flutter_localizations:
     sdk: flutter

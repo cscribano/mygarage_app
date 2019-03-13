@@ -187,7 +187,7 @@ class _InsertVehicleState extends State<InsertVehicle>{
      if (value.length == 0) {
        return (translation.text('vehicle_insert_invalid_text_required'));
      }
-     if(!RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value)){ //todo:allow space but not space only
+     if(!RegExp(r"^[a-zA-Z0-9\040]+$").hasMatch(value)){ //todo:allow space but not space only
        return (translation.text('vehicle_insert_invalid_text_specialchar'));
      }
    }

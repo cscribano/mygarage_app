@@ -164,7 +164,7 @@ class _InsertExpenseState extends State<InsertExpense>{
     if(value.length > 25){
       return "This field must be up to 25 chacarters";
     }
-    if(!RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value)){ //todo:allow space but not space only
+    if(!RegExp(r"^[a-zA-Z0-9\040]+$").hasMatch(value)){ //todo:allow space but not space only
       return (translation.text('vehicle_insert_invalid_text_specialchar'));
     }
   }

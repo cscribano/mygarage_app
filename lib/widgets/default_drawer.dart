@@ -77,7 +77,8 @@ class _DefaultDrawerState extends State<DefaultDrawer>{
             selected: widget.highlitedVoice == 5,
             title: Text(_translation('drawer_entry_stats')),
             leading: Icon(Icons.pie_chart),
-            onTap:null,
+            onTap: () =>  this.pushIfCan(context: context, curent: 5, route: '/Graphs'),
+           // onTap: null,
           ),
 
           Divider(),
